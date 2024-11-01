@@ -1,0 +1,10 @@
+{
+  "editor.tabSize": 2,
+  "editor.indentSize": "tabSize",
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  "editor.fontSize": 15,
+  "editor.rulers": [80, 120],
+  "editor.wordWrap": "on",
+  "editor.wordWrapColumn": 80
+}
