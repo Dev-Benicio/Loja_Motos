@@ -1,13 +1,14 @@
 <?php
 
-# Interface com as rotas do projeto
+namespace App\routes;
+
 interface Routes
 {
-  const ROUTES = [
+  const ROTAS = [
     'GET' => [
       '/' => 'Login@index',
     ],
-    'POST' => [ 
+    'POST' => [
       '/' => 'Login@authenticate',
     ],
   ];

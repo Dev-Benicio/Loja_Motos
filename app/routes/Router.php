@@ -1,7 +1,8 @@
 <?php
 
-# Arquivo de roteamento
-class Router
+namespace App\routes;
+
+class Roteador
 {
   
 }
