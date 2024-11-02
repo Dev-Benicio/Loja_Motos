@@ -6,7 +6,7 @@ use mysqli, mysqli_result;
 
 class BancoDeDados
 {
-  private static mysqli $mySqlConnection;
+  private static mysqli $conexao;
 
   # Conecta ao banco de dados
   public static function conectar(
@@ -15,25 +15,25 @@ class BancoDeDados
     string $userPasswd,
     string $databaseName,
   ): bool|mysqli {
-    self::$mySqlConnection = mysqli_connect(
+    self::$conexao = mysqli_connect(
       hostname: $hostName,
       username: $userName,
       password: $userPasswd,
       database: $databaseName
     );
-    return self::$mySqlConnection;
+    return self::$conexao;
   }
 
   # Fecha a conexão com o banco de dados
   public static function fechar_conexao(): bool
   {
-    return mysqli_close(self::$mySqlConnection);
+    return mysqli_close(self::$conexao);
   }
 
   # Prepara a consulta para ser executada
   private static function preparar_consulta(string $query = ""): bool
   {
-    /* $stmt = $this->mySqlConnection->prepare($query);
+    /* $stmt = $this->conexao->prepare($query);
     $stmt->bind_param("ss", $username, $password); */
   }
 
@@ -67,7 +67,7 @@ class BancoDeDados
         ('{$values}')
     ";
 
-    return self::$mySqlConnection->query($insertQuery);
+    return self::$conexao->query($insertQuery);
   }
 
   # Atualiza uma linha/s na tabela
@@ -89,7 +89,7 @@ class BancoDeDados
       FROM `{$tableName}`
       " . ($conditions ? "WHERE {$conditions}" : "");
 
-    return self::$mySqlConnection->query($selectQuery) ?? [];
+    return self::$conexao->query($selectQuery) ?? [];
   }
 
   # Deleta uma linha/s da tabela
