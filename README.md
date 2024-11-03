@@ -1,1 +1,2 @@
-# Projeto: sistema de vendas de motos
+# Projeto: sistema de balcão para loja de motos
+

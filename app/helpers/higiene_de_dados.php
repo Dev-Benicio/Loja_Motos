@@ -1,9 +1,8 @@
 <?php
 
-# Classe com métodos para higienizar dados, como verficar se o dado é nulo, passar para lowercase, etc.
 namespace App\Helpers;
 
-class HigieneDeDados
+class higiene_de_dados
 {
   public static function is_null(string $data): bool
   {

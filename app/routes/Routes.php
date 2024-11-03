@@ -1,8 +1,8 @@
 <?php
 
-namespace App\routes;
+namespace App\Routes;
 
-interface Routes
+interface routes
 {
   const ROTAS = [
     'GET' => [

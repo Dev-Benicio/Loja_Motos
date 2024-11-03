@@ -1,10 +1,10 @@
-<?PHP
+<?php
 
-namespace App\database;
+namespace App\Database;
 
 use mysqli, mysqli_result;
 
-class BancoDeDados
+class banco_de_dados
 {
   private static mysqli $conexao;
 

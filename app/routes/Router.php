@@ -1,8 +1,8 @@
 <?php
 
-namespace App\routes;
+namespace App\Routes;
 
-class Roteador
+class roteador
 {
   
 }

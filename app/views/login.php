@@ -10,9 +10,7 @@
 </head>
 
 <body>
-  <?php
-    
-  ?>
+  <button class="btn btn-primary">Clique aqui</button>
 </body>
 
 </html>
