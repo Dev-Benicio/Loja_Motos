@@ -1,35 +1,32 @@
 <?php
 // Model/Funcionario.php
 class Funcionario {
-     $id;
-     $nome;
-     $cpf;
-     $dataNascimento;
-     $endereco;
-     $telefone;
-     $email;
-     $cargo;
-     $dataAdmissao;
-     $dataDemissao;
-     $salario;
-     $numCarteiraTrabalho;
-     $horarioTrabalho;
-     $status;
-     $fotoPerfil;
+    $id;
+    $nome;
+    $cpf; 
+    $dataNascimento;
+    $endereco;
+    $telefone;
+    $email;
+    $cargo;
+    $dataAdmissao;
+    $dataDemissao;
+    $salario;
+    $numCarteiraTrabalho;
+    $horarioTrabalho;
+    $status;
+    $fotoPerfil;
 
-    // Construtor
     public function __construct(array $data = []) {
         if (!empty($data)) {
             $this->hydrate($data);
         }
     }
 
-    // Método para hidratar o objeto com dados
-     function hydrate(array $data) {
+    public function hydrate(array $data) {
         foreach ($data as $key => $value) {
-            $method = 'set' . ucfirst($key);
-            if (method_exists($this, $method)) {
-                $this->$method($value);
+            if (property_exists($this, $key)) {
+                $this->$key = $value;
             }
         }
     }
@@ -37,7 +34,7 @@ class Funcionario {
 
 // Model/FuncionarioDAO.php
 class FuncionarioDAO {
-     $db;
+    $db;
 
     public function __construct(PDO $db) {
         $this->db = $db;
@@ -56,20 +53,20 @@ class FuncionarioDAO {
 
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([
-            ':nome' => $funcionario->getNome(),
-            ':cpf' => $funcionario->getCpf(),
-            ':data_nascimento' => $funcionario->getDataNascimento(),
-            ':endereco' => $funcionario->getEndereco(),
-            ':telefone' => $funcionario->getTelefone(),
-            ':email' => $funcionario->getEmail(),
-            ':cargo' => $funcionario->getCargo(),
-            ':data_admissao' => $funcionario->getDataAdmissao(),
-            ':data_demissao' => $funcionario->getDataDemissao(),
-            ':salario' => $funcionario->getSalario(),
-            ':num_carteira_trabalho' => $funcionario->getNumCarteiraTrabalho(),
-            ':horario_trabalho' => $funcionario->getHorarioTrabalho(),
-            ':status' => $funcionario->getStatus(),
-            ':foto_perfil' => $funcionario->getFotoPerfil()
+            ':nome' => $funcionario->nome,
+            ':cpf' => $funcionario->cpf,
+            ':data_nascimento' => $funcionario->dataNascimento,
+            ':endereco' => $funcionario->endereco,
+            ':telefone' => $funcionario->telefone,
+            ':email' => $funcionario->email,
+            ':cargo' => $funcionario->cargo,
+            ':data_admissao' => $funcionario->dataAdmissao,
+            ':data_demissao' => $funcionario->dataDemissao,
+            ':salario' => $funcionario->salario,
+            ':num_carteira_trabalho' => $funcionario->numCarteiraTrabalho,
+            ':horario_trabalho' => $funcionario->horarioTrabalho,
+            ':status' => $funcionario->status,
+            ':foto_perfil' => $funcionario->fotoPerfil
         ]);
     }
 
@@ -93,21 +90,21 @@ class FuncionarioDAO {
 
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([
-            ':id' => $funcionario->getId(),
-            ':nome' => $funcionario->getNome(),
-            ':cpf' => $funcionario->getCpf(),
-            ':data_nascimento' => $funcionario->getDataNascimento(),
-            ':endereco' => $funcionario->getEndereco(),
-            ':telefone' => $funcionario->getTelefone(),
-            ':email' => $funcionario->getEmail(),
-            ':cargo' => $funcionario->getCargo(),
-            ':data_admissao' => $funcionario->getDataAdmissao(),
-            ':data_demissao' => $funcionario->getDataDemissao(),
-            ':salario' => $funcionario->getSalario(),
-            ':num_carteira_trabalho' => $funcionario->getNumCarteiraTrabalho(),
-            ':horario_trabalho' => $funcionario->getHorarioTrabalho(),
-            ':status' => $funcionario->getStatus(),
-            ':foto_perfil' => $funcionario->getFotoPerfil()
+            ':id' => $funcionario->id,
+            ':nome' => $funcionario->nome,
+            ':cpf' => $funcionario->cpf,
+            ':data_nascimento' => $funcionario->dataNascimento,
+            ':endereco' => $funcionario->endereco,
+            ':telefone' => $funcionario->telefone,
+            ':email' => $funcionario->email,
+            ':cargo' => $funcionario->cargo,
+            ':data_admissao' => $funcionario->dataAdmissao,
+            ':data_demissao' => $funcionario->dataDemissao,
+            ':salario' => $funcionario->salario,
+            ':num_carteira_trabalho' => $funcionario->numCarteiraTrabalho,
+            ':horario_trabalho' => $funcionario->horarioTrabalho,
+            ':status' => $funcionario->status,
+            ':foto_perfil' => $funcionario->fotoPerfil
         ]);
     }
 
@@ -143,19 +140,17 @@ class FuncionarioDAO {
 
 // Model/FuncionarioService.php
 class FuncionarioService {
-     $funcionarioDAO;
+    $funcionarioDAO;
 
     public function __construct(FuncionarioDAO $funcionarioDAO) {
         $this->funcionarioDAO = $funcionarioDAO;
     }
 
     public function cadastrarFuncionario(array $dados) {
-        // Validações
         if (!$this->validarDados($dados)) {
             throw new Exception("Dados inválidos");
         }
 
-        // Verifica CPF duplicado
         if ($this->cpfExiste($dados['cpf'])) {
             throw new Exception("CPF já cadastrado");
         }
@@ -164,8 +159,7 @@ class FuncionarioService {
         return $this->funcionarioDAO->inserir($funcionario);
     }
 
-     function validarDados($dados) {
-        // Validações básicas
+    public function validarDados($dados) {
         if (empty($dados['nome']) || strlen($dados['nome']) > 60) {
             return false;
         }
@@ -185,16 +179,15 @@ class FuncionarioService {
         return true;
     }
 
-     function validarCPF($cpf) {
+    public function validarCPF($cpf) {
         $cpf = preg_replace('/[^0-9]/', '', $cpf);
         if (strlen($cpf) != 11) {
             return false;
         }
-        return true; // Adicione mais validações conforme necessário
+        return true;
     }
 
-     function cpfExiste($cpf) {
-        // Implementar lógica para verificar CPF duplicado
+    public function cpfExiste($cpf) {
         return false;
     }
 
@@ -204,7 +197,7 @@ class FuncionarioService {
             throw new Exception("Funcionário não encontrado");
         }
 
-        $funcionario->setStatus($novoStatus);
+        $funcionario->status = $novoStatus;
         return $this->funcionarioDAO->atualizar($funcionario);
     }
 
@@ -214,12 +207,13 @@ class FuncionarioService {
             return 0;
         }
 
-        $admissao = new DateTime($funcionario->getDataAdmissao());
-        $demissao = $funcionario->getDataDemissao() 
-            ? new DateTime($funcionario->getDataDemissao())
+        $admissao = new DateTime($funcionario->dataAdmissao);
+        $demissao = $funcionario->dataDemissao 
+            ? new DateTime($funcionario->dataDemissao)
             : new DateTime();
 
         $intervalo = $admissao->diff($demissao);
-        return $intervalo->y; // retorna anos de serviço
+        return $intervalo->y;
     }
 }
+?>
