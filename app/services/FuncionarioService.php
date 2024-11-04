@@ -1,5 +1,10 @@
 <?php
 // Model/FuncionarioService.php
+
+namespace App\Service;
+
+use App\Database\banco_de_dados;
+
 class FuncionarioService {
     $funcionarioDAO;
 
