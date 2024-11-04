@@ -1,6 +1,45 @@
 <?php
 // Model/FuncionarioService.php
 
+            /* CLASS DATABASE */
+// class Database {
+//     public static $conexao;
+
+//     public static function cadastrar(
+//         string $tableName,
+//         array $columns,
+//         array $values
+//     ): bool {
+//         $columns = implode(", ", $columns);
+//         $values = implode("', '", $values);
+
+//         $insertQuery = "
+//           INSERT INTO `{$tableName}`
+//             ({$columns})
+//           VALUES
+//             ('{$values}')
+//         ";
+
+//         return self::$conexao->query($insertQuery);
+//     }
+// }
+
+            /* Exemplo class SERVICE */
+// class UserManager {
+//     public function createUser(string $name, string $email): bool {
+//         $tableName = 'users';
+//         $columns = ['name', 'email'];
+//         $values = [$name, $email];
+
+//         return Database::cadastrar($tableName, $columns, $values);
+//     }
+// }
+
+// // Exemplo de uso
+// $database = new Database();
+// UserManager::createUser('John Doe', 'john.doe@example.com');
+
+
 namespace App\Service;
 
 use App\Database\banco_de_dados;
