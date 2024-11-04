@@ -1,21 +1,21 @@
 <?php
 // Model/Funcionario.php
 class Funcionario {
-    private $id;
-    private $nome;
-    private $cpf;
-    private $dataNascimento;
-    private $endereco;
-    private $telefone;
-    private $email;
-    private $cargo;
-    private $dataAdmissao;
-    private $dataDemissao;
-    private $salario;
-    private $numCarteiraTrabalho;
-    private $horarioTrabalho;
-    private $status;
-    private $fotoPerfil;
+     $id;
+     $nome;
+     $cpf;
+     $dataNascimento;
+     $endereco;
+     $telefone;
+     $email;
+     $cargo;
+     $dataAdmissao;
+     $dataDemissao;
+     $salario;
+     $numCarteiraTrabalho;
+     $horarioTrabalho;
+     $status;
+     $fotoPerfil;
 
     // Construtor
     public function __construct(array $data = []) {
@@ -25,7 +25,7 @@ class Funcionario {
     }
 
     // Método para hidratar o objeto com dados
-    private function hydrate(array $data) {
+     function hydrate(array $data) {
         foreach ($data as $key => $value) {
             $method = 'set' . ucfirst($key);
             if (method_exists($this, $method)) {
@@ -33,147 +33,11 @@ class Funcionario {
             }
         }
     }
-
-    // Getters e Setters
-    public function getId() {
-        return $this->id;
-    }
-
-    public function setId($id) {
-        $this->id = $id;
-        return $this;
-    }
-
-    public function getNome() {
-        return $this->nome;
-    }
-
-    public function setNome($nome) {
-        $this->nome = $nome;
-        return $this;
-    }
-
-    public function getCpf() {
-        return $this->cpf;
-    }
-
-    public function setCpf($cpf) {
-        $this->cpf = preg_replace('/[^0-9]/', '', $cpf);
-        return $this;
-    }
-
-    public function getDataNascimento() {
-        return $this->dataNascimento;
-    }
-
-    public function setDataNascimento($dataNascimento) {
-        $this->dataNascimento = $dataNascimento;
-        return $this;
-    }
-
-    public function getEndereco() {
-        return $this->endereco;
-    }
-
-    public function setEndereco($endereco) {
-        $this->endereco = $endereco;
-        return $this;
-    }
-
-    public function getTelefone() {
-        return $this->telefone;
-    }
-
-    public function setTelefone($telefone) {
-        $this->telefone = preg_replace('/[^0-9]/', '', $telefone);
-        return $this;
-    }
-
-    public function getEmail() {
-        return $this->email;
-    }
-
-    public function setEmail($email) {
-        $this->email = $email;
-        return $this;
-    }
-
-    public function getCargo() {
-        return $this->cargo;
-    }
-
-    public function setCargo($cargo) {
-        $this->cargo = $cargo;
-        return $this;
-    }
-
-    public function getDataAdmissao() {
-        return $this->dataAdmissao;
-    }
-
-    public function setDataAdmissao($dataAdmissao) {
-        $this->dataAdmissao = $dataAdmissao;
-        return $this;
-    }
-
-    public function getDataDemissao() {
-        return $this->dataDemissao;
-    }
-
-    public function setDataDemissao($dataDemissao) {
-        $this->dataDemissao = $dataDemissao;
-        return $this;
-    }
-
-    public function getSalario() {
-        return $this->salario;
-    }
-
-    public function setSalario($salario) {
-        $this->salario = $salario;
-        return $this;
-    }
-
-    public function getNumCarteiraTrabalho() {
-        return $this->numCarteiraTrabalho;
-    }
-
-    public function setNumCarteiraTrabalho($numCarteiraTrabalho) {
-        $this->numCarteiraTrabalho = $numCarteiraTrabalho;
-        return $this;
-    }
-
-    public function getHorarioTrabalho() {
-        return $this->horarioTrabalho;
-    }
-
-    public function setHorarioTrabalho($horarioTrabalho) {
-        $this->horarioTrabalho = $horarioTrabalho;
-        return $this;
-    }
-
-    public function getStatus() {
-        return $this->status;
-    }
-
-    public function setStatus($status) {
-        $this->status = $status;
-        return $this;
-    }
-
-    public function getFotoPerfil() {
-        return $this->fotoPerfil;
-    }
-
-    public function setFotoPerfil($fotoPerfil) {
-        $this->fotoPerfil = $fotoPerfil;
-        return $this;
-    }
 }
 
 // Model/FuncionarioDAO.php
 class FuncionarioDAO {
-    private $db;
+     $db;
 
     public function __construct(PDO $db) {
         $this->db = $db;
@@ -279,7 +143,7 @@ class FuncionarioDAO {
 
 // Model/FuncionarioService.php
 class FuncionarioService {
-    private $funcionarioDAO;
+     $funcionarioDAO;
 
     public function __construct(FuncionarioDAO $funcionarioDAO) {
         $this->funcionarioDAO = $funcionarioDAO;
@@ -300,7 +164,7 @@ class FuncionarioService {
         return $this->funcionarioDAO->inserir($funcionario);
     }
 
-    private function validarDados($dados) {
+     function validarDados($dados) {
         // Validações básicas
         if (empty($dados['nome']) || strlen($dados['nome']) > 60) {
             return false;
@@ -321,7 +185,7 @@ class FuncionarioService {
         return true;
     }
 
-    private function validarCPF($cpf) {
+     function validarCPF($cpf) {
         $cpf = preg_replace('/[^0-9]/', '', $cpf);
         if (strlen($cpf) != 11) {
             return false;
@@ -329,7 +193,7 @@ class FuncionarioService {
         return true; // Adicione mais validações conforme necessário
     }
 
-    private function cpfExiste($cpf) {
+     function cpfExiste($cpf) {
         // Implementar lógica para verificar CPF duplicado
         return false;
     }
