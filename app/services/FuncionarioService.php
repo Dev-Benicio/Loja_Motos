@@ -1,67 +1,50 @@
 <?php
-// Model/FuncionarioService.php
+namespace services;
 
-            /* CLASS DATABASE */
-// class Database {
-//     public static $conexao;
+require_once __DIR__ . '/../database/BancoDeDados.php';
+require_once __DIR__ . '/../models/Funcionario.php';
 
-//     public static function cadastrar(
-//         string $tableName,
-//         array $columns,
-//         array $values
-//     ): bool {
-//         $columns = implode(", ", $columns);
-//         $values = implode("', '", $values);
-
-//         $insertQuery = "
-//           INSERT INTO `{$tableName}`
-//             ({$columns})
-//           VALUES
-//             ('{$values}')
-//         ";
-
-//         return self::$conexao->query($insertQuery);
-//     }
-// }
-
-            /* Exemplo class SERVICE */
-// class UserManager {
-//     public function createUser(string $name, string $email): bool {
-//         $tableName = 'users';
-//         $columns = ['name', 'email'];
-//         $values = [$name, $email];
-
-//         return Database::cadastrar($tableName, $columns, $values);
-//     }
-// }
-
-// // Exemplo de uso
-// $database = new Database();
-// UserManager::createUser('John Doe', 'john.doe@example.com');
-
-
-namespace App\Service;
-
-use App\Database\banco_de_dados;
+use database\BancoDeDados;
+use models\Funcionario;
 
 class FuncionarioService {
-    $funcionarioDAO;
+    private const TABLE_NAME = 'funcionarios';
 
-    public function __construct(FuncionarioDAO $funcionarioDAO) {
-        $this->funcionarioDAO = $funcionarioDAO;
+    $funcionario;
+
+    public function __construct(Funcionario $funcionario) {
+        $this->funcionario = $funcionario;
     }
+            
+    public function cadastrarFuncionario(Funcionario $funcionario): bool {
+        // Define as colunas da tabela que correspondem aos dados do funcionário
+        $columns = [
+            'nome',
+            'cpf',
+            'email',
+            'telefone',
+            'cargo',
+            'salario'
+            // Adicione outras colunas conforme necessário
+        ];
 
-    public function cadastrarFuncionario(array $dados) {
-        if (!$this->validarDados($dados)) {
-            throw new Exception("Dados inválidos");
-        }
+        // Obtém os valores do objeto funcionário na mesma ordem das colunas
+        $values = [
+            $funcionario->getNome(),
+            $funcionario->getCpf(),
+            $funcionario->getEmail(),
+            $funcionario->getTelefone(),
+            $funcionario->getCargo(),
+            $funcionario->getSalario()
+            // Adicione outros getters conforme necessário
+        ];
 
-        if ($this->cpfExiste($dados['cpf'])) {
-            throw new Exception("CPF já cadastrado");
-        }
-
-        $funcionario = new Funcionario($dados);
-        return $this->funcionarioDAO->inserir($funcionario);
+        // Chama o método cadastrar do BancoDeDados
+        return BancoDeDados::cadastrar(
+            self::TABLE_NAME,
+            $columns,
+            $values
+        );
     }
 
     public function validarDados($dados) {
