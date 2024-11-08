@@ -2,14 +2,14 @@
 
 namespace App\Routes;
 
-interface routes
+interface rotas
 {
   const ROTAS = [
     'GET' => [
-      '/' => 'Login@index',
+      '/' => 'login@index',
     ],
     'POST' => [
-      '/' => 'Login@authenticate',
+      '/' => 'login@authenticate',
     ],
   ];
 }

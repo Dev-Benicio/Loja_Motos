@@ -1,3 +1,9 @@
 <?php
 
-# Classe com métodos para manipulação de sessão
+namespace App\Helpers;
+
+// Classe com métodos para manipulação de sessão
+class Sessao
+{
+
+}

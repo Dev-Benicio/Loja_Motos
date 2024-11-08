@@ -1,4 +1,22 @@
-<?php
+<!DOCTYPE html>
+<html lang="pt-br">
 
-# Inicialização do projeto
-require_once 'autoload.php';
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="assets/CSS/bootstrap.min.css">
+  <title>ThunderGears</title>
+</head>
+
+<body>
+  <?php
+  // Autoload de classes
+  require_once 'autoload.php';
+  // Chamar classe roteador
+  use App\Routes\roteador;
+
+  roteador::rotear();
+  ?>
+</body>
+
+</html>
