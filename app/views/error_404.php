@@ -1,1 +1,1 @@
-<h1>Olá, você está na página de erro 404!</h1>
+<h1>Erro 404</h1>
