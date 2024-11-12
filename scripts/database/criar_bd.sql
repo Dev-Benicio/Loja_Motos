@@ -66,6 +66,17 @@ CREATE TABLE IF NOT EXISTS `thunder_gears`.`moto` (
   PRIMARY KEY (`ID_moto`)
 ) ENGINE = InnoDB;
 
+-- Tabela Quantidade_vendida
+CREATE TABLE IF NOT EXISTS `thunder_gears`.`quantidade_vendida` (
+  `ID_quantidade_vendida` INT NOT NULL AUTO_INCREMENT,
+  `ID_venda` INT NOT NULL,
+  `ID_moto` INT NOT NULL,
+  `quantidade` INT NOT NULL,
+  PRIMARY KEY (`ID_quantidade_vendida`),
+  FOREIGN KEY (`ID_venda`) REFERENCES `venda`(`ID_venda`),
+  FOREIGN KEY (`ID_moto`) REFERENCES `moto`(`ID_moto`)
+) ENGINE = InnoDB;
+
 -- Tabela Vendas
 CREATE TABLE IF NOT EXISTS `thunder_gears`.`venda` (
   `ID_venda` INT NOT NULL AUTO_INCREMENT,
