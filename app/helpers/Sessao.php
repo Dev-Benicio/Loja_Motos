@@ -3,7 +3,7 @@
 namespace App\Helpers;
 
 // Classe com métodos para manipulação de sessão
-class Sessao
+class sessao
 {
   /*
   * Inicia a sessão
