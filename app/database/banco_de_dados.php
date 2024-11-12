@@ -11,9 +11,9 @@ class banco_de_dados
   # Conecta ao banco de dados
   public static function conectar(
     string $hostName = "localhost",
-    string $userName,
-    string $userPasswd,
-    string $databaseName,
+    string $userName = "root",
+    string $userPasswd = "",
+    string $databaseName = "thunder_gears",
   ): bool|mysqli {
     self::$conexao = mysqli_connect(
       hostname: $hostName,
@@ -22,6 +22,10 @@ class banco_de_dados
       database: $databaseName
     );
     return self::$conexao;
+  }
+
+  public function query(string $query) {
+    return self::$conexao->query($query);
   }
 
   # Fecha a conexão com o banco de dados
