@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `thunder_gears`.`cliente` (
 -- Tabela Funcionário
 CREATE TABLE IF NOT EXISTS `thunder_gears`.`funcionario` (
   `ID_funcionario` INT NOT NULL AUTO_INCREMENT,
-  `login` VARCHAR(20) NOT NULL,
+  `login_funcionario` VARCHAR(20) NOT NULL,
   `senha` VARCHAR(20) NOT NULL,
   `nome` VARCHAR(60) NOT NULL,
   `CPF` CHAR(11) NOT NULL,
@@ -46,8 +46,8 @@ CREATE TABLE IF NOT EXISTS `thunder_gears`.`funcionario` (
   `data_admissao` DATE NOT NULL,
   `data_demissao` DATE,
   `salario` DECIMAL(10,2) NOT NULL,
-  `status` VARCHAR(10),
-  `foto_perfil` BLOB,
+  `status_funcionario` VARCHAR(10),
+  `foto_perfil` VARCHAR(255),
   PRIMARY KEY (`ID_funcionario`)
 ) ENGINE = InnoDB;
 
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `thunder_gears`.`moto` (
   `potencia_cavalos` INT,
   `consumo_km` VARCHAR(20),
   `estoque` INT NOT NULL,
-  `foto_moto` BLOB,
+  `foto_moto` VARCHAR(255),
   PRIMARY KEY (`ID_moto`)
 ) ENGINE = InnoDB;
 
@@ -93,13 +93,10 @@ CREATE TABLE IF NOT EXISTS `thunder_gears`.`venda` (
 -- Tabela Endereço
 CREATE TABLE IF NOT EXISTS `thunder_gears`.`endereco` (
   `ID_endereco` INT NOT NULL AUTO_INCREMENT,
-  `cep` CHAR(8) NOT NULL,
-  `estado` VARCHAR(2) NOT NULL,
+  `unidade_federativa` VARCHAR(2) NOT NULL,
   `cidade` VARCHAR(50) NOT NULL,
-  `bairro` VARCHAR(50) NOT NULL,
   `numero` VARCHAR(10) NOT NULL,
   `rua` VARCHAR(100) NOT NULL,
-  `avenida` VARCHAR(100),
   PRIMARY KEY (`ID_endereco`)
 ) ENGINE = InnoDB;
 
