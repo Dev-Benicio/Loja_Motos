@@ -1,50 +1,42 @@
 <?php
+
+use App\helpers\higiene_de_dados;
+
 // Model/Funcionario.php
+
 class funcionario {
-    $id;
-    $nome;
-    $cpf; 
-    $dataNascimento;
-    $endereco;
-    $telefone;
-    $email;
-    $cargo;
-    $dataAdmissao;
-    $dataDemissao;
-    $salario;
-    $numCarteiraTrabalho;
-    $horarioTrabalho;
-    $status;
-    $fotoPerfil;
-
-    public function __construct(array $data = []) {
-        if (!empty($data)) {
-            $this->hydrate($data);
-        }
-    }
+  private const campos = [
+    "id",
+    "nome",
+    "cpf",
+    "data_nascimento",
+    "endereco",
+    "telefone",
+    "email",
+    "cargo",
+    "data_admissao",
+    "data_demissao",
+    "salario",
+    "status_funcionario",
+    "foto_perfil",
+  ];
 
 
-    public static function create(array $user){
-        banco_de_dados::conectar();
-        $query = "INSERT INTO 
-            funcionario(
-                    login_funcionario, senha, nome, cpf, data_nascimento, endereco, telefone, email,
-                    cargo, data_admissao, data_demissao, salario, status_funcionario, foto_perfil
-            ) 
-            VALUES (
-            ". array_map(fn($value) => "'$value, '", $user) ."
-            )"
-        ;
-        $conexao->query($query);
-        banco_de_dados::fechar_conexao();
-    }
+  public static function create(array $user) {
+    banco_de_dados::conectar();
 
-    public function hydrate(array $data) {
-        foreach ($data as $key => $value) {
-            if (property_exists($this, $key)) {
-                $this->$key = $value;
-            }
-        }
-    }
+    unset(campos[9]);
+    unset(campos[12]);
+
+    $campos = implode(", ", array_map(fn($value) => "'$value'", campos));
+    $valores = implode(", ", array_map(
+      fn($value) => is_numeric($value) ? "{$value}" : "'{$value}'", $user)
+    );
+
+    $query = "INSERT INTO funcionario ({$campos}) VALUES ({$valores})";
+
+    $conexao->query($query);
+    banco_de_dados::fechar_conexao();
+  }
+
 }
-?>
