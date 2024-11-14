@@ -22,19 +22,19 @@ USE `thunder_gears` ;
 -- -----------------------------------------------------
 -- Tabela Cliente
 CREATE TABLE IF NOT EXISTS `thunder_gears`.`cliente` (
-  `ID_cliente` INT NOT NULL AUTO_INCREMENT,
+  `id_cliente` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(60) NOT NULL,
   `CPF` CHAR(11) NOT NULL,
   `endereco` VARCHAR(100) NOT NULL,
   `telefone` CHAR(11) NOT NULL,
   `email` VARCHAR(100) NOT NULL,
   `data_nascimento` DATE NOT NULL,
-  PRIMARY KEY (`ID_cliente`)
+  PRIMARY KEY (`id_cliente`)
 ) ENGINE = InnoDB;
 
 -- Tabela Funcionário
 CREATE TABLE IF NOT EXISTS `thunder_gears`.`funcionario` (
-  `ID_funcionario` INT NOT NULL AUTO_INCREMENT,
+  `id_funcionario` INT NOT NULL AUTO_INCREMENT,
   `login_funcionario` VARCHAR(20) NOT NULL,
   `senha` VARCHAR(20) NOT NULL,
   `nome` VARCHAR(60) NOT NULL,
@@ -48,12 +48,12 @@ CREATE TABLE IF NOT EXISTS `thunder_gears`.`funcionario` (
   `salario` DECIMAL(10,2) NOT NULL,
   `status_funcionario` VARCHAR(10),
   `foto_perfil` VARCHAR(255),
-  PRIMARY KEY (`ID_funcionario`)
+  PRIMARY KEY (`id_funcionario`)
 ) ENGINE = InnoDB;
 
 -- Tabela Moto
 CREATE TABLE IF NOT EXISTS `thunder_gears`.`moto` (
-  `ID_moto` INT NOT NULL AUTO_INCREMENT,
+  `id_moto` INT NOT NULL AUTO_INCREMENT,
   `marca` VARCHAR(50) NOT NULL,
   `modelo` VARCHAR(50) NOT NULL,
   `combustivel` VARCHAR(20) NOT NULL,
@@ -63,41 +63,41 @@ CREATE TABLE IF NOT EXISTS `thunder_gears`.`moto` (
   `consumo_km` VARCHAR(20),
   `estoque` INT NOT NULL,
   `foto_moto` VARCHAR(255),
-  PRIMARY KEY (`ID_moto`)
+  PRIMARY KEY (`id_moto`)
 ) ENGINE = InnoDB;
 
 -- Tabela Quantidade_vendida
 CREATE TABLE IF NOT EXISTS `thunder_gears`.`quantidade_vendida` (
-  `ID_quantidade_vendida` INT NOT NULL AUTO_INCREMENT,
-  `ID_venda` INT NOT NULL,
-  `ID_moto` INT NOT NULL,
+  `id_quantidade_vendida` INT NOT NULL AUTO_INCREMENT,
+  `id_venda` INT NOT NULL,
+  `id_moto` INT NOT NULL,
   `quantidade` INT NOT NULL,
-  PRIMARY KEY (`ID_quantidade_vendida`),
-  FOREIGN KEY (`ID_venda`) REFERENCES `venda`(`ID_venda`),
-  FOREIGN KEY (`ID_moto`) REFERENCES `moto`(`ID_moto`)
+  PRIMARY KEY (`id_quantidade_vendida`),
+  FOREIGN KEY (`id_venda`) REFERENCES `venda`(`id_venda`),
+  FOREIGN KEY (`id_moto`) REFERENCES `moto`(`id_moto`)
 ) ENGINE = InnoDB;
 
 -- Tabela Vendas
 CREATE TABLE IF NOT EXISTS `thunder_gears`.`venda` (
-  `ID_venda` INT NOT NULL AUTO_INCREMENT,
+  `id_venda` INT NOT NULL AUTO_INCREMENT,
   `metodo_pagamento` VARCHAR(20) NOT NULL,
   `valor_total_venda` DECIMAL(10,2) NOT NULL,
   `data_venda` DATE NOT NULL,
-  `ID_cliente` INT NOT NULL,
-  `ID_funcionario` INT NOT NULL,
-  PRIMARY KEY (`ID_venda`),
-  FOREIGN KEY (`ID_cliente`) REFERENCES `cliente`(`ID_cliente`),
-  FOREIGN KEY (`ID_funcionario`) REFERENCES `funcionario`(`ID_funcionario`)
+  `id_cliente` INT NOT NULL,
+  `id_funcionario` INT NOT NULL,
+  PRIMARY KEY (`id_venda`),
+  FOREIGN KEY (`id_cliente`) REFERENCES `cliente`(`id_cliente`),
+  FOREIGN KEY (`id_funcionario`) REFERENCES `funcionario`(`id_funcionario`)
 ) ENGINE = InnoDB;
 
 -- Tabela Endereço
 CREATE TABLE IF NOT EXISTS `thunder_gears`.`endereco` (
-  `ID_endereco` INT NOT NULL AUTO_INCREMENT,
+  `id_endereco` INT NOT NULL AUTO_INCREMENT,
   `unidade_federativa` VARCHAR(2) NOT NULL,
   `cidade` VARCHAR(50) NOT NULL,
   `numero` VARCHAR(10) NOT NULL,
   `rua` VARCHAR(100) NOT NULL,
-  PRIMARY KEY (`ID_endereco`)
+  PRIMARY KEY (`id_endereco`)
 ) ENGINE = InnoDB;
 
 
