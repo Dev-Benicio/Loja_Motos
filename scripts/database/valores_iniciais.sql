@@ -3,7 +3,7 @@ INSERT INTO `cliente` VALUES (0, "José Benício Rocha", "11111111111", "Naquela
 SELECT * from cliente;
 
 INSERT INTO `funcionario`
-	(ID_funcionario, login, senha, nome, CPF, endereco, telefone, email, cargo, data_admissao, salario)
+	(id_funcionario, login, senha, nome, CPF, endereco, telefone, email, cargo, data_admissao, salario)
 VALUES (
   '0',
   'admin',
@@ -19,8 +19,8 @@ VALUES (
 );
 
 INSERT INTO `moto`
-	(ID_moto, marca, modelo, tipo_motor, preco, potencia_cavalos, consumo_km)
-VALUES(0, "Yamaha", "TX 8090", "combustão", 13090.560, "10", "10km/L");
+	(id_moto, marca, modelo, tipo_motor, preco, estoque, potencia_cavalos, consumo_km)
+VALUES(0, "Yamaha", "TX 8090", "combustão", 13090.560, "2" "10", "10km/L");
 
 INSERT INTO `venda` VALUES(0, "PIX", 12890.000, "2024-11-07", 0, 0);
 
@@ -33,7 +33,7 @@ INSERT INTO `cliente` VALUES (0, "Aloísio Chulapa", "11111111111", "Naquela out
 SELECT * from cliente;
 
 INSERT INTO `funcionario`
-	(ID_funcionario, login, senha, nome, CPF, endereco, telefone, email, cargo, data_admissao, salario)
+	(id_funcionario, login_funcionario, senha, nome, CPF, endereco, telefone, email, cargo, data_admissao, salario)
 VALUES (
   '0',
   'admin',
@@ -49,10 +49,10 @@ VALUES (
 );
 
 INSERT INTO `moto`
-	(ID_moto, marca, modelo, tipo_motor, preco, potencia_cavalos, consumo_km)
+	(is_moto, marca, modelo, tipo_motor, preco, estoque potencia_cavalos, consumo_km)
 VALUES(0, "Honda", "CG 160 Titan", "combustão", 13090.560, "10", "10km/L");
 
-INSERT INTO `venda` VALUES(0, "Credito", 12890.000, "2024-11-07", 0, 0);
+INSERT INTO `venda` VALUES(0, "Credito", 12890.000, "12", "2024-11-07", 0, 0);
 
 -- -----------------------------------------------------
 -- Terceiro - cliente
@@ -63,7 +63,7 @@ INSERT INTO `cliente` VALUES (0, "Junior filho de junior", "11111111111", "Ali n
 SELECT * from cliente;
 
 INSERT INTO `funcionario`
-	(ID_funcionario, login, senha, nome, CPF, endereco, telefone, email, cargo, data_admissao, salario)
+	(id_funcionario, login_funcionario, senha, nome, CPF, endereco, telefone, email, cargo, data_admissao, salario)
 VALUES (
   '0',
   'admin',
@@ -79,7 +79,7 @@ VALUES (
 );
 
 INSERT INTO `moto`
-	(ID_moto, marca, modelo, tipo_motor, preco, potencia_cavalos, consumo_km)
-VALUES(0, "Kawazaki", "Ninja  ZX-10R", "combustão", 13090.560, "10", "10km/L");
+	(ID_moto, marca, modelo, tipo_motor, preco, estoque, potencia_cavalos, consumo_km)
+VALUES(0, "Kawazaki", "Ninja  ZX-10R", "combustão", 13090.560, "10", "10", "10km/L");
 
 INSERT INTO `venda` VALUES(0, "Credito", 120190.000, "2024-11-07", 0, 0);
