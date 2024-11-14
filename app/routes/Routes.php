@@ -6,10 +6,12 @@ interface routes
 {
   const ROTAS = [
     'GET' => [
-      '/' => 'Login@index',
+      '/' => 'login_controller@index',
+      '/dashboard' => 'dashboard@index',
+        
     ],
     'POST' => [
-      '/' => 'Login@authenticate',
+      '/' => 'login_controller@valida_login',
     ],
   ];
 }
