@@ -1,3 +1,4 @@
+<?php
 // Model/MotoService.php
 class moto_service {
     $motoDAO;
@@ -133,4 +134,3 @@ class MotoService {
         return array_slice($recomendadas, 0, 5);
     }
 }
-?>
