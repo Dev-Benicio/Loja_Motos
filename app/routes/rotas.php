@@ -2,7 +2,7 @@
 
 namespace App\Routes;
 
-interface routes
+interface rotas
 {
   const ROTAS = [
     'GET' => [
