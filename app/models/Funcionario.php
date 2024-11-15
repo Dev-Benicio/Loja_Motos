@@ -1,42 +1,104 @@
 <?php
 
-use App\helpers\higiene_de_dados;
+namespace App\Models;
 
-// Model/Funcionario.php
+use App\Database\gerente_conexao;
+use mysqli, mysqli_result;
 
-class funcionario {
-  private const campos = [
-    "id",
-    "nome",
-    "cpf",
-    "data_nascimento",
-    "endereco",
-    "telefone",
-    "email",
-    "cargo",
-    "data_admissao",
-    "data_demissao",
-    "salario",
-    "status_funcionario",
-    "foto_perfil",
-  ];
+class funcionario implements crud
+{
+  private static mysqli $conexao = gerente_conexao::conectar();
 
+  /**
+   * Cria um novo registro de funcionário no banco de dados.
+   * @param array{
+   *    nome: string,
+   *    salario: float,
+   *    cargo: string,
+   *    status: string
+   * } $funcionario
+   * Um array associativo contendo os dados do funcionário a ser criado, com as chaves correspondendo aos nomes das colunas - do banco de dados - na tabela 'funcionario'.
+   * @return bool Retorna true se a inserção for bem-sucedida, false caso contrário.
+   */
+  public static function create(array $funcionario): bool
+  {
+    // Obtém as colunas da tabela através das chaves do array associativo.
+    $colunas = array_keys($funcionario);
+    // Cria uma string com interrogacoes para cada coluna.
+    $interrogacoes = str_repeat('?, ', count($colunas));
 
-  public static function create(array $user) {
-    banco_de_dados::conectar();
+    $sql = "
+      INSERT INTO funcionario
+        (" . implode(',', $colunas) . ")
+      VALUES ({$interrogacoes})
+    ";
 
-    unset(campos[9]);
-    unset(campos[12]);
-
-    $campos = implode(", ", array_map(fn($value) => "'$value'", campos));
-    $valores = implode(", ", array_map(
-      fn($value) => is_numeric($value) ? "{$value}" : "'{$value}'", $user)
+    $stmt = self::$conexao->prepare($sql);
+    $stmt->bind_param(
+      'sssssssdss', // Define o tipo de dados de cada parâmetro
+      ...array_values($funcionario),
     );
 
-    $query = "INSERT INTO funcionario ({$campos}) VALUES ({$valores})";
-
-    $conexao->query($query);
-    banco_de_dados::fechar_conexao();
+    return $stmt->execute();
   }
 
+  /**
+   * Lê registros de funcionários do banco de dados.
+   * @param int|null $id Se fornecido, retorna apenas o registro com o ID correspondente.
+   * @return mysqli_result Retorna um objeto mysqli_result contendo os registros lidos do banco de dados.
+   */
+  public static function read(int $id = null): mysqli_result
+  {
+    if ($id) {
+      $sql = "SELECT * FROM funcionario WHERE id = ?";
+      $stmt = self::$conexao->prepare($sql);
+      $stmt->bind_param("i", $id);
+      $stmt->execute();
+      return $stmt->get_result();
+    }
+    return self::$conexao->query("SELECT * FROM funcionario");
+  }
+
+  /* 
+   * Atualiza um registro de funcionário no banco de dados.
+   * @param int $id O ID do registro a ser atualizado.
+   * @param array{
+   *    nome: string,
+   *    salario: float,
+   *    cargo: string,
+   *    status: string
+   * } $funcionario Um array associativo contendo os dados do funcionário a ser atualizado, com as chaves correspondendo aos nomes das colunas - do banco de dados - na tabela 'funcionario'.
+   * @return bool Retorna true se a atualização for bem-sucedida, false caso contrário.
+   */
+  public static function update(int $id, array $funcionario): bool
+  {
+    $colunas = array_keys($funcionario);
+    $set = implode(',', array_map(fn($col) => "{$col} = ?", $colunas));
+
+    $sql = "UPDATE funcionario SET {$set} WHERE id = ?";
+    $types_bind = gerente_conexao::gerar_types_bind_params(
+      ...array_values($funcionario)
+    );
+
+    $stmt = self::$conexao->prepare($sql);
+    $stmt->bind_param(
+      $types_bind,
+      ...array_values($funcionario)
+    );
+
+    return $stmt->execute();
+  }
+
+  /* 
+   * Exclui um registro de funcionário do banco de dados.
+   * @param int $id O ID do registro a ser excluído.
+   * @return bool Retorna true se a exclusão for bem-sucedida, false caso contrário.
+  */
+  public static function delete(int $id): bool
+  {
+    $sql = "DELETE FROM funcionario WHERE id = ?";
+    $stmt = self::$conexao->prepare($sql);
+    $stmt->bind_param("i", $id);
+    return $stmt->execute();
+  }
 }

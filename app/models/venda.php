@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-class Moto implements crud
+class Vendas implements crud
 {
-	public static function create(array $moto): bool
+	public static function create(array $venda): bool
 	{
 		return false;
 	}
@@ -14,7 +14,7 @@ class Moto implements crud
 		return;
 	}
 
-	public static function update(int $id, array $moto): bool
+	public static function update(int $id, array $venda): bool
 	{
 		return false;
 	}

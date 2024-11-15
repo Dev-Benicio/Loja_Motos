@@ -1,17 +1,23 @@
 <?php
 
-  namespace App\Models;
+namespace App\Models;
 
-  use App\Database\banco_de_dados;
+use App\Database\gerente_conexao;
 
-  class login {
-      public static function autenticar(string $user, string $password) {
-        $conexao = banco_de_dados::conectar();
-        $query = "SELECT * FROM funcionario WHERE login = '$user' AND senha = '$password'";
-        $result = $conexao->query($query);
+class login
+{
+  public static function autenticar(string $user, string $password)
+  {
+    $conexao = gerente_conexao::conectar();
+    $query = "
+      SELECT * FROM
+      funcionario
+      WHERE login = '$user' AND senha = '$password'
+    ";
 
-        banco_de_dados::fechar_conexao();
-        
-        return $result->num_rows == 1;
-      }
+    $resultado = $conexao->query($query);
+
+    gerente_conexao::fechar_conexao();
+    return $resultado->num_rows == 1;
   }
+}
