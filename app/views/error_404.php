@@ -1,45 +1,16 @@
 <div class="d-flex flex-column justify-content-between vh-100">
   <!-- HEADER -->
-  <header class="border-bottom">
-    <nav class="navbar navbar-expand-lg px-5 pt-3">
-      <div class="d-flex justify-content-between align-items-center w-100">
-        <!-- Logo -->
-        <div class="d-flex flex-column">
-          <span class="status-text fw-light mb-0 fs-6">Erro 404</span>
-          <h2 class="brand-name fw-semibold fs-5 mt-1">Thunder Gears</h2>
-        </div>
-        <!-- Botão que abre e fecha a navegação, quando a tela é pequena -->
-        <button
-          class="navbar-toggler border-0 bg-transparent"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation">
-          <i class="navbar-toggler-icon"></i>
-        </button>
-        <!-- Navegação -->
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-          <ul class="navbar-nav gap-2" style="font-size: 1.1rem;">
-            <li class="nav-item">
-              <a class="nav-link" href="home">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="clientes">Clientes</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="motos">Motos</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="vendas">Vendas</a>
-            </li>
-            <li class="nav-item d-flex align-items-center justify-content-center ms-4">
-              <i class="bi bi-person-circle fs-5"></i>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+  <header class="d-flex justify-content-between align-items-center border-bottom py-2 mt-1">
+    <!-- Nome do site e da página atual -->
+    <div class="d-flex flex-column ps-5">
+      <span class="status-text fw-light mb-0 fs-6">Erro 404</span>
+      <h2 class="brand-name fw-semibold fs-5 mt-1">Thunder Gears</h2>
+    </div>
+    <?php
+    use App\Components\navbar;
+    $navbar = new navbar();
+    echo $navbar->render();
+    ?>
   </header>
   <!-- Mensagem de erro 404 -->
   <main class="d-flex flex-column align-items-center justify-content-center gap-3">

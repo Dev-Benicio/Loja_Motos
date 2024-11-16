@@ -22,8 +22,10 @@
   require_once 'autoload.php';
   use App\Routes\roteador;
   use App\Helpers\env;
+  use App\Helpers\sessao;
 
   env::load_env('.env');
+  sessao::iniciar_sessao();
   roteador::rotear();
   ?>
 </body>

@@ -6,7 +6,7 @@ use App\Routes\rotas;
 
 class roteador implements rotas
 {
-  private const BASE_CONTROLLER_NAMESPACE = 'app\\controllers\\';
+  private const BASE_CONTROLLER_NAMESPACE = 'app\\Controllers\\';
   private const SITE_BASE_PATH = '/loja_motos';
 
   /*

@@ -10,8 +10,17 @@ class sessao
   */
   public static function iniciar_sessao(): void
   {
-    session_regenerate_id();
-    session_start();
+    if (session_status() === PHP_SESSION_NONE) {
+      $configuracao = [
+        'cookie_httponly' => true,
+        'cookie_secure' => true,
+        'use_strict_mode' => true,
+        'cookie_samesite' => 'Strict'
+      ];
+
+      session_start($configuracao);
+      session_regenerate_id(true);
+    }
   }
 
   /*
@@ -41,6 +50,6 @@ class sessao
   */
   public static function get(string $key): mixed
   {
-    return $_SESSION[$key];
+    return $_SESSION[$key] ?? null;
   }
 }

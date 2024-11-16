@@ -3,33 +3,38 @@
 namespace App\Components;
 
 use App\Components\component;
+use App\Helpers\sessao;
 
 class navbar extends component
 {
   private const acesso_nav_items = [
     "administrador" => [
-      "Home" => "/home",
-      "Funcionários" => "/funcionarios",
-      "Clientes" => "/clientes",
-      "Motos" => "/motos",
-      "Vendas" => "/vendas",
-      "Relatórios" => "/relatorios",
+      "Home" => "./home",
+      "Funcionários" => "./funcionarios",
+      "Clientes" => "./clientes",
+      "Motos" => "./motos",
+      "Vendas" => "./vendas",
+      "Relatórios" => "./relatorios",
     ],
     "vendedor" => [
-      "Home" => "/home",
-      "Clientes" => "/clientes",
-      "Motos" => "/motos",
-      "Vendas" => "/vendas",
+      "Home" => "./home",
+      "Clientes" => "./clientes",
+      "Motos" => "./motos",
+      "Vendas" => "./vendas",
     ],
     "estoquista" => [
-      "Home" => "/home",
-      "Motos" => "/motos",
+      "Home" => "./home",
+      "Motos" => "./motos",
     ],
   ];
 
-  private function render_items(): string
+  /** 
+   * Renderiza os itens da navegação em html.
+   * @return string Retorna os itens da navegação em html de acordo com o cargo do usuário.
+   */
+  private function render_items(): string|null
   {
-    $cargo_usuario = $_SESSION['usuario']['cargo'];
+    $cargo_usuario = sessao::get('usuario')['cargo'] ?? 'administrador';
 
     $nav_items_permitidos = match ($cargo_usuario) {
       "administrador" => self::acesso_nav_items["administrador"],
@@ -39,8 +44,7 @@ class navbar extends component
     };
 
     $nav_items = array_map(
-      function ($item): string {
-        [$label, $href] = $item;
+      function ($label, $href): string {
         return "
           <li class=\"nav-item\">
             <a class=\"nav-link\" href=\"{$href}\">
@@ -49,21 +53,23 @@ class navbar extends component
           </li>
         ";
       },
-      $nav_items_permitidos
+      array_keys($nav_items_permitidos),
+      array_values($nav_items_permitidos)
     );
 
     return implode('', $nav_items);
   }
 
   /**
-   * @param string $nivel_acesso Nível de acesso do usuário.
+   * Renderiza a navegação em html.
+   * @return string Retorna a navegação renderizada em html.
    */
   public function render(): string
   {
     $nav_items = $this->render_items();
-    
+
     return <<<HTML
-    <nav class="navbar navbar-expand-lg px-5 pt-3">
+    <nav class="navbar navbar-expand-lg pe-5">
       <div class="d-flex justify-content-between align-items-center w-100">
         <!-- Botão que abre e fecha a navegação, quando a tela é pequena -->
         <button 
