@@ -19,11 +19,11 @@
 
 <body>
   <?php
-  // Autoload de classes
   require_once 'autoload.php';
-  // Chamar classe roteador
   use App\Routes\roteador;
+  use App\Helpers\env;
 
+  env::load_env('.env');
   roteador::rotear();
   ?>
 </body>
