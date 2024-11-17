@@ -6,8 +6,9 @@ abstract class controller
 {
   abstract public function index();
 
-  public function call_view($view_name)
+  public function call_view(string $view_name)
   {
-    require_once "app/views/{$view_name}.php";
+    $caminho_view = "app/views/{$view_name}.php";
+    file_exists($caminho_view) && require_once $caminho_view;
   }
 }
