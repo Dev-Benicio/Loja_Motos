@@ -11,14 +11,6 @@ class funcionario implements crud
 
   /**
    * Cria um novo registro de funcionário no banco de dados.
-   * @param array{
-   *    nome: string,
-   *    salario: float,
-   *    cargo: string,
-   *    status: string
-   * } $funcionario
-   * Um array associativo contendo os dados do funcionário a ser criado, com as chaves correspondendo aos nomes das colunas - do banco de dados - na tabela 'funcionario'.
-   * @return bool Retorna true se a inserção for bem-sucedida, false caso contrário.
    */
   public static function create(array $funcionario): bool
   {
@@ -44,8 +36,6 @@ class funcionario implements crud
 
   /**
    * Lê registros de funcionários do banco de dados.
-   * @param int|null $id Se fornecido, retorna apenas o registro com o ID correspondente.
-   * @return mysqli_result Retorna um objeto mysqli_result contendo os registros lidos do banco de dados.
    */
   public static function read(int $id = null): mysqli_result
   {
@@ -61,14 +51,6 @@ class funcionario implements crud
 
   /* 
    * Atualiza um registro de funcionário no banco de dados.
-   * @param int $id O ID do registro a ser atualizado.
-   * @param array{
-   *    nome: string,
-   *    salario: float,
-   *    cargo: string,
-   *    status: string
-   * } $funcionario Um array associativo contendo os dados do funcionário a ser atualizado, com as chaves correspondendo aos nomes das colunas - do banco de dados - na tabela 'funcionario'.
-   * @return bool Retorna true se a atualização for bem-sucedida, false caso contrário.
    */
   public static function update(int $id, array $funcionario): bool
   {
