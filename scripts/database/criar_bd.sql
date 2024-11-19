@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `thunder_gears`.`funcionario` (
   `data_demissao` DATE,
   `salario` DECIMAL(10,2) NOT NULL,
   `status_funcionario` VARCHAR(10) NOT NULL,
-  `foto_perfil` VARCHAR(255) NOTE NULL,
+  `foto_perfil` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id_funcionario`)
 ) ENGINE = InnoDB;
 
