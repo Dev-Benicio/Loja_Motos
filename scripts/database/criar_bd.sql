@@ -24,9 +24,9 @@ USE `thunder_gears` ;
 CREATE TABLE IF NOT EXISTS `thunder_gears`.`cliente` (
   `id_cliente` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(60) NOT NULL,
-  `CPF` CHAR(11) NOT NULL,
+  `cpf` CHAR(11) NOT NULL,
   `endereco` VARCHAR(100) NOT NULL,
-  `telefone` CHAR(11) NOT NULL,
+  `telefone` VARCHAR(11) NOT NULL,
   `email` VARCHAR(100) NOT NULL,
   `data_nascimento` DATE NOT NULL,
   PRIMARY KEY (`id_cliente`)
@@ -38,16 +38,16 @@ CREATE TABLE IF NOT EXISTS `thunder_gears`.`funcionario` (
   `login_funcionario` VARCHAR(20) NOT NULL,
   `senha` VARCHAR(20) NOT NULL,
   `nome` VARCHAR(60) NOT NULL,
-  `CPF` CHAR(11) NOT NULL,
+  `cpf` VARCHAR(11) NOT NULL,
   `endereco` VARCHAR(100) NOT NULL,
-  `telefone` CHAR(11) NOT NULL,
+  `telefone` VARCHAR(11) NOT NULL,
   `email` VARCHAR(100) NOT NULL,
   `cargo` VARCHAR(30) NOT NULL,
   `data_admissao` DATE NOT NULL,
   `data_demissao` DATE,
   `salario` DECIMAL(10,2) NOT NULL,
-  `status_funcionario` VARCHAR(10),
-  `foto_perfil` VARCHAR(255),
+  `status_funcionario` VARCHAR(10) NOT NULL,
+  `foto_perfil` VARCHAR(255) NOTE NULL,
   PRIMARY KEY (`id_funcionario`)
 ) ENGINE = InnoDB;
 
@@ -59,10 +59,10 @@ CREATE TABLE IF NOT EXISTS `thunder_gears`.`moto` (
   `combustivel` VARCHAR(20) NOT NULL,
   `preco` DECIMAL(10,2) NOT NULL,
   `ano` INT NOT NULL,
-  `potencia_cavalos` INT,
-  `consumo_km` VARCHAR(20),
+  `potencia_cavalos` INT NOT NULL,
+  `consumo_km` VARCHAR(20) NOT NULL,
   `estoque` INT NOT NULL,
-  `foto_moto` VARCHAR(255),
+  `foto_moto` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id_moto`)
 ) ENGINE = InnoDB;
 
