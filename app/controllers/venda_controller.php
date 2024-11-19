@@ -25,7 +25,9 @@ class venda extends controller
 
   public function listar(int $id = null) {}
 
-  public function editar($id) {}
+  public function editar($id) {
+    venda::update($id, $_POST);
+  }
 
   public function exluir($id) {}
 }

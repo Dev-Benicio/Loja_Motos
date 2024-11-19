@@ -57,7 +57,7 @@ class funcionario implements crud
     $colunas = array_keys($funcionario);
     $set = implode(',', array_map(fn($col) => "{$col} = ?", $colunas));
 
-    $sql = "UPDATE funcionario SET {$set} WHERE id = ?";
+    $sql = "UPDATE funcionario SET {$set} WHERE id = {$id}";
     $types_bind = gerente_conexao::gerar_types_bind_params(
       ...array_values($funcionario)
     );
@@ -73,8 +73,6 @@ class funcionario implements crud
 
   /* 
    * Exclui um registro de funcionário do banco de dados.
-   * @param int $id O ID do registro a ser excluído.
-   * @return bool Retorna true se a exclusão for bem-sucedida, false caso contrário.
   */
   public static function delete(int $id): bool
   {

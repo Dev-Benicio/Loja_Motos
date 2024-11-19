@@ -25,7 +25,9 @@ class moto extends controller
 
   public function listar(int $id = null) {}
 
-  public function editar($id) {}
+  public function editar($id) {
+      moto::update($id, $_POST);
+  }
 
   public function exluir($id) {}
 }

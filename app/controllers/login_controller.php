@@ -16,5 +16,5 @@ class login_controller extends controller {
         $is_login_valido = login::autenticar($user, $password);
         $is_login_valido ? header("Location: /dashboard") : header("Location: /");
     }
-    //  Hello Word
+    
 }
