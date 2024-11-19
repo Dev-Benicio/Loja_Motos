@@ -11,12 +11,32 @@ class Moto implements crud
 	
 	public static function create(array $moto): bool
 		{
-			return false;
+			$colunas = array_keys($moto);
+			$interrogacoes = str_repeat('?, ', count($colunas));
+
+			$sql = "
+					INSERT INTO moto 
+						(" . implode(',', $colunas) . ")
+					VALUES ({$interrogacoes})
+			";
+
+			$stmt = self::$conexao->prepare($sql);
+			$stmt->bind_param(
+				'sssdiisis', // Define o tipo de dados de cada parâmetro
+				...array_values($moto)
+			);
 		}
 
 		public static function read(int $id = null): mysqli_result
 		{
-			return;
+			if ($id) {
+				$sql = "SELECT * FROM moto WHERE id = ?";
+				$stmt = self::$conexao->prepare($sql);
+				$stmt->bind_param("i", $id);
+				$stmt->execute();
+				return $stmt->get_result();
+			}
+			return self::$conexao->query("SELECT * FROM moto");
 		}
 
 		public static function update(int $id, array $moto): bool
@@ -40,6 +60,9 @@ class Moto implements crud
 
 		public  static function delete(int $id): bool
 		{
-			return false;
+			$sql = "DELETE FROM moto WHERE id = ?";
+			$stmt = self::$conexao->prepare($sql);
+			$stmt->bind_param("i", $id);
+			return $stmt->execute();
 		}
 }

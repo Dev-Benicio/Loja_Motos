@@ -11,12 +11,36 @@ class Vendas implements crud
 
 	public static function create(array $venda): bool
 	{
-		return false;
+		$colunas = array_keys($venda);
+
+		$interrogacoes = str_repeat('?, ', count($colunas));
+
+		$sql = "
+				INSERT INTO venda
+					(" . implode(',', $colunas) . ")
+				VALUES ({$interrogacoes})
+		";
+
+		$stmt = self::$conexao->prepare($sql);
+		$stmt->bind_param(
+			'sdsii', // Define o tipo de dados de cada parâmetro
+			...array_values($venda),
+		);
+
+		return $stmt->execute();
 	}
 
 	public static function read(int $id = null): mysqli_result
 	{
-		return;
+		if ($id) {
+			$sql = "SELECT * FROM venda WHERE id = ?";
+			$stmt = self::$conexao->prepare($sql);
+			$stmt->bind_param("i", $id);
+			$stmt->execute();
+			return $stmt->get_result();
+		} else {
+				return self::$conexao->query("SELECT * FROM venda");
+		}
 	}
 
 	public static function update(int $id, array $venda): bool
@@ -40,6 +64,9 @@ class Vendas implements crud
 
 	public  static function delete(int $id): bool
 	{
-		return false;
+		$sql = "DELETE FROM venda WHERE id = ?";
+		$stmt = self::$conexao->prepare($sql);
+		$stmt->bind_param("i", $id);
+		return $stmt->execute();
 	}
 }

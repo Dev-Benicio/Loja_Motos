@@ -40,13 +40,14 @@ class funcionario implements crud
   public static function read(int $id = null): mysqli_result
   {
     if ($id) {
-      $sql = "SELECT * FROM funcionario WHERE id = ?";
-      $stmt = self::$conexao->prepare($sql);
-      $stmt->bind_param("i", $id);
-      $stmt->execute();
-      return $stmt->get_result();
+        $sql = "SELECT * FROM funcionario WHERE id = ?";
+        $stmt = self::$conexao->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        return $stmt->get_result();
+    } else {
+        return self::$conexao->query("SELECT * FROM funcionario");
     }
-    return self::$conexao->query("SELECT * FROM funcionario");
   }
 
   /* 
@@ -76,7 +77,7 @@ class funcionario implements crud
   */
   public static function delete(int $id): bool
   {
-    $sql = "DELETE FROM funcionario WHERE id = ?";
+    $sql = "DELETE FROM funcionario WHERE id ?";= 
     $stmt = self::$conexao->prepare($sql);
     $stmt->bind_param("i", $id);
     return $stmt->execute();
