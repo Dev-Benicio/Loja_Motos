@@ -21,7 +21,21 @@ class funcionario extends controller
     $this->call_view('edicao_funcionarios');
   }
 
-  public function cadastrar() {}
+  public function cadastrar() {
+  $login_funcionario
+  $senha
+  $nome
+  $cpf
+  $endereco
+  $telefone
+  $email
+  $cargo
+  $data_admissao
+  $data_demissao
+  $salario
+  $status_funcionario
+  $foto_perfil
+  }
 
   public function listar(int $id = null) {}
 
