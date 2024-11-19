@@ -24,7 +24,7 @@ USE `thunder_gears` ;
 CREATE TABLE IF NOT EXISTS `thunder_gears`.`cliente` (
   `id_cliente` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(60) NOT NULL,
-  `cpf` CHAR(11) NOT NULL,
+  `cpf` VARCHAR(11) NOT NULL,
   `endereco` VARCHAR(100) NOT NULL,
   `telefone` VARCHAR(11) NOT NULL,
   `email` VARCHAR(100) NOT NULL,
