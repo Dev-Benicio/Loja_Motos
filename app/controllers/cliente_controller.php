@@ -21,7 +21,14 @@ class cliente extends controller
     $this->call_view('edicao_clientes');
   }
 
-  public function cadastrar() {}
+  public function cadastrar() {
+     $nome = $_POST["nome"];
+    $cpf = $_POST["cpf"];
+    $endereco = $_POST["endereco"];
+    $telefone = $_POST["telefone"];
+    $email = $_POST["email"];
+    $data_nascimento = $_POST["data_nascimento"];
+  }
 
   public function listar(int $id = null) {}
 
