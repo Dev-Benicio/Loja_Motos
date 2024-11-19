@@ -21,7 +21,11 @@ class venda extends controller
     $this->call_view('edicao_vendas');
   }
 
-  public function cadastrar() {}
+  public function cadastrar() {
+ $metodo_pagamento = $_POST["metodo_pagamento"];
+  $valor_total_venda = $_POST["valor_total_venda"];
+  $data_venda = $_POST["data_venda"];
+  }
 
   public function listar(int $id = null) {}
 
