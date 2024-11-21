@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\funcionario;
+use App\Models\endereco;
 
 class funcionario_controller extends controller
 {
@@ -13,7 +14,11 @@ class funcionario_controller extends controller
 
   public function cadastrar()
   {
-    funcionario::create($_POST);
+    $endereco = endereco::endereco($_POST);
+    $id_endereco = endereco::create($endereco);
+    if ($id_endereco > 0) {
+      funcionario::create($_POST, $id_endereco);
+    }
   }
 
   public function editar($id) {

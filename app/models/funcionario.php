@@ -12,12 +12,13 @@ class funcionario implements crud
   /**
    * Cria um novo registro de funcionário no banco de dados.
    */
-  public static function create(array $funcionario): bool
+  public static function create(array $funcionario, array $id_endereco): bool
   {
+    $funcionario['id_endereco'] = $id_endereco;
     // Obtém as colunas da tabela através das chaves do array associativo.
     $colunas = array_keys($funcionario);
     // Cria uma string com interrogacoes para cada coluna.
-    $interrogacoes = str_repeat('?, ', count($colunas));
+    $interrogacoes = str_repeat('?, ', count($colunas) -1) . '?';
 
     $sql = "
       INSERT INTO funcionario
@@ -27,10 +28,9 @@ class funcionario implements crud
 
     $stmt = self::$conexao->prepare($sql);
     $stmt->bind_param(
-      'sssssssdss', // Define o tipo de dados de cada parâmetro
+      'ssssssssdssi', // Define o tipo de dados de cada parâmetro
       ...array_values($funcionario),
     );
-
     return $stmt->execute();
   }
 
