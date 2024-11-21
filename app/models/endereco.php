@@ -68,33 +68,28 @@ class endereco implements crud
       return 0;
   }
 
-  public static function read(int $id = null): mysqli_result {
-    if ($id) {
-        $sql = "SELECT * FROM endereco WHERE id_enderco = ?";
-        $stmt = self::$conexao->prepare($sql);
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        return $stmt->get_result();
-    } else {
-        return self::$conexao->query("SELECT * FROM endereco");
-    }
-  }
-
-  public static function update(int $id): bool {
+  public static function update(int $id, array $dados): bool {
     $colunas = array_keys($endereco);
     $set = implode(',', array_map(fn($col) => "{$col} = ?", $colunas));
 
+    // atualiza dados de endereco
     $sql = "UPDATE endereco SET {$set} WHERE id_enderco = {$id}";
     $types_bind = gerente_conexao::gerar_types_bind_params(
       ...array_values($endereco)
     );
 
+    // executa a query de endereco
     $stmt = self::$conexao->prepare($sql);
     $stmt->bind_param(
       $types_bind,
       ...array_values($endereco)
     );
 
+    // remove dados de endereco do array $dados
+    // unset($dados['id_endereco']); ...
+    // ...
+
+    // retorna variavel $dados, sem os dados de endereco
     return $stmt->execute();
   }
 

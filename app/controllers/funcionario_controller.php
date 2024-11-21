@@ -21,8 +21,7 @@ class funcionario_controller extends controller
   }
 
   public function read ($id) {
-      // chama read de endereco
-      // chama read de funcionario + endereco
+      funcionario::read($id, $_POST);
   }
 
   public function editar($id) {

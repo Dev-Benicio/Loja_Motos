@@ -36,10 +36,10 @@ class funcionario implements crud
   /**
    * Lê registros de funcionários do banco de dados.
    */
-  public static function read(int $id = null): mysqli_result
+  public static function read(int $id = null, array $dados): ?array
   {
     if ($id) {
-        $sql = "SELECT f.foto_perfil, f.nome, f.cpf, f.telefone, f.email, f.cargo, f.data_admissao, f.salario, f.status_funcionario, e.cidade, e.id_enderco, e.numero, e.rua, e.unidade_federativa FROM funcionario f INNER JOIN endereco e ON f.id_endereco = e.id_enderco";
+        $sql = "SELECT f.foto_perfil, f.nome, f.cpf, f.telefone, f.email, f.cargo, f.data_admissao, f.salario, f.status_funcionario, e.cidade, e.id_endereco, e.numero, e.rua, e.unidade_federativa FROM funcionario f INNER JOIN endereco e ON f.id_endereco = e.id_endereco WHERE f.id_funcionario = ?";
 
         $stmt = self::$conexao->prepare($sql);
         $stmt->bind_param("i", $id);
@@ -55,10 +55,9 @@ class funcionario implements crud
    */
   public static function update(int $id, array $dados): bool
   {
-    // pega o id de endereço do array de funcionario
-    $id_endereco = $funcionario['id_endereco'];
-    // chama a função update de endereco
-    endereco::update($id_endereco, $dados);
+    $id_endereco = $dados['id_endereco'];
+    $funcionario = endereco::update($id_endereco, $dados);
+
     $colunas = array_keys($funcionario);
     $set = implode(',', array_map(fn($col) => "{$col} = ?", $colunas));
 
