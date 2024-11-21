@@ -12,9 +12,8 @@ class funcionario implements crud
   /**
    * Cria um novo registro de funcionário no banco de dados.
    */
-  public static function create(array $funcionario, array $id_endereco): bool
+  public static function create(array $funcionario): bool
   {
-    $funcionario['id_endereco'] = $id_endereco;
     // Obtém as colunas da tabela através das chaves do array associativo.
     $colunas = array_keys($funcionario);
     // Cria uma string com interrogacoes para cada coluna.
@@ -40,21 +39,26 @@ class funcionario implements crud
   public static function read(int $id = null): mysqli_result
   {
     if ($id) {
-        $sql = "SELECT * FROM funcionario WHERE id = ?";
+        $sql = "SELECT f.foto_perfil, f.nome, f.cpf, f.telefone, f.email, f.cargo, f.data_admissao, f.salario, f.status_funcionario, e.cidade, e.id_enderco, e.numero, e.rua, e.unidade_federativa FROM funcionario f INNER JOIN endereco e ON f.id_endereco = e.id_enderco";
+
         $stmt = self::$conexao->prepare($sql);
         $stmt->bind_param("i", $id);
         $stmt->execute();
         return $stmt->get_result();
     } else {
-        return self::$conexao->query("SELECT * FROM funcionario");
+        return self::$conexao->query("SELECT f.foto_perfil, f.nome, f.cpf, f.telefone, f.email, f.cargo, f.data_admissao, f.salario, f.status_funcionario, e.id_endereco, e.cidade, e.numero, e.rua, e.unidade_federativa FROM funcionario");
     }
   }
 
   /* 
    * Atualiza um registro de funcionário no banco de dados.
    */
-  public static function update(int $id, array $funcionario): bool
+  public static function update(int $id, array $dados): bool
   {
+    // pega o id de endereço do array de funcionario
+    $id_endereco = $funcionario['id_endereco'];
+    // chama a função update de endereco
+    endereco::update($id_endereco, $dados);
     $colunas = array_keys($funcionario);
     $set = implode(',', array_map(fn($col) => "{$col} = ?", $colunas));
 

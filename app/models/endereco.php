@@ -3,7 +3,8 @@
 class endereco implements crud
 {
   private static mysqli $conexao = gerente_conexao::conectar();
-  public static function endereco(array $_POST){
+
+  public static function validarSalvarEndereco(array $dados){
     // Campos específicos de endereço
     $camposEndereco = [
         'unidade_federativa',
@@ -12,14 +13,26 @@ class endereco implements crud
         'rua'
     ];
 
-    // Filtra e remove os campos de endereço
-    return array_filter(
+    // Filtra e remove os campos que nãos são de endereço
+    $endereco = array_filter(
         array_intersect_key(
             $_POST, 
             array_flip($camposEndereco)
         ), 
         fn($valor) => $valor !== null
     );
+    // adiciona endereço de funcionario
+    $id_endereco = endereco::create($endereco);
+
+    if ($id_endereco > 0) {
+      // Remove os campos de endereço
+      foreach ($camposEndereco as $campo) {
+          unset($dados[$campo]);
+      }
+      // Adiciona o id_endereco aos dados
+      $dados['id_endereco'] = $id_endereco;
+      return $dados;
+    }
   }
   /**
    * Cria um novo registro de endereço no banco de dados.
@@ -53,5 +66,42 @@ class endereco implements crud
 
       // Retorna 0 ou lança uma exceção em caso de falha
       return 0;
+  }
+
+  public static function read(int $id = null): mysqli_result {
+    if ($id) {
+        $sql = "SELECT * FROM endereco WHERE id_enderco = ?";
+        $stmt = self::$conexao->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        return $stmt->get_result();
+    } else {
+        return self::$conexao->query("SELECT * FROM endereco");
+    }
+  }
+
+  public static function update(int $id): bool {
+    $colunas = array_keys($endereco);
+    $set = implode(',', array_map(fn($col) => "{$col} = ?", $colunas));
+
+    $sql = "UPDATE endereco SET {$set} WHERE id_enderco = {$id}";
+    $types_bind = gerente_conexao::gerar_types_bind_params(
+      ...array_values($endereco)
+    );
+
+    $stmt = self::$conexao->prepare($sql);
+    $stmt->bind_param(
+      $types_bind,
+      ...array_values($endereco)
+    );
+
+    return $stmt->execute();
+  }
+
+  public static function delete(int $id): bool {
+    $sql = "DELETE FROM endereco WHERE id_enderco = ?";
+    $stmt = self::$conexao->prepare($sql);
+    $stmt->bind_param("i", $id);
+    return $stmt->execute();
   }
 }
