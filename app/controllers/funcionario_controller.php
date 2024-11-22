@@ -14,10 +14,7 @@ class funcionario_controller extends controller
 
   public function cadastrar()
   {
-    $funcionario = endereco::endereco($_POST);
-    if ($id_endereco > 0) {
-      funcionario::create($funcionario);
-    } // se não for retorna erro na URl e volta para a página de cadastro
+    
   }
 
   public function read ($id) {

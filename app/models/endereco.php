@@ -1,6 +1,11 @@
 <?php
 
-class endereco implements crud
+namespace App\Models;
+
+use App\Database\gerente_conexao;
+use mysqli;
+
+class endereco
 {
   private static mysqli $conexao = gerente_conexao::conectar();
 
@@ -69,20 +74,20 @@ class endereco implements crud
   }
 
   public static function update(int $id, array $dados): bool {
-    $colunas = array_keys($endereco);
+    $colunas = array_keys($dados);
     $set = implode(',', array_map(fn($col) => "{$col} = ?", $colunas));
 
     // atualiza dados de endereco
     $sql = "UPDATE endereco SET {$set} WHERE id_enderco = {$id}";
     $types_bind = gerente_conexao::gerar_types_bind_params(
-      ...array_values($endereco)
+      ...array_values($dados)
     );
 
     // executa a query de endereco
     $stmt = self::$conexao->prepare($sql);
     $stmt->bind_param(
       $types_bind,
-      ...array_values($endereco)
+      ...array_values($dados)
     );
 
     // remove dados de endereco do array $dados

@@ -36,9 +36,9 @@ class funcionario implements crud
   /**
    * Lê registros de funcionários do banco de dados.
    */
-  public static function read(int $id = null, array $dados): ?array
+  public static function read(int $id = null): mysqli_result
   {
-    if ($id) {
+    if ($id) { 
         $sql = "SELECT f.foto_perfil, f.nome, f.cpf, f.telefone, f.email, f.cargo, f.data_admissao, f.salario, f.status_funcionario, e.cidade, e.id_endereco, e.numero, e.rua, e.unidade_federativa FROM funcionario f INNER JOIN endereco e ON f.id_endereco = e.id_endereco WHERE f.id_funcionario = ?";
 
         $stmt = self::$conexao->prepare($sql);
@@ -58,18 +58,18 @@ class funcionario implements crud
     $id_endereco = $dados['id_endereco'];
     $funcionario = endereco::update($id_endereco, $dados);
 
-    $colunas = array_keys($funcionario);
+    $colunas = array_keys($dados);
     $set = implode(',', array_map(fn($col) => "{$col} = ?", $colunas));
 
     $sql = "UPDATE funcionario SET {$set} WHERE id = {$id}";
     $types_bind = gerente_conexao::gerar_types_bind_params(
-      ...array_values($funcionario)
+      ...array_values($dados)
     );
 
     $stmt = self::$conexao->prepare($sql);
     $stmt->bind_param(
       $types_bind,
-      ...array_values($funcionario)
+      ...array_values($dados)
     );
 
     return $stmt->execute();
@@ -80,7 +80,7 @@ class funcionario implements crud
   */
   public static function delete(int $id): bool
   {
-    $sql = "DELETE FROM funcionario WHERE id ?";= 
+    $sql = "DELETE FROM funcionario WHERE id ?";
     $stmt = self::$conexao->prepare($sql);
     $stmt->bind_param("i", $id);
     return $stmt->execute();
