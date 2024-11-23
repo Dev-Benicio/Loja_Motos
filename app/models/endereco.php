@@ -114,11 +114,4 @@ class endereco
     }
     return $dados;
 }
-
-  public static function delete(int $id): bool {
-    $sql = "DELETE FROM endereco WHERE id_enderco = ?";
-    $stmt = self::$conexao->prepare($sql);
-    $stmt->bind_param("i", $id);
-    return $stmt->execute();
-  }
 }
