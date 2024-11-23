@@ -73,7 +73,8 @@ class endereco
       return 0;
   }
 
-  public static function update(array $dados) {
+  public static function update(array $dados): array 
+{
     $camposEndereco = [
         'unidade_federativa',
         'cidade', 
@@ -81,6 +82,7 @@ class endereco
         'rua'
     ];
 
+    // Filtra campos válidos do endereço e remove nulos
     $endereco = array_filter(
         array_intersect_key(
             $dados, 
@@ -88,30 +90,30 @@ class endereco
         ), 
         fn($valor) => $valor !== null
     );
-    
-    $colunas = // colunas do atributo de $endereco
-    $set = // valores das colunas
-      
-    // atualiza dados de endereco
-    $sql = "UPDATE endereco SET {$set} WHERE id_enderco = {$dados['id_endereco']}";
-    $types_bind = gerente_conexao::gerar_types_bind_params(
-      ...array_values($campoEndereco)
-    );
 
-    // executa a query de endereco
-    $stmt = self::$conexao->prepare($sql);
-    $stmt->bind_param(
-      $types_bind,
-      ...array_values($campoEndereco)
-    );
-    $stmt->execute();
-    // remove dados de endereco do array $dados
-    // unset($dados['id_endereco']); ...
-    // ...
+    if (!empty($endereco)) {
+        $colunas = array_keys($endereco);
+        $set = implode(',', array_map(fn($col) => "{$col} = ?", $colunas));
+        
+        $sql = "UPDATE endereco SET {$set} WHERE id_endereco = {$dados['id_endereco']}";
+        $types_bind = gerente_conexao::gerar_types_bind_params(
+            ...array_values($endereco)
+        );
 
-    // retorna variavel $dados, sem os dados de endereco
+        $stmt = self::$conexao->prepare($sql);
+        $stmt->bind_param(
+            $types_bind,
+            ...array_values($endereco)
+        );
+        $stmt->execute();
+
+        // Remove campos de endereço do array original
+        foreach ($camposEndereco as $campo) {
+            unset($dados[$campo]);
+        }
+    }
     return $dados;
-  }
+}
 
   public static function delete(int $id): bool {
     $sql = "DELETE FROM endereco WHERE id_enderco = ?";
