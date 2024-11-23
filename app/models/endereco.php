@@ -18,10 +18,10 @@ class endereco
         'rua'
     ];
 
-    // Filtra e remove os campos que nãos são de endereço
+    // Filtra e remove os campos que não são de endereço
     $endereco = array_filter(
         array_intersect_key(
-            $_POST, 
+            $dados, 
             array_flip($camposEndereco)
         ), 
         fn($valor) => $valor !== null
@@ -81,7 +81,16 @@ class endereco
         'rua'
     ];
 
-    $colunas = // do atributo de Endereço
+    $endereco = array_filter(
+        array_intersect_key(
+            $dados, 
+            array_flip($camposEndereco)
+        ), 
+        fn($valor) => $valor !== null
+    );
+    
+    $colunas = // colunas do atributo de $endereco
+    $set = // valores das colunas
       
     // atualiza dados de endereco
     $sql = "UPDATE endereco SET {$set} WHERE id_enderco = {$dados['id_endereco']}";
@@ -95,13 +104,13 @@ class endereco
       $types_bind,
       ...array_values($campoEndereco)
     );
-
+    $stmt->execute();
     // remove dados de endereco do array $dados
     // unset($dados['id_endereco']); ...
     // ...
 
     // retorna variavel $dados, sem os dados de endereco
-    return $stmt->execute();
+    return $dados;
   }
 
   public static function delete(int $id): bool {
