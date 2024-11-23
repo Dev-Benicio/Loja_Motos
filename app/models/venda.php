@@ -27,8 +27,13 @@ class Vendas implements crud
 			...array_values($venda),
 		);
 
-		return $stmt->execute();
-	}
+		if($stmt->execute()){
+			// adiciona dados de cliente e moto na entidade quantidade_vendida
+			// soma +1 na quantidade_vendida
+			return true;
+		}
+		return false;
+	} 
 
 	public static function read(int $id = null): mysqli_result
 	{

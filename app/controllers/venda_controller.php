@@ -21,7 +21,11 @@ class venda extends controller
     $this->call_view('edicao_vendas');
   }
 
-  public function cadastrar() {}
+  public function cadastrar() {
+    if (venda::create($_POST)) {
+      // na entidade moto chama a função de estoque para remover 1 da unidade de qunatidade de moto no estoque
+    }
+  }
 
   public function listar(int $id = null) {}
 
