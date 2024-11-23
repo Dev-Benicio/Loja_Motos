@@ -73,21 +73,27 @@ class endereco
       return 0;
   }
 
-  public static function update(int $id, array $dados): bool {
-    $colunas = array_keys($dados);
-    $set = implode(',', array_map(fn($col) => "{$col} = ?", $colunas));
+  public static function update(array $dados) {
+    $camposEndereco = [
+        'unidade_federativa',
+        'cidade', 
+        'numero', 
+        'rua'
+    ];
 
+    $colunas = // do atributo de Endereço
+      
     // atualiza dados de endereco
-    $sql = "UPDATE endereco SET {$set} WHERE id_enderco = {$id}";
+    $sql = "UPDATE endereco SET {$set} WHERE id_enderco = {$dados['id_endereco']}";
     $types_bind = gerente_conexao::gerar_types_bind_params(
-      ...array_values($dados)
+      ...array_values($campoEndereco)
     );
 
     // executa a query de endereco
     $stmt = self::$conexao->prepare($sql);
     $stmt->bind_param(
       $types_bind,
-      ...array_values($dados)
+      ...array_values($campoEndereco)
     );
 
     // remove dados de endereco do array $dados
