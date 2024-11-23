@@ -55,9 +55,6 @@ class funcionario implements crud
    */
   public static function update(int $id, array $dados): bool
   {
-    $id_endereco = $dados['id_endereco'];
-    $funcionario = endereco::update($id_endereco, $dados);
-
     $colunas = array_keys($dados);
     $set = implode(',', array_map(fn($col) => "{$col} = ?", $colunas));
 
