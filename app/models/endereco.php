@@ -9,7 +9,7 @@ class endereco
 {
   private static mysqli $conexao = gerente_conexao::conectar();
 
-  public static function validarSalvarEndereco(array $dados){
+  public static function validarSalvarEndereco(array $dados): array{
     // Campos específicos de endereço
     $camposEndereco = [
         'unidade_federativa',
@@ -26,6 +26,7 @@ class endereco
         ), 
         fn($valor) => $valor !== null
     );
+
     // adiciona endereço de funcionario
     $id_endereco = endereco::create($endereco);
 
@@ -68,7 +69,6 @@ class endereco
           // Retorna o ID do último registro inserido
           return self::$conexao->insert_id;
       }
-
       // Retorna 0 ou lança uma exceção em caso de falha
       return 0;
   }

@@ -17,7 +17,7 @@ class cliente implements crud
 	{
 		$colunas = array_keys($cliente);
 		// Obtém as colunas da tabela através das chaves do array associativo.
-		$interrogacoes = str_repeat('?, ', count($colunas));
+		$interrogacoes = str_repeat('?, ', count($colunas) -1) . '?';
 
 		$sql = "
 			INSERT INTO cliente
