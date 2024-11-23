@@ -21,15 +21,13 @@ class venda extends controller
     $this->call_view('edicao_vendas');
   }
 
-  public function cadastrar() {
- $metodo_pagamento = $_POST["metodo_pagamento"];
-  $valor_total_venda = $_POST["valor_total_venda"];
-  $data_venda = $_POST["data_venda"];
-  }
+  public function cadastrar() {}
 
   public function listar(int $id = null) {}
 
-  public function editar($id) {}
+  public function editar($id) {
+    venda::update($id, $_POST);
+  }
 
   public function exluir($id) {}
 }
