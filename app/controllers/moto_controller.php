@@ -3,12 +3,15 @@
 namespace App\Controllers;
 
 use App\Controllers\controller;
+use App\Models\moto;
 
-class moto extends controller
+class moto_controller extends controller
 {
   public function index(): void
   {
-    $this->call_view('lista_motos');
+    $resultado = moto::read();
+    $motos = $resultado->fetch_assoc();
+    $this->call_view('lista_motos', ['motos' => $motos]);
   }
 
   public function call_cadastro_view(): void
@@ -21,54 +24,22 @@ class moto extends controller
     $this->call_view('edicao_motos');
   }
 
-  public function cadastrar() {}
-
-  public function listar(int $id = null) {}
-
-  public function editar($id) {
-      moto::update($id, $_POST);
-  }
-
-  public function exluir($id) {}
-}
-<?php
-
-namespace App\Controllers;
-
-use App\Controllers\controller;
-
-class moto extends controller
-{
-  public function index(): void
+  public function cadastrar()
   {
-    $this->call_view('lista_motos');
-  }
-
-  public function call_cadastro_view(): void
-  {
-    $this->call_view('cadastro_motos');
-  }
-
-  public function call_edicao_view(): void
-  {
-    $this->call_view('edicao_motos');
-  }
-
-  public function cadastrar() {
     $marca = $_POST["marca"];
-  $modelo = $_POST["modelo"];
-  $combustivel = $_POST["combustivel"];
-  $preco = $_POST["preco"];
-  $ano = $_POST["ano"];
-  $potencia_cavalos = $_POST["potencia_cavalos"];
-  $consumo_km = $_POST ["consumo_km"];
-  $estoque = $_POST ["estoque"];
-  $foto_moto = $_POST ["foto_moto"];
+    $modelo = $_POST["modelo"];
+    $combustivel = $_POST["combustivel"];
+    $preco = $_POST["preco"];
+    $ano = $_POST["ano"];
+    $potencia_cavalos = $_POST["potencia_cavalos"];
+    $consumo_km = $_POST ["consumo_km"];
+    $estoque = $_POST ["estoque"];
+    $foto_moto = $_POST ["foto_moto"];
   }
 
-  public function listar(int $id = null) {}
+  public function editar($id)
+  {
+    moto::update($id, $_POST);
+  }
 
-  public function editar($id) {}
-
-  public function exluir($id) {}
 }

@@ -8,7 +8,7 @@ class dashboard extends controller
 {
   public function index(): void
   {
-    $this->call_view('');
+    $this->call_view('dashboard');
   }
 
   public function call_funcionarios_view(): void

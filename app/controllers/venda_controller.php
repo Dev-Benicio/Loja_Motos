@@ -3,12 +3,19 @@
 namespace App\Controllers;
 
 use App\Controllers\controller;
+use App\Models\venda;
 
-class venda extends controller
+class venda_controller extends controller
 {
+  /**
+   * Chama a view que lista todas as vendas. Se os dados não existirem, 
+   * a view de erro é chamada.
+   */
   public function index(): void
   {
-    $this->call_view('lista_vendas');
+    $resultado = venda::read();
+    $vendas = $resultado->fetch_assoc();
+    $this->call_view('lista_vendas', ['vendas' => $vendas]);
   }
 
   public function call_cadastro_view(): void
@@ -23,11 +30,8 @@ class venda extends controller
 
   public function cadastrar() {}
 
-  public function listar(int $id = null) {}
-
-  public function editar($id) {
+  public function editar($id)
+  {
     venda::update($id, $_POST);
   }
-
-  public function exluir($id) {}
 }

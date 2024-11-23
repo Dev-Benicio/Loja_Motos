@@ -1,6 +1,11 @@
 <?php
 
-class endereco implements crud
+namespace App\Models;
+
+use App\Database\gerente_conexao;
+use mysqli;
+
+class endereco
 {
   private static mysqli $conexao = gerente_conexao::conectar();
   public static function endereco(array $_POST){
