@@ -18,7 +18,7 @@ class funcionario_controller extends controller
     funcionario::create($funcionario);
   }
 
-  public function read ($id) {
+  public function lista($id = null) {
     funcionario::read($id);
   }
 

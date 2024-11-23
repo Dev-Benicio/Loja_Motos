@@ -21,13 +21,21 @@ class cliente extends controller
     $this->call_view('edicao_clientes');
   }
 
-  public function cadastrar() {}
-
-  public function listar(int $id = null) {}
-
-  public function editar($id) {
-    cliente::update($id, $_POST);
+  public function cadastrar() {
+    $cliente = endereco::validarSalvarEndereco($_POST);
+    cliente::create($cliente);
   }
 
-  public function exluir($id) {}
+  public function lista(int $id = null) {
+    cliente::read($id);
+  }
+
+  public function editar($id) {
+    $cliente = cliente::update($_POST);
+    cliente::update($id, $cliente);
+  }
+
+  public function exluir($id) {
+    cliente::delete($id);
+  }
 }

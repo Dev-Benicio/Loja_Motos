@@ -40,6 +40,7 @@ class endereco
       return $dados;
     }
   }
+  
   /**
    * Cria um novo registro de endereço no banco de dados.
    */
