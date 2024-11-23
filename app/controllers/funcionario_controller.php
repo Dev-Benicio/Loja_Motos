@@ -23,7 +23,8 @@ class funcionario_controller extends controller
   }
 
   public function editar($id) {
-    funcionario::update($id, $_POST);
+    $funcionario = endereco::update($_POST);
+    funcionario::update($id, $funcionario);
   }
 
   public function delete($id) {
