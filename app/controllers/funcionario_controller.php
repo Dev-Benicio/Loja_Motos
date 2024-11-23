@@ -14,7 +14,8 @@ class funcionario_controller extends controller
 
   public function cadastrar()
   {
-    
+    $funcionario = endereco::validarSalvarEndereco($_POST);
+    funcionario::create($funcionario);
   }
 
   public function read ($id) {
