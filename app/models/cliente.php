@@ -7,6 +7,10 @@ use mysqli, mysqli_result;
 
 class cliente implements crud
 {
+	private const COLUNAS = [
+			'cliente' => ['id_cliente', 'nome', 'cpf', 'telefone', 'email', 'data_nascimento', 'id_endereco'],
+			'endereco' => ['id_endereco', 'unidade_federativa', 'cidade', 'numero', 'rua']
+	];
 	private static mysqli $conexao = gerente_conexao::conectar();
 
 	public static function create(array $cliente): bool
@@ -32,15 +36,31 @@ class cliente implements crud
 
 	public static function read(int $id = null): mysqli_result
 	{
-		if ($id) {
-			$sql = "SELECT * FROM cliente WHERE id = ?";
-			$stmt = self::$conexao->prepare($sql);
-			$stmt->bind_param("i", $id);
-			$stmt->execute();
-			return $stmt->get_result();
-		} else {
-			return self::$conexao->query("SELECT * FROM cliente");
-		}
+    // Monta array de colunas com aliases das tabelas
+    $colunas = array_merge(
+        array_map(fn($col) => "c.{$col}", self::COLUNAS['cliente']),
+        array_map(fn($col) => "e.{$col}", self::COLUNAS['endereco'])
+    );
+    $select = implode(', ', array_filter($colunas));
+    $sql = "SELECT {$select} 
+            FROM cliente c
+            LEFT JOIN endereco e ON c.id_endereco = e.id_endereco
+            WHERE 1=1";
+    
+    // Adiciona filtro de não nulos dinamicamente
+    $sql .= " AND " . implode(' IS NOT NULL AND ', 
+        array_map(fn($col) => "$col IS NOT NULL", $colunas)
+    );
+
+    // Adiciona WHERE por ID se fornecido
+    if ($id !== null) {
+        $sql .= " AND c.id_cliente = ?";
+        $stmt = self::$conexao->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        return $stmt->get_result();
+    }
+    return self::$conexao->query($sql);
 	}
 
 	public static function update(int $id, array $cliente): bool

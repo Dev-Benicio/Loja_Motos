@@ -7,6 +7,10 @@ use mysqli, mysqli_result;
 
 class funcionario implements crud
 {
+  private const COLUNAS = [
+      'funcionario' => ['id_funcionario', 'login_funcionario', 'senha', 'nome', 'cpf', 'endereco', 'email', 'cargo', 'data_admissao', 'data_demissao', 'salario', 'status_funcionario', 'foto_perfil', 'id_endereco'],
+      'endereco' => ['id_endereco', 'unidade_federativa', 'cidade', 'numero', 'rua']
+    ];
   private static mysqli $conexao = gerente_conexao::conectar();
 
   /**
@@ -38,16 +42,31 @@ class funcionario implements crud
    */
   public static function read(int $id = null): mysqli_result
   {
-    if ($id) { 
-        $sql = "SELECT f.foto_perfil, f.nome, f.cpf, f.telefone, f.email, f.cargo, f.data_admissao, f.salario, f.status_funcionario, e.cidade, e.id_endereco, e.numero, e.rua, e.unidade_federativa FROM funcionario f INNER JOIN endereco e ON f.id_endereco = e.id_endereco WHERE f.id_funcionario = ?";
+    // Monta array de colunas com aliases das tabelas
+    $colunas = array_merge(
+        array_map(fn($col) => "f.{$col}", self::COLUNAS['funcionario']),
+        array_map(fn($col) => "e.{$col}", self::COLUNAS['endereco'])
+    );
+    $select = implode(', ', array_filter($colunas));
+    $sql = "SELECT {$select} 
+            FROM funcionario f 
+            LEFT JOIN endereco e ON f.id_endereco = e.id_endereco
+            WHERE 1=1";
+    
+    // Adiciona filtro de não nulos dinamicamente
+    $sql .= " AND " . implode(' IS NOT NULL AND ', 
+        array_map(fn($col) => "$col IS NOT NULL", $colunas)
+    );
 
+    // Adiciona WHERE por ID se fornecido
+    if ($id !== null) {
+        $sql .= " AND f.id_funcionario = ?";
         $stmt = self::$conexao->prepare($sql);
         $stmt->bind_param("i", $id);
         $stmt->execute();
         return $stmt->get_result();
-    } else {
-        return self::$conexao->query("SELECT f.foto_perfil, f.nome, f.cpf, f.telefone, f.email, f.cargo, f.data_admissao, f.salario, f.status_funcionario, e.id_endereco, e.cidade, e.numero, e.rua, e.unidade_federativa FROM funcionario");
     }
+    return self::$conexao->query($sql);
   }
 
   /* 

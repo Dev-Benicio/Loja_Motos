@@ -19,7 +19,7 @@ class funcionario_controller extends controller
   }
 
   public function read ($id) {
-      funcionario::read($id, $_POST);
+      funcionario::read($id);
   }
 
   public function editar($id) {
