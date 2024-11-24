@@ -5,7 +5,7 @@
 [Sobre]() • [Como Rodar]() • [Construção]() • [Desafios]() • [Autores]()
 
 ![PHP](https://img.shields.io/badge/PHP-777BB4?style=flat-rounded&logo=php&logoColor=white)
-![MySQL](https://img.shields.io/badge/MySQL-00000F?style=flat-rounded&logo=mysql&logoColor=white)
+![MariaDB](https://img.shields.io/badge/MariaDB-003545?style=flat-rounded&logo=mariadb&logoColor=white)
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?style=flat-rounded&logo=bootstrap&logoColor=white)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-rounded&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-rounded&logo=css3&logoColor=white)
@@ -39,21 +39,28 @@ DB_PORT=porta_do_servidor
 ```
 
 ## 🔥 Construção do projeto
-> Como construimos o projeto?
+> A seguir nosso processo criativo para construir o projeto:
 
-Usamos a estrutura MVC (Model-View-Controller) para a contrução do projeto.
+0. Decidimos as ferramentas, a estrutura do projeto - considerando o tempo que tinhamos para fazer o projeto.
+1. Pesquisamos os requisitos funcionais, não funcionais e regras de négocio que poderiamos ter em um sistema de gestão de estoque e venda - para uma loja de motos.
+2. Organizamos quem faria cada tarefa do projeto.
+3. Criamos um modelo conceitual e lógico do banco de dados.
+4. Criamos a estrutura de pastas do projeto com arquivos iniciais.
+5. Começamos a fazer o código back-end do projeto.
+6. Começamos a fazer o design das páginas do projeto.
+7. Começamos a fazer o código front-end do projeto.
 
 ## 😃 Desafios vencidos
 > Quais desafios foram vencidos?
 
-## 💻 Tecnologias usadas
-> Quais tecnologias foram usadas?
+## 👅 Linguagens usadas
+> Quais linguagens foram usadas?
 
 - HTML 5
 - CSS 3
 - Bootstrap 5
 - PHP 8
-- MySQL 8
+- MariaDB 10.5
 
 ## 👨‍💻 Autores
 - [Ítalo](https://github.com/ItaloBrazucaDeveloper) - Tech Lead & Designer
