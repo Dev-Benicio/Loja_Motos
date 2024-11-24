@@ -23,13 +23,14 @@ class Vendas implements crud
 
 		$stmt = self::$conexao->prepare($sql);
 		$stmt->bind_param(
-			'sdsii', // Define o tipo de dados de cada parâmetro
+			'sdsiii', // Define o tipo de dados de cada parâmetro
 			...array_values($venda),
 		);
-
+		// manipula quantidade de motos no estoque e motos vendidas
 		if($stmt->execute()){
-			// adiciona dados de cliente e moto na entidade quantidade_vendida
-			// soma +1 na quantidade_vendida
+			// soma +1 na quantidade_vendida, -1 na quantidade_estoque
+			$stmt = self::$conexao->prepare("UPDATE venda SET quantidade_moto_vendida = quantidade_moto_vendida + 1 WHERE id_cliente = $venda['id_cliente']");
+			$stmt->execute();
 			return true;
 		}
 		return false;
@@ -73,5 +74,32 @@ class Vendas implements crud
 		$stmt = self::$conexao->prepare($sql);
 		$stmt->bind_param("i", $id);
 		return $stmt->execute();
+	}
+
+	public static function validate(array $venda): bool
+	{
+		$stmt = self::$conexao->prepare("SELECT * FROM cliente WHERE id_cliente = $venda['id_cliente']");
+		$stmt->execute();
+		$cliente = $stmt->get_result();
+		if ($cliente->num_rows == 0) {
+			return false;
+		}
+
+		$stmt = self::$conexao->prepare("SELECT * FROM funcionario WHERE id_funcionario = $venda['id_funcionario']");
+		$stmt->execute();
+		$funcionario = $stmt->get_result();
+
+		if ($funcionario->num_rows == 0) {
+			return false;
+		}
+
+		// verificar se existe unidades de moto na entidade moto existem
+		$stmt = self::$conexao->prepare("SELECT * FROM moto WHERE id_moto = $venda['id_moto'] AND quantidade_moto > 0");
+		$stmt->execute();
+		$moto = $stmt->get_result();
+		if ($moto->num_rows == 0) {
+			return false;
+		}
+		return true;
 	}
 }

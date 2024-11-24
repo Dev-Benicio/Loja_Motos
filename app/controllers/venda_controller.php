@@ -22,8 +22,10 @@ class venda extends controller
   }
 
   public function cadastrar() {
-    if (venda::create($_POST)) {
-      // na entidade moto chama a função de estoque para remover 1 da unidade de qunatidade de moto no estoque
+    // Valida se o cliente, funcionário e moto existem pelo ID, verifica se qtd_moto > 0
+    // Se existirem, cria uma venda
+    if (venda::validate($_POST)) {
+        venda::create($_POST) ? moto::estoque($_POST['id_moto']) : false;
     }
   }
 

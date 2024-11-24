@@ -65,4 +65,10 @@ class Moto implements crud
 			$stmt->bind_param("i", $id);
 			return $stmt->execute();
 		}
+		
+		public static function estoque(int $id): bool
+		{
+			$stmt = self::$conexao->prepare("UPDATE moto SET quantidade_estoque = quantidade_estoque - 1 WHERE id_moto = $venda['id_moto']");
+			$stmt->execute();
+		}
 }
