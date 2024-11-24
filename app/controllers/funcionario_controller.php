@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Controllers\controller;
 use App\Models\funcionario;
 use App\Models\endereco;
 

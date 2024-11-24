@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use App\Controllers\controller;
+use App\Models\cliente;
+use App\Models\endereco;
 
 class cliente extends controller
 {

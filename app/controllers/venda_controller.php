@@ -29,11 +29,15 @@ class venda extends controller
     }
   }
 
-  public function listar(int $id = null) {}
+  public function listar(int $id = null) {
+    venda::read($id);
+  }
 
   public function editar($id) {
     venda::update($id, $_POST);
   }
 
-  public function exluir($id) {}
+  public function exluir($id) {
+    venda::delete($id);
+  }
 }

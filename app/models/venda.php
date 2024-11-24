@@ -7,6 +7,14 @@ use mysqli, mysqli_result;
 
 class Vendas implements crud
 {
+	private const CoLUNAS = [
+		venda => 'ID_venda',
+		'forma_pagamento',
+		'valor',
+		'data',
+		'ID_funcionario',
+		'ID_cliente'
+	];
 	private static mysqli $conexao = gerente_conexao::conectar();
 
 	public static function create(array $venda): bool
@@ -39,9 +47,8 @@ class Vendas implements crud
 	public static function read(int $id = null): mysqli_result
 	{
 		if ($id) {
-			$sql = "SELECT * FROM venda WHERE id = ?";
+			$sql = "SELECT * FROM venda WHERE id_funcionario = $id";
 			$stmt = self::$conexao->prepare($sql);
-			$stmt->bind_param("i", $id);
 			$stmt->execute();
 			return $stmt->get_result();
 		} else {

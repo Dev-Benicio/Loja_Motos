@@ -8,7 +8,7 @@ use mysqli, mysqli_result;
 class funcionario implements crud
 {
   private const COLUNAS = [
-      'funcionario' => ['id_funcionario', 'login_funcionario', 'senha', 'nome', 'cpf', 'endereco', 'email', 'cargo', 'data_admissao', 'data_demissao', 'salario', 'status_funcionario', 'foto_perfil', 'id_endereco'],
+      'funcionario' => ['id_funcionario', 'login_funcionario', 'senha', 'nome', 'cpf', 'email', 'cargo', 'data_admissao', 'data_demissao', 'salario', 'status_funcionario', 'foto_perfil', 'id_endereco'],
       'endereco' => ['id_endereco', 'unidade_federativa', 'cidade', 'numero', 'rua']
     ];
   private static mysqli $conexao = gerente_conexao::conectar();
