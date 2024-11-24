@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `thunder_gears`.`cliente` (
   `email` VARCHAR(100) NOT NULL,
   `data_nascimento` DATE NOT NULL,
   PRIMARY KEY (`id_cliente`),
-  FOREIGN KEY (`id_endereco`) REFERENCES `endereco`(`id_endereco`)
+  FOREIGN KEY (`id_endereco`) REFERENCES `endereco`(`id_endereco`) ON DELETE CASCADE
 ) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `thunder_gears`.`funcionario` (
   `status_funcionario` VARCHAR(10) DEFAULT 'ativo', -- status: ativo, inativo
   `foto_perfil` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id_funcionario`),
-  FOREIGN KEY (`id_endereco`) REFERENCES `endereco`(`id_endereco`)
+  FOREIGN KEY (`id_endereco`) REFERENCES `endereco`(`id_endereco`) ON DELETE CASCADE
 ) ENGINE = InnoDB;
 
 -- -----------------------------------------------------
