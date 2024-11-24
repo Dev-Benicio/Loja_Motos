@@ -1,6 +1,14 @@
-INSERT INTO `cliente` VALUES (0, "José Benício Rocha", "11111111111", "Naquela rua", "61999999999", "josepatolinha@gmail.com", '2005-04-13');
-
-SELECT * from cliente;
+INSERT INTO `cliente`
+  (id_cliente, nome, cpf, id_endereco, telefone, email, data_nascimento)
+VALUES (
+  0,
+  "José Benício Rocha",
+  "11111111111",
+  "Naquela rua",
+  "61999999999",
+  "josepatolinha@gmail.com",
+  '2005-04-13'
+);
 
 INSERT INTO `funcionario`
 	(id_funcionario, login, senha, nome, CPF, endereco, telefone, email, cargo, data_admissao, salario)
@@ -20,7 +28,8 @@ VALUES (
 
 INSERT INTO `moto`
 	(id_moto, marca, modelo, tipo_motor, preco, estoque, potencia_cavalos, consumo_km)
-VALUES(0, "Yamaha", "TX 8090", "combustão", 13090.560, "2" "10", "10km/L");
+VALUES
+  (0, "Yamaha", "TX 8090", "combustão", 13090.560, "2" "10", "10km/L");
 
 INSERT INTO `venda` VALUES(0, "PIX", 12890.000, "2024-11-07", 0, 0);
 
