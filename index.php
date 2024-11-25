@@ -12,7 +12,6 @@
   <?php
   // Autoload de classes
   require_once 'autoload.php';
-  // Chamar classe roteador
   use App\Routes\roteador;
 
   roteador::rotear();
