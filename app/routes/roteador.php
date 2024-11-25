@@ -6,70 +6,81 @@ use App\Routes\rotas;
 
 class roteador implements rotas
 {
+  private const BASE_CONTROLLER_NAMESPACE = 'app\\controllers\\';
+
+  /*
+   * Chama o controller e o método, passando os parâmetros
+   */
   private static function call_controller(
     string $controller,
     string $method,
     array $params = []
-  ) {
-    $controller_path = 'app\\controllers\\' . $controller;
+  ): void {
+    $controller_path = self::BASE_CONTROLLER_NAMESPACE . $controller . '_controller';
     $controller = new $controller_path();
     $controller->$method($params);
   }
 
   /*
-   * Chamar a página de erro 404
+   * Chama a página de erro 404
    */
-  private static function call_404_page()
+  private static function call_404_page(): void
   {
     require 'app/views/error_404.php';
   }
 
-  /*
-   * Pegar a rota - URI
+  /**
+   * Pega a rota - URI
+   * @return string - Retorna a rota
    */
-  private static function get_rota()
+  private static function get_rota(): string
   {
-    return $_SERVER['REQUEST_URI'];
+    return $_SERVER['REQUEST_URI'] ?? '/';
+  }
+
+  /**
+   * Pega o método - GET ou POST
+   * @return string - Retorna o método que veio a rota. Ex: GET, POST
+   */
+  private static function get_method(): string
+  {
+    return $_SERVER['REQUEST_METHOD'] ?? 'GET';
+  }
+
+  /**
+   * Remove do ínicio da uri até '/loja_motos'
+   * @return string - Retorna a rota sem o nome do site
+   */
+  private static function tirar_nome_site_uri(string $rota): string
+  {
+    $pattern = '#^.*/loja_motos#';
+    return preg_replace($pattern, '', $rota);
   }
 
   /*
-   * Remover do ínicio da uri até '/loja_motos'
+   * Chama o controller e o método - passa os parâmetros, quando tiver - vindos da interface rotas, à partir da URI
    */
-  private static function extrair_uri(string $rota)
+  public static function rotear(): void
   {
-    $url_pattern = '#^.*\/loja_motos#';
-    return preg_replace($url_pattern, '', $rota);
-  }
-
-  /*
-   * Pegar o método - GET ou POST
-   */
-  private static function get_method()
-  {
-    return $_SERVER['REQUEST_METHOD'];
-  }
-
-  /*
-   * Chamar o controller e o método vindos da interface rotas, à partir da URI
-   */
-  public static function rotear()
-  {
-    // Pegar a rota
-    $rota = self::get_rota();
-    $rota_extraida = self::extrair_uri($rota);
-
-    // Pegar o método
+    $uri = self::get_rota();
+    $rota_sem_nome_site = self::tirar_nome_site_uri($uri);
     $method = self::get_method();
-    // Verificar se a rota existe
-    $rota_existente = self::ROTAS[$method][$rota_extraida] ?? null;
 
-    // Chamar o controller e o método
-    if ($rota_existente) {
-      [$controller, $method] = explode('@', $rota_existente);
-      return self::call_controller($controller, $method);
+    // Remove o '/' final da rota se a rota não for a '/' somente
+    $rota_sem_nome_site === '/' ?: rtrim($rota_sem_nome_site, '/');
+
+    foreach (self::ROTAS[$method] as $rota => $controller) {
+      $pattern = preg_replace('/{id}/', '(\d+)', $rota);
+
+      if (preg_match("#^{$pattern}$#", $rota_sem_nome_site, $matches)) {
+        // Remove o primeiro item do array, deixando somente os parâmetros encontradods
+        array_shift($matches);
+        [$controller, $method] = explode('@', $controller);
+        self::call_controller($controller, $method, $matches);
+        return;
+      }
     }
 
-    // Se não existir a rota, chamar a página de erro 404
-    return self::call_404_page();
+    self::call_404_page();
   }
 }
