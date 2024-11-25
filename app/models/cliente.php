@@ -11,10 +11,10 @@ class cliente implements crud
 			'cliente' => ['id_cliente', 'nome', 'cpf', 'telefone', 'email', 'data_nascimento', 'id_endereco'],
 			'endereco' => ['id_endereco', 'unidade_federativa', 'cidade', 'numero', 'rua']
 	];
-	private static mysqli $conexao = gerente_conexao::conectar();
 
 	public static function create(array $cliente): bool
 	{
+		$conexao = gerente_conexao::conectar();
 		$colunas = array_keys($cliente);
 		// Obtém as colunas da tabela através das chaves do array associativo.
 		$interrogacoes = str_repeat('?, ', count($colunas) -1) . '?';
@@ -36,6 +36,7 @@ class cliente implements crud
 
 	public static function read(int $id = null): mysqli_result
 	{
+		$conexao = gerente_conexao::conectar();
     // Monta array de colunas com aliases das tabelas
     $colunas = array_merge(
         array_map(fn($col) => "c.{$col}", self::COLUNAS['cliente']),
@@ -65,6 +66,7 @@ class cliente implements crud
 
 	public static function update(int $id, array $cliente): bool
 	{
+		  $conexao = gerente_conexao::conectar();
 			$colunas = array_keys($cliente);
 			$set = implode(',', array_map(fn($col) => "{$col} = ?", $colunas));
 
@@ -84,6 +86,7 @@ class cliente implements crud
 
 	public  static function delete(int $id): bool
 	{
+			$conexao = gerente_conexao::conectar();
 			$sql = "DELETE FROM cliente WHERE id = ?";
 			$stmt = self::$conexao->prepare($sql);
 			$stmt->bind_param("i", $id);

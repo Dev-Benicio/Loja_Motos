@@ -11,13 +11,13 @@ class funcionario implements crud
       'funcionario' => ['id_funcionario', 'login_funcionario', 'senha', 'nome', 'cpf', 'email', 'cargo', 'data_admissao', 'data_demissao', 'salario', 'status_funcionario', 'foto_perfil', 'id_endereco'],
       'endereco' => ['id_endereco', 'unidade_federativa', 'cidade', 'numero', 'rua']
     ];
-  private static mysqli $conexao = gerente_conexao::conectar();
 
   /**
    * Cria um novo registro de funcionário no banco de dados.
    */
   public static function create(array $funcionario): bool
   {
+    $conexao = gerente_conexao::conectar();
     // Obtém as colunas da tabela através das chaves do array associativo.
     $colunas = array_keys($funcionario);
     // Cria uma string com interrogacoes para cada coluna.
@@ -42,6 +42,7 @@ class funcionario implements crud
    */
   public static function read(int $id = null): mysqli_result
   {
+    $conexao = gerente_conexao::conectar();
     // Monta array de colunas com aliases das tabelas
     $colunas = array_merge(
         array_map(fn($col) => "f.{$col}", self::COLUNAS['funcionario']),
@@ -74,6 +75,7 @@ class funcionario implements crud
    */
   public static function update(int $id, array $dados): bool
   {
+    $conexao = gerente_conexao::conectar();
     $colunas = array_keys($dados);
     $set = implode(',', array_map(fn($col) => "{$col} = ?", $colunas));
 
@@ -96,6 +98,7 @@ class funcionario implements crud
   */
   public static function delete(int $id): bool
   {
+    $conexao = gerente_conexao::conectar();
     $sql = "DELETE FROM funcionario WHERE id ?";
     $stmt = self::$conexao->prepare($sql);
     $stmt->bind_param("i", $id);

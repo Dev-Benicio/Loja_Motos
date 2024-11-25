@@ -7,8 +7,6 @@ use mysqli;
 
 class login
 {
-  private static mysqli $conexao = gerente_conexao::conectar();
-
   public static function autenticar(string $user, string $password)
   {
     $conexao = gerente_conexao::conectar();

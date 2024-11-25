@@ -7,9 +7,9 @@ use mysqli;
 
 class endereco
 {
-  private static mysqli $conexao = gerente_conexao::conectar();
-
-  public static function validarSalvarEndereco(array $dados): array{
+  public static function validarSalvarEndereco(array $dados): array
+  {
+    $conexao = gerente_conexao::conectar();
     // Campos específicos de endereço
     $camposEndereco = [
         'unidade_federativa',
@@ -46,6 +46,7 @@ class endereco
    */
   public static function create(array $endereco): int
   {
+      $conexao = gerente_conexao::conectar();
       $colunas = array_keys($endereco);
       // Cria uma string com interrogacoes para cada coluna.
       $interrogacoes = str_repeat('?, ', count($colunas));
@@ -76,6 +77,7 @@ class endereco
 
   public static function update(array $dados): array 
 {
+    $conexao = gerente_conexao::conectar();
     $camposEndereco = [
         'unidade_federativa',
         'cidade', 

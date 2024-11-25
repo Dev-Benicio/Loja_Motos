@@ -7,10 +7,10 @@ use mysqli, mysqli_result;
 
 class Moto implements crud
 {
-	private static mysqli $conexao = gerente_conexao::conectar();
-	
+
 	public static function create(array $moto): bool
-		{
+	{
+			$conexao = gerente_conexao::conectar();
 			$colunas = array_keys($moto);
 			$interrogacoes = str_repeat('?, ', count($colunas));
 
@@ -25,10 +25,11 @@ class Moto implements crud
 				'sssdiisis', // Define o tipo de dados de cada parâmetro
 				...array_values($moto)
 			);
-		}
+	}
 
 		public static function read(int $id = null): mysqli_result
 		{
+			$conexao = gerente_conexao::conectar();
 			if ($id) {
 				$sql = "SELECT * FROM moto WHERE id = ?";
 				$stmt = self::$conexao->prepare($sql);
@@ -41,6 +42,7 @@ class Moto implements crud
 
 		public static function update(int $id, array $moto): bool
 		{
+				$conexao = gerente_conexao::conectar();
 				$colunas = array_keys($moto);
 				$set = implode(',', array_map(fn($col) => "{$col} = ?", $colunas));
 
@@ -60,6 +62,7 @@ class Moto implements crud
 
 		public  static function delete(int $id): bool
 		{
+			$conexao = gerente_conexao::conectar();
 			$sql = "DELETE FROM moto WHERE id = ?";
 			$stmt = self::$conexao->prepare($sql);
 			$stmt->bind_param("i", $id);
@@ -68,7 +71,8 @@ class Moto implements crud
 		
 		public static function estoque(int $id): bool
 		{
-			$stmt = self::$conexao->prepare("UPDATE moto SET quantidade_estoque = quantidade_estoque - 1 WHERE id_moto = $venda['id_moto']");
+			$conexao = gerente_conexao::conectar();
+			$stmt = self::$conexao->prepare("UPDATE moto SET quantidade_estoque = quantidade_estoque - 1 WHERE id_moto = {$venda['id_moto']}");
 			$stmt->execute();
 		}
 }
