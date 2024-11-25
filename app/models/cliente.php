@@ -7,14 +7,29 @@ use mysqli, mysqli_result;
 
 class cliente implements crud
 {
+	private static mysqli $conexao = gerente_conexao::conectar();
+
 	private const COLUNAS = [
-			'cliente' => ['id_cliente', 'nome', 'cpf', 'telefone', 'email', 'data_nascimento', 'id_endereco'],
-			'endereco' => ['id_endereco', 'unidade_federativa', 'cidade', 'numero', 'rua']
+			'cliente' => [
+				'id_cliente',
+				'nome',
+				'cpf',
+				'telefone',
+				'email',
+				'data_nascimento',
+				'id_endereco',
+			],
+			'endereco' => [
+				'id_endereco',
+				'unidade_federativa',
+				'cidade',
+				'numero',
+				'rua'
+			],
 	];
 
 	public static function create(array $cliente): bool
 	{
-		$conexao = gerente_conexao::conectar();
 		$colunas = array_keys($cliente);
 		// Obtém as colunas da tabela através das chaves do array associativo.
 		$interrogacoes = str_repeat('?, ', count($colunas) -1) . '?';
@@ -36,7 +51,6 @@ class cliente implements crud
 
 	public static function read(int $id = null): mysqli_result
 	{
-		$conexao = gerente_conexao::conectar();
     // Monta array de colunas com aliases das tabelas
     $colunas = array_merge(
         array_map(fn($col) => "c.{$col}", self::COLUNAS['cliente']),
@@ -46,7 +60,7 @@ class cliente implements crud
     $sql = "SELECT {$select} 
             FROM cliente c
             LEFT JOIN endereco e ON c.id_endereco = e.id_endereco
-            WHERE 1=1";
+          ";
     
     // Adiciona filtro de não nulos dinamicamente
     $sql .= " AND " . implode(' IS NOT NULL AND ', 
@@ -66,11 +80,10 @@ class cliente implements crud
 
 	public static function update(int $id, array $cliente): bool
 	{
-		  $conexao = gerente_conexao::conectar();
 			$colunas = array_keys($cliente);
 			$set = implode(',', array_map(fn($col) => "{$col} = ?", $colunas));
 
-			$sql = "UPDATE cliente SET {$set} WHERE id = {$id}";
+			$sql = "UPDATE cliente SET ? WHERE id = ?";
 			$types_bind = gerente_conexao::gerar_types_bind_params(
 				...array_values($cliente)
 			);
@@ -86,8 +99,7 @@ class cliente implements crud
 
 	public  static function delete(int $id): bool
 	{
-			$conexao = gerente_conexao::conectar();
-			$sql = "DELETE FROM cliente WHERE id = ?";
+			$sql = "DELETE FROM cliente WHERE id_cliente = ?";
 			$stmt = self::$conexao->prepare($sql);
 			$stmt->bind_param("i", $id);
 			return $stmt->execute();
