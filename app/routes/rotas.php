@@ -7,7 +7,7 @@ interface rotas
   const ROTAS = [
     'GET' => [
       '/' => 'login@index',
-      '/home' => 'home@index',
+      '/dashboard' => 'dashboard@index',
 
       /* Funcionários */
       '/funcionarios' => 'funcionario@index',

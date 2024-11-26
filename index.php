@@ -20,6 +20,7 @@
 <body>
   <?php
   require_once 'autoload.php';
+
   use App\Routes\roteador;
   use App\Helpers\env;
   use App\Helpers\sessao;
