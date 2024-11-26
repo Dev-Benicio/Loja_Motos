@@ -7,6 +7,7 @@ use mysqli, mysqli_result;
 
 class Vendas implements crud
 {
+	private static mysqli $conexao = gerente_conexao::conectar();
 
 	private const COLUNAS = [
 		venda => 'ID_venda',
@@ -19,7 +20,6 @@ class Vendas implements crud
 
 	public static function create(array $venda): bool
 	{
-		$conexao = gerente_conexao::conectar();
 
 		$colunas = array_keys($venda);
 
@@ -48,7 +48,6 @@ class Vendas implements crud
 
 	public static function read(int $id = null): mysqli_result
 	{
-		$conexao = gerente_conexao::conectar();
 		if ($id) {
 			$sql = "SELECT * FROM venda WHERE id_funcionario = $id";
 			$stmt = self::$conexao->prepare($sql);
@@ -61,7 +60,6 @@ class Vendas implements crud
 
 	public static function update(int $id, array $venda): bool
 	{
-			$conexao = gerente_conexao::conectar();
 			$colunas = array_keys($venda);
 			$set = implode(',', array_map(fn($col) => "{$col} = ?", $colunas));
 
@@ -81,7 +79,6 @@ class Vendas implements crud
 
 	public  static function delete(int $id): bool
 	{
-		$conexao = gerente_conexao::conectar();
 		$sql = "DELETE FROM venda WHERE id = ?";
 		$stmt = self::$conexao->prepare($sql);
 		$stmt->bind_param("i", $id);
@@ -90,7 +87,6 @@ class Vendas implements crud
 
 	public static function validate(array $venda): bool
 	{
-		$conexao = gerente_conexao::conectar();
 		$stmt = self::$conexao->prepare("SELECT * FROM cliente WHERE id_cliente = {$venda['id_cliente']}");
 		$stmt->execute();
 		$cliente = $stmt->get_result();

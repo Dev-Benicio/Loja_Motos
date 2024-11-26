@@ -3,13 +3,35 @@
 namespace App\Models;
 
 use App\Database\gerente_conexao;
+use App\Helpers\higiene_de_dados;
 use mysqli, mysqli_result;
 
 class funcionario implements crud
 {
+  private static mysqli $conexao = gerente_conexao::conectar();
   private const COLUNAS = [
-      'funcionario' => ['id_funcionario', 'login_funcionario', 'senha', 'nome', 'cpf', 'email', 'cargo', 'data_admissao', 'data_demissao', 'salario', 'status_funcionario', 'foto_perfil', 'id_endereco'],
-      'endereco' => ['id_endereco', 'unidade_federativa', 'cidade', 'numero', 'rua']
+      'funcionario' => [
+        'id_funcionario', 
+        'login_funcionario', 
+        'senha', 
+        'nome', 
+        'cpf', 
+        'email', 
+        'cargo', 
+        'data_admissao', 
+        'data_demissao', 
+        'salario', 
+        'status_funcionario', 
+        'foto_perfil', 
+        'id_endereco'
+      ],
+      'endereco' => [
+        'id_endereco', 
+        'unidade_federativa', 
+        'cidade', 
+        'numero', 
+        'rua'
+      ]
     ];
 
   /**
@@ -17,7 +39,6 @@ class funcionario implements crud
    */
   public static function create(array $funcionario): bool
   {
-    $conexao = gerente_conexao::conectar();
     // Obtém as colunas da tabela através das chaves do array associativo.
     $colunas = array_keys($funcionario);
     // Cria uma string com interrogacoes para cada coluna.
@@ -34,6 +55,9 @@ class funcionario implements crud
       'ssssssssdssi', // Define o tipo de dados de cada parâmetro
       ...array_values($funcionario),
     );
+    if (self::is_null(...array_values($funcionario))) {
+      return false;
+    }
     return $stmt->execute();
   }
 
@@ -42,7 +66,6 @@ class funcionario implements crud
    */
   public static function read(int $id = null): mysqli_result
   {
-    $conexao = gerente_conexao::conectar();
     // Monta array de colunas com aliases das tabelas
     $colunas = array_merge(
         array_map(fn($col) => "f.{$col}", self::COLUNAS['funcionario']),
@@ -52,7 +75,7 @@ class funcionario implements crud
     $sql = "SELECT {$select} 
             FROM funcionario f 
             LEFT JOIN endereco e ON f.id_endereco = e.id_endereco
-            WHERE 1=1";
+    ";
     
     // Adiciona filtro de não nulos dinamicamente
     $sql .= " AND " . implode(' IS NOT NULL AND ', 
@@ -61,7 +84,7 @@ class funcionario implements crud
 
     // Adiciona WHERE por ID se fornecido
     if ($id !== null) {
-        $sql .= " AND f.id_funcionario = ?";
+        $sql .= " WHERE f.id_funcionario = ?";
         $stmt = self::$conexao->prepare($sql);
         $stmt->bind_param("i", $id);
         $stmt->execute();
@@ -75,11 +98,11 @@ class funcionario implements crud
    */
   public static function update(int $id, array $dados): bool
   {
-    $conexao = gerente_conexao::conectar();
     $colunas = array_keys($dados);
     $set = implode(',', array_map(fn($col) => "{$col} = ?", $colunas));
 
-    $sql = "UPDATE funcionario SET {$set} WHERE id = {$id}";
+    $sql = "UPDATE funcionario SET {$set} WHERE id_funcionario = ?";
+    $dados['id_funcionario'] = $id;
     $types_bind = gerente_conexao::gerar_types_bind_params(
       ...array_values($dados)
     );
@@ -89,7 +112,9 @@ class funcionario implements crud
       $types_bind,
       ...array_values($dados)
     );
-
+    if (self::is_null(...array_values($dados))) {
+      return false;
+    }
     return $stmt->execute();
   }
 
@@ -98,8 +123,7 @@ class funcionario implements crud
   */
   public static function delete(int $id): bool
   {
-    $conexao = gerente_conexao::conectar();
-    $sql = "DELETE FROM funcionario WHERE id ?";
+    $sql = "DELETE FROM funcionario WHERE id_funcionario = ?";
     $stmt = self::$conexao->prepare($sql);
     $stmt->bind_param("i", $id);
     return $stmt->execute();

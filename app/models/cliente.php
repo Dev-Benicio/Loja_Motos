@@ -57,10 +57,11 @@ class cliente implements crud
         array_map(fn($col) => "e.{$col}", self::COLUNAS['endereco'])
     );
     $select = implode(', ', array_filter($colunas));
+
     $sql = "SELECT {$select} 
             FROM cliente c
             LEFT JOIN endereco e ON c.id_endereco = e.id_endereco
-          ";
+    ";
     
     // Adiciona filtro de não nulos dinamicamente
     $sql .= " AND " . implode(' IS NOT NULL AND ', 
@@ -69,7 +70,7 @@ class cliente implements crud
 
     // Adiciona WHERE por ID se fornecido
     if ($id !== null) {
-        $sql .= " AND c.id_cliente = ?";
+        $sql .= " WHERE c.id_cliente = ?";
         $stmt = self::$conexao->prepare($sql);
         $stmt->bind_param("i", $id);
         $stmt->execute();
@@ -83,15 +84,17 @@ class cliente implements crud
 			$colunas = array_keys($cliente);
 			$set = implode(',', array_map(fn($col) => "{$col} = ?", $colunas));
 
-			$sql = "UPDATE cliente SET ? WHERE id = ?";
+			$sql = "UPDATE cliente SET {$set} WHERE id_cliente = ?";
 			$types_bind = gerente_conexao::gerar_types_bind_params(
-				...array_values($cliente)
+				...array_values($cliente),
+				$id
 			);
 
 			$stmt = self::$conexao->prepare($sql);
 			$stmt->bind_param(
 				$types_bind,
-				...array_values($cliente)
+				...array_values($cliente),
+				$id
 			);
 
 			return $stmt->execute();

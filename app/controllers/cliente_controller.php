@@ -25,7 +25,9 @@ class cliente extends controller
 
   public function cadastrar() {
     $cliente = endereco::validarSalvarEndereco($_POST);
-    cliente::create($cliente);
+    if (!empty($cliente)) {
+      cliente::create($cliente);
+    }
   }
 
   public function lista(int $id = null) {
