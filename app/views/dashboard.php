@@ -7,7 +7,6 @@
       <h2 class="brand-name fw-semibold fs-5 mt-1">Thunder Gears</h2>
     </div>
     <?php
-
     use App\Components\navbar;
 
     $navbar = new navbar();
@@ -16,15 +15,17 @@
   </header>
 
   <!-- Bento Grid com cards de relatórios -->
-  <main class="container gap-5 mt-4">
+  <main class="container mt-4">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <div class="row">
-      <div class="col position-relative">
+    <div class="row mb-3">
+        <div
+          class="col position-relative"
+          style="min-height: 300px; max-height: 350px;"
+        >
         <img
-          src="./assets/images/motocross_dashboard.png"
+          src="./assets/images/motocross_dashboard.jpg"
           alt="Pessoa em uma motocicleta de motocross fazendo uma manobra no alto, depois de uma rampa"
-          class="object-fit-fill w-100"
-          style="min-height: 400px;">
+          class="object-fit-cover w-100 h-100 rounded-3 shadow-sm">
         <!-- Top 3 funcionários -->
         <ul
           class="d-flex flex-column justify-content-center gap-3 list-group position-absolute top-0 end-0 h-100"
@@ -138,60 +139,93 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="col card">
-        <span class="card-title d-flex justify-content-center align-items-center">Ocupação do estoque</span>
-        <div class="card-body d-flex justify-content-center">
-          <svg class="svg-icon h-75 w-75" viewBox="0 0 120 120">
-            <defs>
-              <clipPath id="half-circle">
-                <rect x="0" y="0" width="120" height="60" />
-              </clipPath>
-            </defs>
-            <circle
-              cx="60"
-              cy="60"
-              r="50"
-              stroke-width="8" />
-            <circle
-              cx="60"
-              cy="60"
-              r="50"
-              stroke-width="12" />
-            <style>
-              svg {
-                & circle {
-                  fill: none;
-                  stroke: black;
-                  stroke-dasharray: 320;
-                  stroke-dashoffset: 160px;
-                  clip-path: url(#half-circle);
-
-                  &:nth-child(2) {
-                    stroke-dashoffset: 0;
-                    stroke: gray;
-                  }
-
-                  &:nth-child(3) {
-                    stroke-dashoffset: calc(160px * (1 - 0.75));
-                    stroke: blue;
+    <div class="row d-flex gap-3">
+      <div class="col-3 card rounded-4 shadow-sm p-3 position-relative">
+        <div class="card-title d-flex align-items-center gap-3">
+          <img
+            src="./assets/icons/caragem_estoque.svg"
+            alt="Caragem de estoque"
+            height="30px"
+            width="30px"
+          >
+          <span class="fs-6 fw-semibold mt-2">
+            Ocupação do estoque
+          </span>
+        </div>
+        <!-- Gráfico de meio círculo -->
+        <div class="card-body d-flex justify-content-center align-items-center">
+          <div class="position-relative">
+            <svg class="svg-icon h-100 w-100 p-3" viewBox="0 0 120 120"> 
+              <defs>
+                <clipPath id="half-circle">
+                  <rect x="0" y="0" width="120" height="60" />
+                </clipPath>
+              </defs>
+              <circle
+                cx="60"
+                cy="60"
+                r="50"
+                stroke-width="8" />
+              <circle
+                cx="60"
+                cy="60"
+                r="50"
+                stroke-width="12" />
+              <style>
+                svg {
+                  & circle {
+                    fill: none;
+                    stroke: black;
+                    stroke-dasharray: 320;
+                    stroke-dashoffset: 160px;
+                    clip-path: url(#half-circle);
+  
+                    &:nth-child(2) {
+                      stroke-dashoffset: 0;
+                      stroke: gray;
+                    }
+  
+                    &:nth-child(3) {
+                      stroke-dashoffset: calc(160px * (1 - 0.75));
+                      stroke: blue;
+                    }
                   }
                 }
-              }
-            </style>
-          </svg>
+              </style>
+            </svg>
+            <span class="fs-3 fw-semibold position-absolute translate-middle-x bottom-50 start-50">
+              75%
+            </span>
+          </div>
+          
+        </div>
+        <p class="text-center position-absolute translate-middle-x top-50 start-50 mt-4 p-3 w-100">
+          O estoque está com 75% de ocupação
+        </p>
+        <!-- legenda -->
+        <legend class="card-footer">
+          <div class="d-flex align-items-center gap-3">
+            <div class="bg-primary" style="height: 10px; width: 10px;"></div>
+            <span class="fs-6 text-body">Motos dentro do estoque</span>
+          </div>
+          <div class="d-flex align-items-center gap-3">
+            <div class="bg-secondary" style="height: 10px; width: 10px;"></div>
+            <span class="fs-6 text-body">Espaço livre do estoque</span>
+          </div>
+        </legend>
+      </div>
+
+      <div class="card col-4 rounded-4">
+        <div class="card-title">
+          <span>Motos com maior rotatividade</span>
         </div>
       </div>
 
-      <div class="col">
-        <span>Motos com maior rotatividade</span>
-      </div>
-
-      <div class="col">
+      <div class="card col rounded-4">
         <span>Status de reposição</span>
       </div>
 
-      <div class="col">
+      <div class="card col rounded-4">
         <nav>
           <!-- Outros relatórios -->
         </nav>
