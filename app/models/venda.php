@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Database\gerente_conexao;
 use mysqli, mysqli_result;
 
-class Vendas implements crud
+class venda implements crud
 {
 	private static mysqli $conexao = gerente_conexao::conectar();
 

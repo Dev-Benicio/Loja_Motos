@@ -6,13 +6,14 @@ use App\Controllers\controller;
 use App\Database\gerente_conexao;
 use App\Models\moto;
 
-class moto extends controller
+class moto_controller extends controller
 {
   public function index(): void
   {
-    $array = moto::read($id);
+    $resultado = moto::read();
+    $motos = $resultado->fetch_assoc();
     gerente_conexao::fechar_conexao();
-    $this->call_view('lista_motos', $array);
+    $this->call_view('lista_motos', ['motos' => $motos]);
   }
 
   public function call_cadastro_view(): void
