@@ -9,7 +9,9 @@ class venda extends controller
 {
   public function index(): void
   {
-    $this->call_view('lista_vendas');
+    $array = venda::read($id);
+    gerente_conexao::fechar_conexao();
+    $this->call_view('lista_vendas', $array);
   }
 
   public function call_cadastro_view(): void
@@ -28,12 +30,6 @@ class venda extends controller
     if (venda::validate($_POST)) {
         venda::create($_POST) ? moto::estoque($_POST['id_moto']) : false;
     }
-
-    gerente_conexao::fechar_conexao();
-  }
-
-  public function listar(int $id = null) {
-    venda::read($id);
 
     gerente_conexao::fechar_conexao();
   }

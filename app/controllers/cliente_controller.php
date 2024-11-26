@@ -11,7 +11,9 @@ class cliente extends controller
 {
   public function index(): void
   {
-    $this->call_view('lista_clientes');
+    $array = cliente::read($id);
+    gerente_conexao::fechar_conexao();
+    $this->call_view('lista_clientes', $array);
   }
 
   public function call_cadastro_view(): void
@@ -33,9 +35,6 @@ class cliente extends controller
   }
 
   public function lista(int $id = null) {
-    cliente::read($id);
-    
-    gerente_conexao::fechar_conexao();
   }
 
   public function editar($id) {

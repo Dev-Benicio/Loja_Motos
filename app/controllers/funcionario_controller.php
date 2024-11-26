@@ -11,7 +11,9 @@ class funcionario_controller extends controller
 {
   public function index()
   {
-    $this->call_view("funcionarios");
+    $array = funcionario::read($id);
+    gerente_conexao::fechar_conexao();
+    $this->call_view('lista_funcionarios', $array);
   }
 
   public function cadastrar()
@@ -20,12 +22,6 @@ class funcionario_controller extends controller
     if (!empty($funcionario)) {
       funcionario::create($funcionario);
     }
-    gerente_conexao::fechar_conexao();
-  }
-
-  public function lista($id = null) {
-    funcionario::read($id);
-
     gerente_conexao::fechar_conexao();
   }
 
