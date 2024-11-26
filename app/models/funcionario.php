@@ -9,6 +9,7 @@ use mysqli, mysqli_result;
 class funcionario implements crud
 {
   private static mysqli $conexao = gerente_conexao::conectar();
+  
   private const COLUNAS = [
       'funcionario' => [
         'id_funcionario', 

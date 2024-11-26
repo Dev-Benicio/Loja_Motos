@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\controller;
+use App\Database\gerente_conexao;
 
 class moto extends controller
 {
@@ -21,13 +22,24 @@ class moto extends controller
     $this->call_view('edicao_motos');
   }
 
-  public function cadastrar() {}
+  public function cadastrar() {
 
-  public function listar(int $id = null) {}
+    gerente_conexao::fechar_conexao();
+  }
+
+  public function listar(int $id = null) {
+
+    gerente_conexao::fechar_conexao();
+  }
 
   public function editar($id) {
       moto::update($id, $_POST);
+
+      gerente_conexao::fechar_conexao();
   }
 
-  public function exluir($id) {}
+  public function exluir($id) {
+
+    gerente_conexao::fechar_conexao();
+  }
 }

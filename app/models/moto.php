@@ -12,7 +12,7 @@ class Moto implements crud
 	public static function create(array $moto): bool
 	{
 			$colunas = array_keys($moto);
-			$interrogacoes = str_repeat('?, ', count($colunas));
+			$interrogacoes = str_repeat('?, ', count($colunas) -1) . '?';
 
 			$sql = "
 					INSERT INTO moto 
@@ -25,12 +25,16 @@ class Moto implements crud
 				'sssdiisis', // Define o tipo de dados de cada parâmetro
 				...array_values($moto)
 			);
+			if (self::is_null(...array_values($moto))) {
+				return false;
+			}
+			return $stmt->execute();
 	}
 
 		public static function read(int $id = null): mysqli_result
 		{
 			if ($id) {
-				$sql = "SELECT * FROM moto WHERE id = ?";
+				$sql = "SELECT * FROM moto WHERE id_moto = ?";
 				$stmt = self::$conexao->prepare($sql);
 				$stmt->bind_param("i", $id);
 				$stmt->execute();
@@ -44,23 +48,27 @@ class Moto implements crud
 				$colunas = array_keys($moto);
 				$set = implode(',', array_map(fn($col) => "{$col} = ?", $colunas));
 
-				$sql = "UPDATE moto SET {$set} WHERE id = {$id}";
+				$sql = "UPDATE moto SET {$set} WHERE id_moto = ?";
 				$types_bind = gerente_conexao::gerar_types_bind_params(
-					...array_values($moto)
+					...array_values($moto),
+					$id
 				);
 				
 				$stmt = self::$conexao->prepare($sql);
 				$stmt->bind_param(
 					$types_bind,
-					...array_values($moto)
+					...array_values($moto),
+					$id
 				);
-
+				if (self::is_null(...array_values($moto))) {
+					return false;
+				}
 				return $stmt->execute();
 		}
 
 		public  static function delete(int $id): bool
 		{
-			$sql = "DELETE FROM moto WHERE id = ?";
+			$sql = "DELETE FROM moto WHERE id_moto = ?";
 			$stmt = self::$conexao->prepare($sql);
 			$stmt->bind_param("i", $id);
 			return $stmt->execute();
@@ -68,7 +76,8 @@ class Moto implements crud
 		
 		public static function estoque(int $id): bool
 		{
-			$stmt = self::$conexao->prepare("UPDATE moto SET quantidade_estoque = quantidade_estoque - 1 WHERE id_moto = {$venda['id_moto']}");
-			$stmt->execute();
+			$stmt = self::$conexao->prepare("UPDATE moto SET quantidade_estoque = quantidade_estoque - 1 WHERE id_moto = ?");
+			$stmt->bind_param("i", $id);
+			return $stmt->execute();
 		}
 }

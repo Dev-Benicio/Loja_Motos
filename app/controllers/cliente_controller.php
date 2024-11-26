@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\controller;
 use App\Models\cliente;
 use App\Models\endereco;
+use App\Database\gerente_conexao;
 
 class cliente extends controller
 {
@@ -28,18 +29,25 @@ class cliente extends controller
     if (!empty($cliente)) {
       cliente::create($cliente);
     }
+    gerente_conexao::fechar_conexao();
   }
 
   public function lista(int $id = null) {
     cliente::read($id);
+    
+    gerente_conexao::fechar_conexao();
   }
 
   public function editar($id) {
     $cliente = cliente::update($_POST);
     cliente::update($id, $cliente);
+
+    gerente_conexao::fechar_conexao();
   }
 
   public function exluir($id) {
     cliente::delete($id);
+
+    gerente_conexao::fechar_conexao();
   }
 }

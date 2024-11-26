@@ -18,8 +18,6 @@ class login
     ";
 
     $resultado = self::$conexao->query($query);
-
-    gerente_conexao::fechar_conexao();
     return $resultado->num_rows == 1;
   }
 }

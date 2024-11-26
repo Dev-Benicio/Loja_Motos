@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\controller;
+use App\Database\gerente_conexao;
 
 class venda extends controller
 {
@@ -27,17 +28,25 @@ class venda extends controller
     if (venda::validate($_POST)) {
         venda::create($_POST) ? moto::estoque($_POST['id_moto']) : false;
     }
+
+    gerente_conexao::fechar_conexao();
   }
 
   public function listar(int $id = null) {
     venda::read($id);
+
+    gerente_conexao::fechar_conexao();
   }
 
   public function editar($id) {
     venda::update($id, $_POST);
+
+    gerente_conexao::fechar_conexao();
   }
 
   public function exluir($id) {
     venda::delete($id);
+
+    gerente_conexao::fechar_conexao();
   }
 }
