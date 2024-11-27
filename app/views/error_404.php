@@ -1,11 +1,6 @@
 <div class="d-flex flex-column justify-content-between vh-100">
   <!-- HEADER -->
-  <header class="d-flex justify-content-between align-items-center border-bottom py-2 mt-1">
-    <!-- Nome do site e da página atual -->
-    <div class="d-flex flex-column ps-5">
-      <span class="status-text fw-light mb-0 fs-6">Erro 404</span>
-      <h2 class="brand-name fw-semibold fs-5 mt-1">Thunder Gears</h2>
-    </div>
+  <header class="d-flex justify-content-between align-items-center border-bottom mt-1">
     <?php
     use App\Components\navbar;
     $navbar = new navbar();
