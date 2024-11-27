@@ -16,7 +16,7 @@ class funcionario_controller extends controller
   public function index()
   {
     $resultado = funcionario::read();
-    $funcionarios = $resultado->fetch_assoc();
+    $funcionarios = $resultado->fetch_all(MYSQLI_ASSOC);
     gerente_conexao::fechar_conexao();
     $this->call_view('lista_funcionarios', ['funcionarios' => $funcionarios]);
   }

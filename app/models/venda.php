@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Database\gerente_conexao;
 use mysqli, mysqli_result;
+use Exception;
 
 class venda implements crud
 {
@@ -44,7 +45,6 @@ class venda implements crud
         return false;
     } catch (Exception $e) {
         self::$conexao->rollback();
-        self::registrarLog('VENDA', $e->getMessage());
         return false;
     }
 	}

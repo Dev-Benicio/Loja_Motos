@@ -11,7 +11,7 @@ class moto_controller extends controller
   public function index(): void
   {
     $resultado = moto::read();
-    $motos = $resultado->fetch_assoc();
+    $motos = $resultado->fetch_all(MYSQLI_ASSOC);
     gerente_conexao::fechar_conexao();
     $this->call_view('lista_motos', ['motos' => $motos]);
   }

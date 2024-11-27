@@ -23,7 +23,7 @@ class endereco
     $endereco = array_filter(
         array_intersect_key(
             $dados, 
-            array_flip(CAMPOS_ENDERECO)
+            array_flip(self::CAMPOS_ENDERECO)
         ), 
         fn($valor) => $valor !== null
     );
@@ -32,7 +32,7 @@ class endereco
 
     if ($id_endereco > 0) {
       // Remove os campos de endereço
-      foreach (CAMPOS_ENDERECO as $campo) {
+      foreach (self::CAMPOS_ENDERECO as $campo) {
           unset($dados[$campo]);
       }
       // Adiciona o id_endereco aos dados
@@ -83,7 +83,7 @@ class endereco
     $endereco = array_filter(
         array_intersect_key(
             $dados, 
-            array_flip(CAMPOS_ENDERECO)
+            array_flip(self::CAMPOS_ENDERECO)
         ), 
         fn($valor) => $valor !== null
     );
@@ -106,7 +106,7 @@ class endereco
         $stmt->execute();
 
         // Remove campos de endereço do array original
-        foreach (CAMPOS_ENDERECO as $campo) {
+        foreach (self::CAMPOS_ENDERECO as $campo) {
             unset($dados[$campo]);
         }
     }

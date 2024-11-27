@@ -16,7 +16,7 @@ class cliente_controller extends controller
   public function index(): void
   {
     $clientes = cliente::read();
-    $clientes = $clientes->fetch_assoc();
+    $clientes = $clientes-> fetch_all(MYSQLI_ASSOC);
     gerente_conexao::fechar_conexao();
     $this->call_view('lista_clientes', ['clientes' => $clientes]);
   }
@@ -57,7 +57,7 @@ class cliente_controller extends controller
   }
 
   public function editar($id) {
-    $cliente = cliente::update($_POST);
+    $cliente = endereco::update($_POST);
     cliente::update($id, $cliente);
 
     gerente_conexao::fechar_conexao();

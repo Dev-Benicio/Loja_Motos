@@ -56,7 +56,7 @@ class funcionario implements crud
       'ssssssssdssi', // Define o tipo de dados de cada parâmetro
       ...array_values($funcionario),
     );
-    if (self::is_null(...array_values($funcionario))) {
+    if (higiene_de_dados::is_null(...array_values($funcionario))) {
       return false;
     }
     return $stmt->execute();
@@ -113,7 +113,7 @@ class funcionario implements crud
       $types_bind,
       ...array_values($dados)
     );
-    if (self::is_null(...array_values($dados))) {
+    if (higiene_de_dados::is_null(...array_values($dados))) {
       return false;
     }
     return $stmt->execute();

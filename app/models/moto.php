@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Database\gerente_conexao;
+use App\Helpers\higiene_de_dados;
 use mysqli, mysqli_result;
 
 class Moto implements crud
@@ -25,7 +26,7 @@ class Moto implements crud
 				'sssdiisis', // Define o tipo de dados de cada parâmetro
 				...array_values($moto)
 			);
-			if (self::is_null(...array_values($moto))) {
+			if (higiene_de_dados::is_null(...array_values($moto))) {
 				return false;
 			}
 			return $stmt->execute();
@@ -60,7 +61,7 @@ class Moto implements crud
 					...array_values($moto),
 					$id
 				);
-				if (self::is_null(...array_values($moto))) {
+				if (higiene_de_dados::is_null(...array_values($moto))) {
 					return false;
 				}
 				return $stmt->execute();

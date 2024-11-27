@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use App\Controllers\controller;
 use App\Database\gerente_conexao;
+use App\Models\venda;
+use App\Models\moto;
 
 class venda_controller extends controller
 {
