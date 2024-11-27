@@ -9,20 +9,21 @@ class endereco
 {
   private static mysqli $conexao = gerente_conexao::conectar();
 
-  public static function validarSalvarEndereco(array $dados){
-    // Campos específicos de endereço
-    $camposEndereco = [
-        'unidade_federativa',
-        'cidade', 
-        'numero', 
-        'rua'
-    ];
+  // Campos específicos de endereço
+  private const CAMPOS_ENDERECO = [
+    'unidade_federativa',
+    'cidade',
+    'numero',
+    'rua'
+  ];
 
-    // Filtra e remove os campos que nãos são de endereço
+  public static function validarSalvarEndereco(array $dados): array
+  {
+    // Filtra e remove os campos que não são de endereço
     $endereco = array_filter(
         array_intersect_key(
-            $_POST, 
-            array_flip($camposEndereco)
+            $dados, 
+            array_flip(CAMPOS_ENDERECO)
         ), 
         fn($valor) => $valor !== null
     );
@@ -31,14 +32,16 @@ class endereco
 
     if ($id_endereco > 0) {
       // Remove os campos de endereço
-      foreach ($camposEndereco as $campo) {
+      foreach (CAMPOS_ENDERECO as $campo) {
           unset($dados[$campo]);
       }
       // Adiciona o id_endereco aos dados
       $dados['id_endereco'] = $id_endereco;
       return $dados;
     }
+    return [];
   }
+  
   /**
    * Cria um novo registro de endereço no banco de dados.
    */
@@ -46,18 +49,19 @@ class endereco
   {
       $colunas = array_keys($endereco);
       // Cria uma string com interrogacoes para cada coluna.
-      $interrogacoes = str_repeat('?, ', count($colunas));
+      $interrogacoes = str_repeat('?, ', count($colunas) -1) . '?';
 
       $sql = "
         INSERT INTO endereco
           (" . implode(',', $colunas) . ")
         VALUES ({$interrogacoes})
       ";
-
+      
+      $types_bind = gerente_conexao::gerar_types_bind_params(...array_values($endereco));  
       $stmt = self::$conexao->prepare($sql);
       $stmt->bind_param(
-        'ssss', // Define o tipo de dados de cada parâmetro
-        ...array_values($endereco),
+        $types_bind, 
+        ...array_values($endereco)
       );
 
       // Executa a inserção
@@ -68,40 +72,44 @@ class endereco
           // Retorna o ID do último registro inserido
           return self::$conexao->insert_id;
       }
-
       // Retorna 0 ou lança uma exceção em caso de falha
       return 0;
   }
 
-  public static function update(int $id, array $dados): bool {
-    $colunas = array_keys($dados);
-    $set = implode(',', array_map(fn($col) => "{$col} = ?", $colunas));
+  public static function update(array $dados): array 
+{
 
-    // atualiza dados de endereco
-    $sql = "UPDATE endereco SET {$set} WHERE id_enderco = {$id}";
-    $types_bind = gerente_conexao::gerar_types_bind_params(
-      ...array_values($dados)
+    // Filtra campos válidos do endereço e remove nulos
+    $endereco = array_filter(
+        array_intersect_key(
+            $dados, 
+            array_flip(CAMPOS_ENDERECO)
+        ), 
+        fn($valor) => $valor !== null
     );
 
-    // executa a query de endereco
-    $stmt = self::$conexao->prepare($sql);
-    $stmt->bind_param(
-      $types_bind,
-      ...array_values($dados)
-    );
+    if (!empty($endereco)) {
+        $colunas = array_keys($endereco);
+        $set = implode(',', array_map(fn($col) => "{$col} = ?", $colunas));
+        
+        $sql = "UPDATE endereco SET {$set} WHERE id_endereco = ?";
+        $types_bind = gerente_conexao::gerar_types_bind_params(
+            ...array_values($endereco)
+        );
 
-    // remove dados de endereco do array $dados
-    // unset($dados['id_endereco']); ...
-    // ...
+        $stmt = self::$conexao->prepare($sql);
+        $stmt->bind_param(
+            $types_bind,
+            ...array_values($endereco),
+            $dados['id_endereco']
+        );
+        $stmt->execute();
 
-    // retorna variavel $dados, sem os dados de endereco
-    return $stmt->execute();
-  }
-
-  public static function delete(int $id): bool {
-    $sql = "DELETE FROM endereco WHERE id_enderco = ?";
-    $stmt = self::$conexao->prepare($sql);
-    $stmt->bind_param("i", $id);
-    return $stmt->execute();
-  }
+        // Remove campos de endereço do array original
+        foreach (CAMPOS_ENDERECO as $campo) {
+            unset($dados[$campo]);
+        }
+    }
+    return $dados;
+}
 }

@@ -62,6 +62,6 @@ class gerente_conexao
    */
   public static function fechar_conexao(): bool
   {
-    return mysqli_close(self::$conexao);
+    return self::$conexao->close();
   }
 }
