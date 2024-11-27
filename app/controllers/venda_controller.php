@@ -11,13 +11,13 @@ class venda_controller extends controller
    * Chama a view que lista todas as vendas. Se os dados não existirem, 
    * a view de erro é chamada.
    */
-  public function index(): void
-  {
+  public function index(): void {
     $resultado = venda::read();
-    $vendas = $resultado->fetch_assoc();
+    $vendas = $resultado->fetch_all(MYSQLI_ASSOC); // Pegar todas as vendas, não só uma
     gerente_conexao::fechar_conexao();
     $this->call_view('lista_vendas', ['vendas' => $vendas]);
   }
+
 
   public function call_cadastro_view(): void
   {
@@ -41,7 +41,9 @@ class venda_controller extends controller
 
   public function editar($id) {
     venda::update($id, $_POST);
+    // se existir redireciona para a pagina de vendas
 
+    // se não existir, redireciona para a pagina de erro
     gerente_conexao::fechar_conexao();
   }
 
