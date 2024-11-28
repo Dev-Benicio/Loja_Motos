@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `thunder_gears`.`venda` (
   `id_moto` INT NOT NULL,
   PRIMARY KEY (`id_venda`),
   FOREIGN KEY (`id_cliente`) REFERENCES `cliente`(`id_cliente`),
-  FOREIGN KEY (`id_funcionario`) REFERENCES `funcionario`(`id_funcionario`)
+  FOREIGN KEY (`id_funcionario`) REFERENCES `funcionario`(`id_funcionario`),
   FOREIGN KEY (`id_moto`) REFERENCES `moto`(`id_moto`)
 ) ENGINE = InnoDB;
 
@@ -95,3 +95,7 @@ CREATE TABLE IF NOT EXISTS `thunder_gears`.`endereco` (
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+-- -----------------------------------------------------
+-- Views thunder_gears
+-- -----------------------------------------------------
