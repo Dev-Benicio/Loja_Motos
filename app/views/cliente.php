@@ -36,3 +36,4 @@
   <a class="dropdown-item" href="#">New around here? Sign up</a>
   <a class="dropdown-item" href="#">Forgot password?</a>
 </div>
+</div>
