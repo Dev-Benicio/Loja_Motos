@@ -2,3 +2,15 @@
   font-family: 'Poppins', sans-serif;
 }
 
+.text-white-80 {
+  --bs-navbar-active-color: #f5f5f5;
+  color: var(--bs-navbar-active-color);
+}
+
+.hover-outline:has(:hover) {
+  background: none;
+  outline: 2px solid var(--border-body-secondary);
+  box-shadow: var(--shadow-sm);
+  color: var(--text-body);
+  transition: background 0.25s ease-in-out;
+}
