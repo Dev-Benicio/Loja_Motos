@@ -99,3 +99,6 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 -- Views thunder_gears
 -- -----------------------------------------------------
+CREATE VIEW vw_cliente AS
+Select id_cliente, nome, cpf, id_endereco, telefone, email, data_nascimento
+From cliente;
