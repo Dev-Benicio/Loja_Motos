@@ -1,6 +1,6 @@
 <div class="d-flex flex-column vh-100">
   <!-- HEADER -->
-  <header class="d-flex justify-content-between align-items-center border-bottom mt-1">
+  <header class="d-flex justify-content-between align-items-center border-bottom mt-1 shadow-sm">
     <?php
     use App\Components\navbar;
 

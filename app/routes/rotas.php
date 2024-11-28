@@ -8,6 +8,7 @@ interface rotas
     'GET' => [
       '/' => 'login@index',
       '/dashboard' => 'dashboard@index',
+      '/welcome' => 'welcome@index',
 
       /* Funcionários */
       '/funcionarios' => 'funcionario@index',

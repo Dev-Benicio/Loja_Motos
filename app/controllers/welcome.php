@@ -4,10 +4,10 @@ namespace App\Controllers;
 
 use App\Controllers\Controller;
 
-class Home extends Controller
+class welcome extends Controller
 {
   public function index()
   {
-    return $this->call_view('home');
+    return $this->call_view('welcome');
   }
 }
