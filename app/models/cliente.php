@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Helpers\higiene_de_dados;
 use App\Database\gerente_conexao;
 use mysqli, mysqli_result;
+use Exception;
 
 class cliente implements crud
 {
@@ -30,23 +32,36 @@ class cliente implements crud
 
 	public static function create(array $cliente): bool
 	{
-		$colunas = array_keys($cliente);
-		// Obtém as colunas da tabela através das chaves do array associativo.
-		$interrogacoes = str_repeat('?, ', count($colunas) -1) . '?';
+		try {
+			self::$conexao->begin_transaction();
+			$colunas = array_keys($cliente);
+			// Obtém as colunas da tabela através das chaves do array associativo.
+			$interrogacoes = str_repeat('?, ', count($colunas) -1) . '?';
 
-		$sql = "
-			INSERT INTO cliente
-				(" . implode(',', $colunas) . ")
-			VALUES ({$interrogacoes})
-		";
-
-		$stmt = self::$conexao->prepare($sql);
-		$stmt->bind_param(
-			'ssssss', // Define o tipo de dados de cada parâmetro
-			...array_values($cliente),
-		);
-
-		return $stmt->execute();
+			$sql = "
+				INSERT INTO cliente
+					(" . implode(',', $colunas) . ")
+				VALUES ({$interrogacoes})
+			";
+			$types_bind = gerente_conexao::gerar_types_bind_params(...array_values($cliente));
+			$stmt = self::$conexao->prepare($sql);
+			$stmt->bind_param(
+				$types_bind, 
+				...array_values($cliente)
+			);
+			if (higiene_de_dados::is_null(...array_values($cliente))) {
+				return false;
+			}
+			if ($stmt->execute()) {
+				self::$conexao->commit();
+				return true;
+			}
+			self::$conexao->rollback();
+			return false;
+		} catch (Exception $e) {
+			self::$conexao->rollback();
+			return false;
+		}
 	}
 
 	public static function read(int $id = null): mysqli_result
@@ -76,35 +91,66 @@ class cliente implements crud
         $stmt->execute();
         return $stmt->get_result();
     }
-    return self::$conexao->query($sql);
+		$stmt = self::$conexao->prepare($sql);
+		$stmt->execute();
+		return $stmt->get_result();
+
 	}
 
 	public static function update(int $id, array $cliente): bool
 	{
-			$colunas = array_keys($cliente);
-			$set = implode(',', array_map(fn($col) => "{$col} = ?", $colunas));
+			try {
+				self::$conexao->begin_transaction();
+				$colunas = array_keys($cliente);
+				$set = implode(',', array_map(fn($col) => "{$col} = ?", $colunas));
 
-			$sql = "UPDATE cliente SET {$set} WHERE id_cliente = ?";
-			$types_bind = gerente_conexao::gerar_types_bind_params(
-				...array_values($cliente),
-				$id
-			);
+				$sql = "UPDATE cliente SET {$set} WHERE id_cliente = ?";
+				$types_bind = gerente_conexao::gerar_types_bind_params(
+					...array_values($cliente),
+					$id
+				);
 
-			$stmt = self::$conexao->prepare($sql);
-			$stmt->bind_param(
-				$types_bind,
-				...array_values($cliente),
-				$id
-			);
-
-			return $stmt->execute();
+				$stmt = self::$conexao->prepare($sql);
+				$stmt->bind_param(
+					$types_bind,
+					...array_values($cliente),
+					$id
+				);
+				if (higiene_de_dados::is_null(...array_values($cliente))) {
+					return false;
+				}
+				if ($stmt->execute()) {
+					self::$conexao->commit();
+					return true;
+				}
+				self::$conexao->rollback();
+				return false;
+		} catch (Exception $e) {
+			self::$conexao->rollback();
+			return false;
+		}
 	}
 
 	public  static function delete(int $id): bool
 	{
-			$sql = "DELETE FROM cliente WHERE id_cliente = ?";
-			$stmt = self::$conexao->prepare($sql);
-			$stmt->bind_param("i", $id);
-			return $stmt->execute();
-	}
+			try {
+				self::$conexao->begin_transaction();
+				$sql = "DELETE FROM cliente WHERE id_cliente = ?";
+				$stmt = self::$conexao->prepare($sql);
+				$stmt->bind_param("i", $id);
+				if (!$stmt) {
+					return false;
+				}
+
+				if ($stmt->execute()) {
+					self::$conexao->commit();
+					return true;
+				}
+				self::$conexao->rollback();
+				return false;
+			} catch (Exception $e) {
+				self::$conexao->rollback();
+				return false;
+			}
+		}
 }

@@ -5,47 +5,62 @@ namespace App\Models;
 use App\Database\gerente_conexao;
 use App\Helpers\higiene_de_dados;
 use mysqli, mysqli_result;
-
+use Exception;
 class Moto implements crud
 {
 	private static mysqli $conexao = gerente_conexao::conectar();
 
 	public static function create(array $moto): bool
 	{
-			$colunas = array_keys($moto);
-			$interrogacoes = str_repeat('?, ', count($colunas) -1) . '?';
+		try {
+				self::$conexao->begin_transaction();
+				$colunas = array_keys($moto);
+				$interrogacoes = str_repeat('?, ', count($colunas) -1) . '?';
 
-			$sql = "
-					INSERT INTO moto 
-						(" . implode(',', $colunas) . ")
-					VALUES ({$interrogacoes})
-			";
+				$sql = "
+						INSERT INTO moto 
+							(" . implode(',', $colunas) . ")
+						VALUES ({$interrogacoes})
+				";
 
-			$stmt = self::$conexao->prepare($sql);
-			$stmt->bind_param(
-				'sssdiisis', // Define o tipo de dados de cada parâmetro
-				...array_values($moto)
-			);
-			if (higiene_de_dados::is_null(...array_values($moto))) {
+				$stmt = self::$conexao->prepare($sql);
+				$stmt->bind_param(
+					'sssdiisis', // Define o tipo de dados de cada parâmetro
+					...array_values($moto)
+				);
+
+				if (higiene_de_dados::is_null(...array_values($moto))) {
+					return false;
+				}
+
+				if ($stmt->execute()) {
+					self::$conexao->commit();
+					return true;
+				}
+
+				self::$conexao->rollback();
+				return false;
+			} catch (Exception $e) {
+				self::$conexao->rollback();
 				return false;
 			}
-			return $stmt->execute();
 	}
 
-		public static function read(int $id = null): mysqli_result
-		{
-			if ($id) {
-				$sql = "SELECT * FROM moto WHERE id_moto = ?";
-				$stmt = self::$conexao->prepare($sql);
-				$stmt->bind_param("i", $id);
-				$stmt->execute();
-				return $stmt->get_result();
-			}
-			return self::$conexao->query("SELECT * FROM moto");
+	public static function read(int $id = null): mysqli_result
+	{
+		$sql = $id ? "SELECT * FROM moto WHERE id_moto = ?" : "SELECT * FROM moto";
+		$stmt = self::$conexao->prepare($sql);
+		if ($id) {
+			$stmt->bind_param("i", $id);
 		}
+		$stmt->execute();
+		return $stmt->get_result();
+	}
+
 
 		public static function update(int $id, array $moto): bool
 		{
+			try {
 				$colunas = array_keys($moto);
 				$set = implode(',', array_map(fn($col) => "{$col} = ?", $colunas));
 
@@ -65,20 +80,31 @@ class Moto implements crud
 					return false;
 				}
 				return $stmt->execute();
+			} catch (Exception $e) {
+				return false;
+			}
 		}
 
 		public  static function delete(int $id): bool
 		{
-			$sql = "DELETE FROM moto WHERE id_moto = ?";
-			$stmt = self::$conexao->prepare($sql);
-			$stmt->bind_param("i", $id);
-			return $stmt->execute();
+			try {
+				$sql = "DELETE FROM moto WHERE id_moto = ?";
+				$stmt = self::$conexao->prepare($sql);
+				$stmt->bind_param("i", $id);
+				return $stmt->execute();
+			} catch (Exception $e) {
+				return false;
+			}
 		}
 		
 		public static function estoque(int $id): bool
 		{
-			$stmt = self::$conexao->prepare("UPDATE moto SET quantidade_estoque = quantidade_estoque - 1 WHERE id_moto = ?");
-			$stmt->bind_param("i", $id);
-			return $stmt->execute();
+			try {
+				$stmt = self::$conexao->prepare("UPDATE moto SET quantidade_estoque = quantidade_estoque - 1 WHERE id_moto = ?");
+				$stmt->bind_param("i", $id);
+				return $stmt->execute();
+			} catch (Exception $e) {
+				return false;
+			}
 		}
 }

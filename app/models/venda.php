@@ -22,7 +22,7 @@ class venda implements crud
 	public static function create(array $venda): bool 
 	{
     try {
-				if (!self::validarColunas($venda)) {
+		if (!self::validarColunas($venda)) {
             return false;
         }
         self::$conexao->begin_transaction();
@@ -66,7 +66,7 @@ class venda implements crud
 	public static function update(int $id, array $venda): bool 
 	{
     try {
-				if (!self::validarColunas($venda)) {
+		if (!self::validarColunas($venda)) {
             return false;
         }
         self::$conexao->begin_transaction();
