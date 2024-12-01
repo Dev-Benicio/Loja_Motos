@@ -2,7 +2,7 @@
 
 <img src="./tela_login.png" alt="Tela de login do site Thunder Gears" style="border-radius: 10px; max-width: 90%">
 
-[Sobre]() • [Como Rodar]() • [Construção]() • [Desafios]() • [Autores]()
+[Sobre](#-sobre) • [Como Rodar](#-como-rodar) • [Construção](#-construção-do-projeto) • [Desafios](#-desafios-vencidos) • [Autores](#-autores) • [Linguagens](#-linguagens-usadas)
 
 ![PHP](https://img.shields.io/badge/PHP-777BB4?style=flat-rounded&logo=php&logoColor=white)
 ![MariaDB](https://img.shields.io/badge/MariaDB-003545?style=flat-rounded&logo=mariadb&logoColor=white)
@@ -11,7 +11,7 @@
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-rounded&logo=css3&logoColor=white)
 
 ## 💬 Sobre
-> Projeto _Fullstack_ que faz o gerenciamento de estoque e venda para a loja de motos - fictícia - *Thunder Gears*. O projeto foi um desafio proposto por um professor de PHP, e devia ser concluído em um mês.
+> Projeto _Fullstack_ que faz o gerenciamento de estoque e venda para a loja de motos - fictícia - *Thunder Gears*. O sistema tem como objetivo ajudar a fazer o gerenciamento de estoque e venda de motos.
 
 ## 🚀 Como rodar
 
@@ -31,11 +31,14 @@ $ cp .env.example .env
 > *3.* Insira as variáveis de ambiente no arquivo .env
 
 ```bash
-DB_HOST=localhost
-DB_NAME=thunder_gears
+DB_HOST=nome_do_servidor
+DB_NAME=nome_do_banco
 DB_USER=seu_usuario
 DB_PASS=sua_senha
 DB_PORT=porta_do_servidor
+
+LOGIN=seu_usuario
+SENHA_LOGIN=sua_senha
 ```
 
 ## 🔥 Construção do projeto
@@ -60,10 +63,10 @@ DB_PORT=porta_do_servidor
 - CSS 3
 - Bootstrap 5
 - PHP 8
-- MariaDB 10.5
+- sql
 
 ## 👨‍💻 Autores
-- [Ítalo](https://github.com/ItaloBrazucaDeveloper) - Tech Lead & Designer
+- [Ítalo](https://github.com/ItaloBrazucaDeveloper) - Tech Lead
 - [Benício](https://github.com/Dev-Benicio) - Backend Coder
 - [Daniel](https://github.com/Niel-De) - Database Administrator
 - [João](https://github.com/NegoCodeHacker) - Frontend
