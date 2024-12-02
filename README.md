@@ -2,7 +2,7 @@
 
 <img src="./tela_login.png" alt="Tela de login do site Thunder Gears" style="border-radius: 10px; max-width: 90%">
 
-[Sobre](#-sobre) • [Como Rodar](#-como-rodar) • [Construção](#-construção-do-projeto) • [Desafios](#-desafios-vencidos) • w[Tecnologias](#-tecnologias-usadas) • [Autores](#-autores)
+[Sobre](#-sobre) • [Como Rodar](#-como-rodar) • [Construção](#-construção-do-projeto) • [Desafios](#-desafios-vencidos) • [Tecnologias](#-tecnologias-usadas) • [Autores](#-autores)
 
 ![PHP](https://img.shields.io/badge/PHP-777BB4?style=flat-rounded&logo=php&logoColor=white)
 ![MariaDB](https://img.shields.io/badge/MariaDB-003545?style=flat-rounded&logo=mariadb&logoColor=white)
@@ -70,6 +70,7 @@ SENHA_LOGIN=sua_senha
 - Bootstrap - Criação de layout
 - Visual Studio Code - Codificação
 - Notion - Organização e documentação
+- Figma - Design das páginas
 
 ## 👨‍💻 Autores
 - [Ítalo](https://github.com/ItaloBrazucaDeveloper) - Tech Lead
