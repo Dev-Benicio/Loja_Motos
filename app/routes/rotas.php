@@ -6,7 +6,10 @@ interface rotas
 {
   const ROTAS = [
     'GET' => [
+      /* Login */
       '/' => 'login@index',
+      '/logout' => 'login@logout',
+
       '/dashboard' => 'dashboard@index',
       '/perfil' => 'perfil@index',
 

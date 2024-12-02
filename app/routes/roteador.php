@@ -6,9 +6,9 @@ use App\Routes\rotas;
 
 class roteador implements rotas
 {
-  private const BASE_CONTROLLER_NAMESPACE = 'app\\controllers\\';
+  private const BASE_CONTROLLER_NAMESPACE = "App\\Controllers\\";
 
-  /*
+  /**
    * Chama o controller e o método, passando os parâmetros
    */
   private static function call_controller(
@@ -16,12 +16,14 @@ class roteador implements rotas
     string $method,
     array $params = []
   ): void {
-    $controller_path = self::BASE_CONTROLLER_NAMESPACE . $controller . '_controller';
+    $base_namespace = self::BASE_CONTROLLER_NAMESPACE;
+    $controller_path = $base_namespace . $controller . "_controller";
+    
     $controller = new $controller_path();
     $controller->$method($params);
   }
 
-  /*
+  /**
    * Chama a página de erro 404
    */
   private static function call_404_page(): void
@@ -57,7 +59,7 @@ class roteador implements rotas
     return preg_replace($pattern, '', $rota);
   }
 
-  /*
+  /**
    * Chama o controller e o método - passa os parâmetros, quando tiver - vindos da interface rotas, à partir da URI
    */
   public static function rotear(): void

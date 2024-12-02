@@ -2,7 +2,7 @@
 
 <img src="./tela_login.png" alt="Tela de login do site Thunder Gears" style="border-radius: 10px; max-width: 90%">
 
-[Sobre](#-sobre) • [Como Rodar](#-como-rodar) • [Construção](#-construção-do-projeto) • [Desafios](#-desafios-vencidos) • [Autores](#-autores) • [Linguagens](#-linguagens-usadas)
+[Sobre](#-sobre) • [Como Rodar](#-como-rodar) • [Construção](#-construção-do-projeto) • [Desafios](#-desafios-vencidos) • w[Tecnologias](#-tecnologias-usadas) • [Autores](#-autores)
 
 ![PHP](https://img.shields.io/badge/PHP-777BB4?style=flat-rounded&logo=php&logoColor=white)
 ![MariaDB](https://img.shields.io/badge/MariaDB-003545?style=flat-rounded&logo=mariadb&logoColor=white)
@@ -56,14 +56,20 @@ SENHA_LOGIN=sua_senha
 ## 😃 Desafios vencidos
 > Quais desafios foram vencidos?
 
-## 👅 Linguagens usadas
+## 👅 Tecnologias usadas
 > Quais linguagens foram usadas?
 
 - HTML 5
 - CSS 3
-- Bootstrap 5
 - PHP 8
-- sql
+- SQL
+
+> Quais ferramentas foram usadas?
+
+- MariaDB - SGBD
+- Bootstrap - Criação de layout
+- Visual Studio Code - Codificação
+- Notion - Organização e documentação
 
 ## 👨‍💻 Autores
 - [Ítalo](https://github.com/ItaloBrazucaDeveloper) - Tech Lead
