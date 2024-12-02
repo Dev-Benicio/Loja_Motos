@@ -97,12 +97,17 @@ class Moto implements crud
 			}
 		}
 		
-		public static function estoque(int $id): bool
+		public static function estoque(int $id, bool $cond): bool
 		{
 			try {
-				$stmt = self::$conexao->prepare("UPDATE moto SET quantidade_estoque = quantidade_estoque - 1 WHERE id_moto = ?");
-				$stmt->bind_param("i", $id);
-				return $stmt->execute();
+				if (!$cond) {
+					$stmt = self::$conexao->prepare("UPDATE moto SET quantidade_estoque = quantidade_estoque + 1 WHERE id_moto = ?");
+					$stmt->bind_param("i", $id);
+					return $stmt->execute();
+				}
+					$stmt = self::$conexao->prepare("UPDATE moto SET quantidade_estoque = quantidade_estoque - 1 WHERE id_moto = ?");
+					$stmt->bind_param("i", $id);
+					return $stmt->execute();
 			} catch (Exception $e) {
 				return false;
 			}
