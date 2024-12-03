@@ -1,8 +1,8 @@
 <!-- Título do menu -->
-  <div class="d-flex flex-column ps-5">
+  <div class="d-flex flex-column ps-5 h-vh ">
           <span class="status-text fw-light mb-0 fs-6">Login - Área Restrita </span>
           <h2 class="brand-name fw-semibold fs-5 mt-1">Thunder Gears</h2>  
-    <main class="d-flex h-auto w-100"> 
+    <main class="d-flex  h-100 w-100"> 
 <!-- Formulário de cadastro-->
   <div class="container">
     <h1 class="brand-name fw-semibold fs-1 mt-1">Área Restrita</h1>  
@@ -26,8 +26,10 @@
 </form>
 </div>
     <!-- Imagem de um motociclista em sua moto -->
-<div class="foto">
-      <img src="assets/images/moto_login.jpg" alt="Foto de uma pessoa em cima de uma moto" class="object-fit-cover h-auto w-100">
+<div id="foto">
+      <img src="assets/images/moto_login.jpg"
+       alt="Foto de uma pessoa em cima de uma moto" 
+       class="object-fit-cover h-100 w-100  rounded-4">
 </div>
     </div>
         </main>

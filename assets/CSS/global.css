@@ -14,7 +14,3 @@
   color: var(--text-body);
   transition: background 0.25s ease-in-out;
 }
-
-.foto{
-  border-radius: 20px;
-}
