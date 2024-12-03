@@ -39,7 +39,6 @@ class venda_controller extends controller
       // Se a venda for realizada com sucesso, diminui a quantidade de moto no estoque já que uma moto foi vendida
       venda::create($_POST) ? moto::estoque($_POST['id_moto'], true) : false;
     }
-
     gerente_conexao::fechar_conexao();
   }
 
@@ -68,7 +67,6 @@ class venda_controller extends controller
       if (venda::delete($id)) {
         // Se excluiu com sucesso, atualiza o estoque
         if (moto::estoque($venda['id_moto'], false)) {
-          gerente_conexao::conectar()->commit();
           $redirect = true;
         }
       }
