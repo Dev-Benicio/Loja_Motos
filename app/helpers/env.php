@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 class env
 {
-  /*
+  /**
   * Obtém o valor de uma chave do array $_ENV
   * @param string $key A chave a ser obtida
   * @return mixed O valor da chave
@@ -14,7 +14,7 @@ class env
     return $_ENV[$key];
   }
 
-  /*
+  /**
   * Define o valor de uma chave no array $_ENV
   * @param string $key A chave a ser definida
   * @param string $value O valor a ser definido
@@ -24,7 +24,7 @@ class env
     $_ENV[$key] = $value;
   }
 
-  /*
+  /**
   * Carrega as variáveis de ambiente do arquivo .env
   * @param string $path O caminho para o arquivo .env
   */

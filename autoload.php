@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
 * Autoload de classes
 * Carrega automaticamente as classes do sistema. Quando quiser usar uma classe,
 * basta chamar com o comando use 'App\Pasta\nome_da_classe';
