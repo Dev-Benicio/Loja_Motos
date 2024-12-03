@@ -34,8 +34,7 @@ class venda_controller extends controller
 
   public function cadastrar()
   {
-    // Valida se o cliente, funcionário e moto existem pelo ID, verifica se qtd_moto > 0
-    // Se existirem, cria uma venda
+    // Realizavalidação de dados, e se tem moto disponivel no estoque
     if (venda::validate($_POST)) {
       // Se a venda for realizada com sucesso, diminui a quantidade de moto no estoque já que uma moto foi vendida
       venda::create($_POST) ? moto::estoque($_POST['id_moto'], true) : false;
@@ -46,17 +45,36 @@ class venda_controller extends controller
 
   public function editar($id)
   {
-    venda::update($id, $_POST);
+    $venda_atual = venda::read($id)->fetch_assoc();
+    // Realiza a atualização de vendas
+    if (venda::update($id, $_POST)) {
+      // Só executa se o status tiver sido alterado
+      if (isset($_POST['status_venda']) && $_POST['status_venda'] !== $venda_atual['status_venda']) {
+        if ($_POST['status_venda'] === 'CANCELADA') {
+          moto::estoque($venda_atual['id_moto'], false);
+        } else if ($_POST['status_venda'] === 'CONCLUIDA') {
+          moto::estoque($venda_atual['id_moto'], true);
+        }
+      }
+    }
     gerente_conexao::fechar_conexao();
   }
 
   public function exluir($id)
   {
-    $venda = venda::read($id);
-    // aumenta qtd de moto no estoque porque uma venda foi anulada
-    moto::estoque($venda['id_moto'], false);
-    // Oculta a venda do sistema (Soft delete)
-    venda::delete($id);
+    $venda = venda::read($id)->fetch_assoc();
+    if ($venda) {
+      // Primeiro tenta excluir a venda
+      if (venda::delete($id)) {
+        // Se excluiu com sucesso, atualiza o estoque
+        if (moto::estoque($venda['id_moto'], false)) {
+          gerente_conexao::conectar()->commit();
+          $redirect = true;
+        }
+      }
+    }
     gerente_conexao::fechar_conexao();
+    $redirect = false;
+    $redirect ? $this->call_view('lista_vendas') : $this->call_view('erro');
   }
 }

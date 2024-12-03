@@ -96,20 +96,40 @@ class Moto implements crud
 				return false;
 			}
 		}
-		
-		public static function estoque(int $id, bool $cond): bool
-		{
-			try {
-				if (!$cond) {
-					$stmt = self::$conexao->prepare("UPDATE moto SET quantidade_estoque = quantidade_estoque + 1 WHERE id_moto = ?");
-					$stmt->bind_param("i", $id);
-					return $stmt->execute();
-				}
-					$stmt = self::$conexao->prepare("UPDATE moto SET quantidade_estoque = quantidade_estoque - 1 WHERE id_moto = ?");
-					$stmt->bind_param("i", $id);
-					return $stmt->execute();
-			} catch (Exception $e) {
-				return false;
+
+	public static function estoque(int $id, bool $cond): bool
+	{
+		try {
+			self::$conexao->begin_transaction();
+			if (!$cond) {
+				// Quando cancela venda - aumenta estoque
+				$sql = "UPDATE moto 
+                SET quantidade_estoque = quantidade_estoque + 1,
+                    status_moto = 'DISPONIVEL' 
+              	WHERE id_moto = ?";
+			} else {
+				// Quando realiza venda - diminui estoque
+				$sql = "UPDATE moto 
+                   SET quantidade_estoque = quantidade_estoque - 1,
+                       status_moto = CASE 
+                           WHEN (quantidade_estoque - 1) = 0 THEN 'INDISPONIVEL'
+                           ELSE status_moto 
+                       END
+                   WHERE id_moto = ?";
 			}
+			$stmt = self::$conexao->prepare($sql);
+			$stmt->bind_param("i", $id);
+
+			if ($stmt->execute()) {
+				self::$conexao->commit();
+				return true;
+			}
+
+			self::$conexao->rollback();
+			return false;
+		} catch (Exception $e) {
+			self::$conexao->rollback();
+			return false;
 		}
+	}
 }
