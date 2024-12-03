@@ -99,6 +99,17 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 -- Views thunder_gears
 -- -----------------------------------------------------
-CREATE VIEW vw_cliente AS
-Select id_cliente, nome, cpf, id_endereco, telefone, email, data_nascimento
-From cliente;
+CREATE VIEW `thunder_gears`.`vw_relatorio_mais_vendidos` AS
+SELECT
+	m.modelo,
+	COUNT(DISTINCT id_venda) AS total_venda
+FROM 
+	`venda`
+JOIN
+	`moto` m ON id_moto
+JOIN
+	 `venda` v ON id_venda 
+GROUP by
+	m.modelo
+ORDER by
+	total_vendido DESC;
