@@ -48,7 +48,7 @@ class Moto implements crud
 
 	public static function read(int $id = null): mysqli_result
 	{
-		$sql = $id ? "SELECT * FROM moto WHERE id_moto = ?" : "SELECT * FROM moto";
+		$sql = $id ? "SELECT * FROM moto WHERE id_moto = ? AND status_moto = 'DISPONIVEL'" : "SELECT * FROM moto WHERE status_moto = 'DISPONIVEL'";
 		$stmt = self::$conexao->prepare($sql);
 		if ($id) {
 			$stmt->bind_param("i", $id);
@@ -88,7 +88,7 @@ class Moto implements crud
 		public  static function delete(int $id): bool
 		{
 			try {
-				$sql = "DELETE FROM moto WHERE id_moto = ?";
+				$sql = "UPDATE moto SET status_moto = 'DELETADO' WHERE id_moto = ?";
 				$stmt = self::$conexao->prepare($sql);
 				$stmt->bind_param("i", $id);
 				return $stmt->execute();

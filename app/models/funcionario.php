@@ -79,7 +79,6 @@ class funcionario implements crud
    */
   public static function read(int $id = null): mysqli_result
   {
-    // Monta array de colunas com aliases das tabelas
     $colunas = array_merge(
       array_map(fn($col) => "f.{$col}", self::COLUNAS['funcionario']),
       array_map(fn($col) => "e.{$col}", self::COLUNAS['endereco'])
@@ -87,23 +86,24 @@ class funcionario implements crud
     $select = implode(', ', array_filter($colunas));
     $sql = "SELECT {$select} 
             FROM funcionario f 
-            LEFT JOIN endereco e ON f.id_endereco = e.id_endereco
+            LEFT JOIN endereco e ON f.id_endereco = e.id_endereco 
     ";
-
-    // Adiciona filtro de não nulos dinamicamente
+    
+    // Remove colunas que são nulas
     $sql .= " AND " . implode(
       ' IS NOT NULL AND ',
       array_map(fn($col) => "$col IS NOT NULL", $colunas)
     );
 
-    // Adiciona WHERE por ID se fornecido
     if ($id !== null) {
-      $sql .= " WHERE f.id_funcionario = ?";
+      $sql .= " WHERE f.id_funcionario = ? AND f.status_funcionario IN ('ATIVO', 'INATIVO')";
       $stmt = self::$conexao->prepare($sql);
       $stmt->bind_param("i", $id);
       $stmt->execute();
       return $stmt->get_result();
     }
+
+    $sql .= " WHERE f.status_funcionario IN ('ATIVO', 'INATIVO')";
     return self::$conexao->query($sql);
   }
 
@@ -150,7 +150,7 @@ class funcionario implements crud
   {
     try {
       self::$conexao->begin_transaction();
-      $sql = "DELETE FROM funcionario WHERE id_funcionario = ?";
+      $sql = "UPDATE funcionario SET status_funcionario = 'DELETADO' WHERE id_funcionario = ?";
       $stmt = self::$conexao->prepare($sql);
       $stmt->bind_param("i", $id);
 

@@ -85,16 +85,16 @@ class cliente implements crud
 
     // Adiciona WHERE por ID se fornecido
     if ($id !== null) {
-        $sql .= " WHERE c.id_cliente = ?";
+        $sql .= " WHERE c.id_cliente = ? AND c.status_cliente = 'ATIVO'";
         $stmt = self::$conexao->prepare($sql);
         $stmt->bind_param("i", $id);
         $stmt->execute();
         return $stmt->get_result();
     }
+		$sql .= " WHERE c.status_cliente = 'ATIVO'";	
 		$stmt = self::$conexao->prepare($sql);
 		$stmt->execute();
 		return $stmt->get_result();
-
 	}
 
 	public static function update(int $id, array $cliente): bool
@@ -135,7 +135,7 @@ class cliente implements crud
 	{
 			try {
 				self::$conexao->begin_transaction();
-				$sql = "DELETE FROM cliente WHERE id_cliente = ?";
+				$sql = "UPDATE cliente SET status_cliente = 'DELETADO' WHERE id_cliente = ?";
 				$stmt = self::$conexao->prepare($sql);
 				$stmt->bind_param("i", $id);
 				if (!$stmt) {
