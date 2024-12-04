@@ -16,11 +16,7 @@ class gerente_conexao
   ];
 
   /**
-   * Fornece uma conexão com o banco de dados.
-   * @param string $hostname
-   * @param string $username
-   * @param string $user_passwd
-   * @param string $database
+   * Fornece uma conexão com o banco de dados, à partir dos dados inseridos no aquivo .env.
    * @return bool|mysqli
    */
   public static function conectar(): bool|mysqli
@@ -67,4 +63,5 @@ class gerente_conexao
   {
     return self::$conexao->close();
   }
+
 }
