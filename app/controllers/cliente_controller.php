@@ -16,7 +16,7 @@ class cliente_controller extends controller
   public function index(): void
   {
     $clientes = cliente::read();
-    $clientes = $clientes-> fetch_all(MYSQLI_ASSOC);
+    $clientes = $clientes->fetch_all(MYSQLI_ASSOC);
     gerente_conexao::fechar_conexao();
     $this->call_view('lista_clientes', ['clientes' => $clientes]);
   }
@@ -29,7 +29,7 @@ class cliente_controller extends controller
     $this->call_view('cadastro_clientes');
   }
 
-  /* 
+  /**
    * Chama a view que permite editar os dados de um cliente.
    * @param int $id Identificador do cliente a ser editado.
    * @return void
@@ -45,7 +45,8 @@ class cliente_controller extends controller
     $this->call_view('edicao_clientes', ['cliente' => $cliente]);
   }
 
-  public function cadastrar() {
+  public function cadastrar(): void
+  {
     $cliente = endereco::validarSalvarEndereco($_POST);
     if (!empty($cliente)) {
       cliente::create($cliente);
@@ -53,19 +54,16 @@ class cliente_controller extends controller
     gerente_conexao::fechar_conexao();
   }
 
-  public function lista(int $id = null) {
-  }
-
-  public function editar($id) {
+  public function editar($id)
+  {
     $cliente = endereco::update($_POST);
     cliente::update($id, $cliente);
-
     gerente_conexao::fechar_conexao();
   }
 
-  public function exluir($id) {
+  public function exluir($id)
+  {
     cliente::delete($id);
-
     gerente_conexao::fechar_conexao();
   }
 }

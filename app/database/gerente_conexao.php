@@ -2,6 +2,7 @@
 
 namespace App\Database;
 
+use App\Helpers\env;
 use mysqli;
 
 class gerente_conexao
@@ -17,10 +18,10 @@ class gerente_conexao
    * @return bool|mysqli
    */
   public static function conectar(
-    string $hostname = "localhost",
-    string $username = "root",
-    string $user_passwd = "",
-    string $database = "thunder_gears",
+    string $hostname = env::get('HOSTNAME'),
+    string $username = env::get('USERNAME'),
+    string $user_passwd = env::get('USER_PASSWD'),
+    string $database = env::get('DATABASE')
   ): bool|mysqli {
     self::$conexao = mysqli_connect(
       hostname: $hostname,

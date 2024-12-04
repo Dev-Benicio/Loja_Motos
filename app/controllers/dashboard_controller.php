@@ -10,9 +10,4 @@ class dashboard_controller extends controller
   {
     $this->call_view('dashboard');
   }
-
-  public function call_funcionarios_view(): void
-  {
-    $this->call_view('relatorio_funcionarios');
-  }
 }
