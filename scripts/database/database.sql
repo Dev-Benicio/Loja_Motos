@@ -6,7 +6,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- Schema thunder_gears
 -- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `thunder_gears` DEFAULT CHARACTER SET utf8;
-USE `thunder_gears` ;
+USE `thunder_gears`;
 
 -- -----------------------------------------------------
 -- Table `thunder_gears`.`cliente`
@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS `thunder_gears`.`cliente` (
   `telefone` VARCHAR(11) NOT NULL,
   `email` VARCHAR(100) NOT NULL,
   `data_nascimento` DATE NOT NULL,
+  `status_cliente` VARCHAR(20) DEFAULT 'ativo', 
   PRIMARY KEY (`id_cliente`),
   FOREIGN KEY (`id_endereco`) REFERENCES `endereco`(`id_endereco`) ON DELETE CASCADE
 ) ENGINE = InnoDB;
@@ -59,6 +60,7 @@ CREATE TABLE IF NOT EXISTS `thunder_gears`.`moto` (
   `consumo_km` VARCHAR(20) NOT NULL,
   `quantidade_estoque` INT NOT NULL,
   `foto_moto` VARCHAR(255) NOT NULL,
+  `status_moto` VARCHAR(20) DEFAULT 'disponivel',
   PRIMARY KEY (`id_moto`)
 ) ENGINE = InnoDB;
 
@@ -71,6 +73,7 @@ CREATE TABLE IF NOT EXISTS `thunder_gears`.`venda` (
   `valor_total_venda` DECIMAL(10,2) NOT NULL,
   `data_venda` DATE NOT NULL,
   `quantidade_vendida` INT NOT NULL DEFAULT 1,
+  `status_venda` VARCHAR(20) DEFAULT 'realizada',
   `id_cliente` INT NOT NULL,
   `id_funcionario` INT NOT NULL,
   `id_moto` INT NOT NULL,
@@ -99,12 +102,12 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 -- Views Modelo mais vendido
 -- -----------------------------------------------------
-CREATE VIEW `motos_mais_vendidos` AS
+CREATE VIEW motos_mais_vendidos AS
 SELECT 
     m.modelo AS modelo,
     COUNT(v.id_venda) AS venda
 FROM 
-    vendas v
+    venda v
 LEFT JOIN 
     moto m ON v.id_moto = m.id_moto
 GROUP BY 
@@ -122,7 +125,7 @@ SELECT
     COUNT(v.id_venda) AS total_vendas,
     SUM(v.valor_total_venda) AS total_valor_vendas
 FROM 
-    thunder_gears.vendas v
+    thunder_gears.venda v
 JOIN 
     thunder_gears.funcionario f ON v.id_funcionario = f.id_funcionario
 GROUP BY 
@@ -189,7 +192,6 @@ SELECT
         WHEN f.status_funcionario = 'inativo' THEN 'Desligado'
         WHEN f.status_funcionario = 'ferias' THEN 'Férias'
         WHEN f.status_funcionario = 'afastado' THEN 'Afastado'
-        ELSE 'Status Indefinido' -- esse daqui é pra quando o cara foi demitido(teve férias permanentekkkkkkkkkkkk)
     END AS descricao_status
 FROM 
     thunder_gears.funcionario f
