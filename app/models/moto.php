@@ -48,7 +48,7 @@ class Moto implements crud
 
 	public static function read(int $id = null): mysqli_result
 	{
-		$sql = $id ? "SELECT * FROM moto WHERE id_moto = ? AND status_moto = 'DISPONIVEL'" : "SELECT * FROM moto WHERE status_moto = 'DISPONIVEL'";
+		$sql = $id ? "SELECT * FROM moto WHERE id_moto = ? AND status_moto IN ('disponivel', 'esgotado')" : "SELECT * FROM moto WHERE status_moto IN ('disponivel', 'esgotado')";
 		$stmt = self::$conexao->prepare($sql);
 		if ($id) {
 			$stmt->bind_param("i", $id);
@@ -88,7 +88,7 @@ class Moto implements crud
 		public  static function delete(int $id): bool
 		{
 			try {
-				$sql = "UPDATE moto SET status_moto = 'DELETADO' WHERE id_moto = ?";
+				$sql = "UPDATE moto SET status_moto = 'deletado' WHERE id_moto = ?";
 				$stmt = self::$conexao->prepare($sql);
 				$stmt->bind_param("i", $id);
 				return $stmt->execute();
@@ -105,14 +105,14 @@ class Moto implements crud
 				// Quando cancela venda - aumenta estoque
 				$sql = "UPDATE moto 
                 SET quantidade_estoque = quantidade_estoque + 1,
-                    status_moto = 'DISPONIVEL' 
+                    status_moto = 'disponivel' 
               	WHERE id_moto = ?";
 			} else {
 				// Quando realiza venda - diminui estoque
 				$sql = "UPDATE moto 
                    SET quantidade_estoque = quantidade_estoque - 1,
                        status_moto = CASE 
-                           WHEN (quantidade_estoque - 1) = 0 THEN 'INDISPONIVEL'
+                           WHEN (quantidade_estoque - 1) = 0 THEN 'indisponivel'
                            ELSE status_moto 
                        END
                    WHERE id_moto = ?";

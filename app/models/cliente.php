@@ -66,33 +66,27 @@ class cliente implements crud
 
 	public static function read(int $id = null): mysqli_result
 	{
-    // Monta array de colunas com aliases das tabelas
-    $colunas = array_merge(
-        array_map(fn($col) => "c.{$col}", self::COLUNAS['cliente']),
-        array_map(fn($col) => "e.{$col}", self::COLUNAS['endereco'])
-    );
-    $select = implode(', ', array_filter($colunas));
+		$colunas = array_merge(
+			array_map(fn($col) => "c.{$col}", self::COLUNAS['cliente']),
+			array_map(fn($col) => "e.{$col}", self::COLUNAS['endereco'])
+		);
 
-    $sql = "SELECT {$select} 
+		$select = implode(', ', array_filter($colunas));
+		$sql = "SELECT {$select}
             FROM cliente c
             LEFT JOIN endereco e ON c.id_endereco = e.id_endereco
-    ";
-    
-    // Adiciona filtro de não nulos dinamicamente
-    $sql .= " AND " . implode(' IS NOT NULL AND ', 
-        array_map(fn($col) => "$col IS NOT NULL", $colunas)
-    );
+            WHERE " . implode(
+			' IS NOT NULL AND ',
+			array_map(fn($col) => "$col IS NOT NULL", $colunas)
+		);
 
-    // Adiciona WHERE por ID se fornecido
-    if ($id !== null) {
-        $sql .= " WHERE c.id_cliente = ? AND c.status_cliente = 'ATIVO'";
-        $stmt = self::$conexao->prepare($sql);
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        return $stmt->get_result();
-    }
-		$sql .= " WHERE c.status_cliente = 'ATIVO'";	
+		$sql .= $id ? " AND c.id_cliente = ? AND c.status_cliente = 'ativo'"
+		: " AND c.status_cliente = 'ativo'";
 		$stmt = self::$conexao->prepare($sql);
+
+		if ($id) {
+			$stmt->bind_param("i", $id);
+		}
 		$stmt->execute();
 		return $stmt->get_result();
 	}
@@ -135,7 +129,7 @@ class cliente implements crud
 	{
 			try {
 				self::$conexao->begin_transaction();
-				$sql = "UPDATE cliente SET status_cliente = 'DELETADO' WHERE id_cliente = ?";
+				$sql = "UPDATE cliente SET status_cliente = 'deletado' WHERE id_cliente = ?";
 				$stmt = self::$conexao->prepare($sql);
 				$stmt->bind_param("i", $id);
 				if (!$stmt) {

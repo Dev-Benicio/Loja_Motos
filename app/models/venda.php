@@ -52,9 +52,9 @@ class venda implements crud
     public static function read(int $id = null): mysqli_result
     {
         $sql = $id
-            ? "SELECT * FROM venda WHERE id_funcionario = ? AND status_venda = 'FINALIZADA'"
+            ? "SELECT * FROM venda WHERE id_funcionario = ? AND status_venda = 'realizada'"
             :
-            "SELECT * FROM venda WHERE status_venda = 'FINALIZADA'";
+            "SELECT * FROM venda WHERE status_venda = 'realizada'";
 
         $stmt = self::$conexao->prepare($sql);
         if ($id) {
@@ -105,7 +105,7 @@ class venda implements crud
     {
         try {
             self::$conexao->begin_transaction();
-            $sql = "UPDATE venda SET status_venda = 'INVALIDA' WHERE id = ?";
+            $sql = "UPDATE venda SET status_venda = 'deletada' WHERE id_venda = ?";
             $stmt = self::$conexao->prepare($sql);
             $stmt->bind_param("i", $id);
             if ($stmt->execute()) {

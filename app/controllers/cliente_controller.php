@@ -53,9 +53,6 @@ class cliente_controller extends controller
     gerente_conexao::fechar_conexao();
   }
 
-  public function lista(int $id = null) {
-  }
-
   public function editar($id) {
     $cliente = endereco::update($_POST);
     cliente::update($id, $cliente);
