@@ -97,7 +97,7 @@ class Moto implements crud
 			}
 		}
 
-	public static function estoque(int $id, bool $cond): bool
+	public static function atualizarEstoqueMoto(int $id, bool $cond): bool
 	{
 		try {
 			self::$conexao->begin_transaction();

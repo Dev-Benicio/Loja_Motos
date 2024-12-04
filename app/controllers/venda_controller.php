@@ -37,7 +37,7 @@ class venda_controller extends controller
     // Realizavalidação de dados, e se tem moto disponivel no estoque
     if (venda::validate($_POST)) {
       // Se a venda for realizada com sucesso, diminui a quantidade de moto no estoque já que uma moto foi vendida
-      venda::create($_POST) ? moto::estoque($_POST['id_moto'], true) : false;
+      venda::create($_POST) ? moto::atualizarEstoqueMoto($_POST['id_moto'], true) : false;
     }
     gerente_conexao::fechar_conexao();
   }
@@ -50,9 +50,9 @@ class venda_controller extends controller
       // Só executa se o status tiver sido alterado
       if (isset($_POST['status_venda']) && $_POST['status_venda'] !== $venda_atual['status_venda']) {
         if ($_POST['status_venda'] === 'CANCELADA') {
-          moto::estoque($venda_atual['id_moto'], false);
+          moto::atualizarEstoqueMoto($venda_atual['id_moto'], false);
         } else if ($_POST['status_venda'] === 'CONCLUIDA') {
-          moto::estoque($venda_atual['id_moto'], true);
+          moto::atualizarEstoqueMoto($venda_atual['id_moto'], true);
         }
       }
     }
@@ -66,7 +66,7 @@ class venda_controller extends controller
       // Primeiro tenta excluir a venda
       if (venda::delete($id)) {
         // Se excluiu com sucesso, atualiza o estoque
-        if (moto::estoque($venda['id_moto'], false)) {
+        if (moto::atualizarEstoqueMoto($venda['id_moto'], false)) {
           $redirect = true;
         }
       }
