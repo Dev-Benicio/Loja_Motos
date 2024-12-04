@@ -32,7 +32,6 @@ class cliente_controller extends controller
   /**
    * Chama a view que permite editar os dados de um cliente.
    * @param int $id Identificador do cliente a ser editado.
-   * @return void
    */
   public function call_edicao_view(int $id): void
   {
@@ -65,4 +64,5 @@ class cliente_controller extends controller
     cliente::delete($id);
     gerente_conexao::fechar_conexao();
   }
+
 }
