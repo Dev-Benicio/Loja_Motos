@@ -16,11 +16,10 @@ class venda_controller extends controller
   public function index(): void
   {
     $resultado = venda::read();
-    $vendas = $resultado->fetch_all(MYSQLI_ASSOC); // Pegar todas as vendas, não só uma
+    $vendas = $resultado->fetch_all(MYSQLI_ASSOC);
     gerente_conexao::fechar_conexao();
     $this->call_view('lista_vendas', ['vendas' => $vendas]);
   }
-
 
   public function call_cadastro_view(): void
   {

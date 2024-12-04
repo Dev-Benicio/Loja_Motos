@@ -30,15 +30,16 @@ class funcionario_controller extends controller
     gerente_conexao::fechar_conexao();
   }
 
-  public function editar($id) {
+  public function editar($id)
+  {
     $funcionario = endereco::update($_POST);
     funcionario::update($id, $funcionario);
     gerente_conexao::fechar_conexao();
   }
 
-  public function delete($id) {
+  public function delete($id)
+  {
     funcionario::delete($id);
-
     gerente_conexao::fechar_conexao();
   }
 }

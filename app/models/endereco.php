@@ -24,11 +24,11 @@ class endereco
       self::$conexao->begin_transaction();
       // Filtra e remove os campos que não são de endereço
       $endereco = array_filter(
-          array_intersect_key(
-              $dados, 
-              array_flip(self::CAMPOS_ENDERECO)
-          ), 
-          fn($valor) => $valor !== null
+        array_intersect_key(
+          $dados,
+          array_flip(self::CAMPOS_ENDERECO)
+        ),
+        fn($valor) => $valor !== null
       );
 
       if (empty($endereco)) {
@@ -41,7 +41,7 @@ class endereco
       if ($id_endereco > 0) {
         // Remove os campos de endereço
         foreach (self::CAMPOS_ENDERECO as $campo) {
-            unset($dados[$campo]);
+          unset($dados[$campo]);
         }
         // Adiciona o id_endereco aos dados
         $dados['id_endereco'] = $id_endereco;
@@ -53,7 +53,7 @@ class endereco
     }
     return [];
   }
-  
+
   /**
    * Cria um novo registro de endereço no banco de dados.
    */
@@ -63,18 +63,18 @@ class endereco
       self::$conexao->begin_transaction();
       $colunas = array_keys($endereco);
       // Cria uma string com interrogacoes para cada coluna.
-      $interrogacoes = str_repeat('?, ', count($colunas) -1) . '?';
+      $interrogacoes = str_repeat('?, ', count($colunas) - 1) . '?';
 
       $sql = "
         INSERT INTO endereco
           (" . implode(',', $colunas) . ")
         VALUES ({$interrogacoes})
       ";
-      
-      $types_bind = gerente_conexao::gerar_types_bind_params(...array_values($endereco));  
+
+      $types_bind = gerente_conexao::gerar_types_bind_params(...array_values($endereco));
       $stmt = self::$conexao->prepare($sql);
       $stmt->bind_param(
-        $types_bind, 
+        $types_bind,
         ...array_values($endereco)
       );
 
@@ -92,33 +92,33 @@ class endereco
     }
   }
 
-  public static function update(array $dados): array 
-{
+  public static function update(array $dados): array
+  {
     try {
       self::$conexao->begin_transaction();
       // Filtra campos válidos do endereço e remove nulos
       $endereco = array_filter(
-          array_intersect_key(
-              $dados, 
-              array_flip(self::CAMPOS_ENDERECO)
-          ), 
-          fn($valor) => $valor !== null
+        array_intersect_key(
+          $dados,
+          array_flip(self::CAMPOS_ENDERECO)
+        ),
+        fn($valor) => $valor !== null
       );
 
       if (!empty($endereco)) {
         $colunas = array_keys($endereco);
         $set = implode(',', array_map(fn($col) => "{$col} = ?", $colunas));
-        
+
         $sql = "UPDATE endereco SET {$set} WHERE id_endereco = ?";
         $types_bind = gerente_conexao::gerar_types_bind_params(
-            ...array_values($endereco)
+          ...array_values($endereco)
         );
 
         $stmt = self::$conexao->prepare($sql);
         $stmt->bind_param(
-            $types_bind,
-            ...array_values($endereco),
-            $dados['id_endereco']
+          $types_bind,
+          ...array_values($endereco),
+          $dados['id_endereco']
         );
         $stmt->execute() ? self::$conexao->commit() : self::$conexao->rollback();
 
@@ -128,8 +128,8 @@ class endereco
         }
       }
     } catch (Exception $e) {
-        self::$conexao->rollback();
+      self::$conexao->rollback();
     }
     return $dados;
-}
+  }
 }
