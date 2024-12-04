@@ -6,18 +6,22 @@ namespace App\Helpers;
 class sessao
 {
   /**
-  * Inicia a sessão
+  * Inicia uma nova sessão e exlui a antiga
   */
   public static function iniciar_sessao(): void
   {
-    session_regenerate_id();
-    session_start();
+    session_regenerate_id(true);
+    session_start([
+      'cookie_lifetime' => 0,
+      'cookie_httponly' => true,
+      'regeneration' => true,
+    ]);
   }
 
   /**
   * Destrói a sessão
   */
-  public static function destruir_sessao(): void
+  public static function limpar_sessao(): void
   {
     session_unset();
     $_SESSION = [];
@@ -29,7 +33,7 @@ class sessao
   * @param string $key A chave da variável a ser definida
   * @param mixed $value O valor da variável a ser definida
   */
-  public static function set(string $key, mixed $value): void
+  public static function set_sessao(string $key, mixed $value): void
   {
     $_SESSION[$key] = $value;
   }
@@ -39,8 +43,9 @@ class sessao
   * @param string $key A chave da variável a ser obtida
   * @return mixed O valor da variável
   */
-  public static function get(string $key): mixed
+  public static function get_sessao(string $key): mixed
   {
     return $_SESSION[$key];
   }
+  
 }

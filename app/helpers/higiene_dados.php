@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-class higiene_de_dados
+class higiene_dados
 {
   /**
   * Verifica se os dados são nulos ou vazios
@@ -18,4 +18,5 @@ class higiene_de_dados
     }
     return false;
   }
+
 }
