@@ -64,5 +64,4 @@ class cliente_controller extends controller
     cliente::delete($id);
     gerente_conexao::fechar_conexao();
   }
-
 }
