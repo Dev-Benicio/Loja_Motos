@@ -20,7 +20,7 @@ class roteador implements rotas
   ): void {
     $base_namespace = self::BASE_CONTROLLER_NAMESPACE;
     $controller_path = $base_namespace . $controller . "_controller";
-    
+
     $is_controller_publico = in_array($controller, self::CONTROLLERS_PUBLICOS);
     if (!$is_controller_publico && !sessao::get_sessao('usuario')) {
       header('Location: /');
@@ -63,7 +63,7 @@ class roteador implements rotas
    */
   private static function tirar_nome_site_uri(string $rota): string
   {
-    $pattern = '#^.*/loja_motos#';
+    $pattern = '#^.*/Loja_Motos#';
     return preg_replace($pattern, '', $rota);
   }
 
@@ -81,7 +81,7 @@ class roteador implements rotas
 
     foreach (self::ROTAS[$method] as $rota => $controller) {
       $pattern = preg_replace(['/{id}/', '/{query}/'], ['(\d+)', '(\?.+)'], $rota);
-      
+
       if (preg_match("#^{$pattern}$#", $rota_sem_nome_site, $matches)) {
         // Remove o primeiro item do array, deixando somente os parâmetros encontradods
         array_shift($matches);

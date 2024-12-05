@@ -4,11 +4,15 @@
   "files.autoSave": "afterDelay",
   "files.autoSaveDelay": 1000,
   "editor.fontSize": 15,
-  "editor.rulers": [80, 120],
+  "editor.rulers": [
+    80,
+    120
+  ],
   "editor.wordWrap": "on",
   "editor.wordWrapColumn": 80,
   "[php]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
-  }
+  },
+  "liveServer.settings.multiRootWorkspaceName": "Loja_Motos"
 }
