@@ -44,7 +44,7 @@ class env
         $chave = trim($chave);
         $valor = trim($valor);
         // Insere a chave e o valor no array $_ENV
-        $_ENV[$chave] = $valor;
+        self::set($chave, $valor);
       }
     }
   }
