@@ -9,10 +9,10 @@ class gerente_conexao
 {
   private static mysqli $conexao;
   private static const CONFIG_CONEXAO = [
-    'hostname' => env::get('DB_HOST'),
-    'username' => env::get('DB_USER'),
-    'user_passwd' => env::get('DB_PASSWD'),
-    'database' => env::get('DB_NAME'),
+    'hostname' => env::get_env('DB_HOST'),
+    'username' => env::get_env('DB_USER'),
+    'user_passwd' => env::get_env('DB_PASSWD'),
+    'database' => env::get_env('DB_NAME'),
   ];
 
   /**
