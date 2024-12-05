@@ -34,7 +34,7 @@ class navbar extends component
    */
   private function render_items(): string|null
   {
-    $cargo_usuario = sessao::get('usuario')['cargo'] ?? 'administrador';
+    $cargo_usuario = sessao::get_sessao('usuario')['cargo'];
 
     $nav_items_permitidos = match ($cargo_usuario) {
       "administrador" => self::acesso_nav_items["administrador"],

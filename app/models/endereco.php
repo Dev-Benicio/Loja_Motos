@@ -9,8 +9,6 @@ use Exception;
 class endereco
 {
   private static mysqli $conexao = gerente_conexao::conectar();
-
-  // Campos específicos de endereço
   private const CAMPOS_ENDERECO = [
     'unidade_federativa',
     'cidade',

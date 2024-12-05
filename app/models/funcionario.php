@@ -3,14 +3,13 @@
 namespace App\Models;
 
 use App\Database\gerente_conexao;
-use App\Helpers\higiene_de_dados;
+use App\Helpers\higiene_dados;
 use mysqli, mysqli_result;
 use Exception;
 
 class funcionario implements crud
 {
   private static mysqli $conexao = gerente_conexao::conectar();
-
   private const COLUNAS = [
     'funcionario' => [
       'id_funcionario',
@@ -59,7 +58,7 @@ class funcionario implements crud
         'ssssssssdssi', // Define o tipo de dados de cada parâmetro
         ...array_values($funcionario),
       );
-      if (higiene_de_dados::is_null(...array_values($funcionario))) {
+      if (higiene_dados::is_null(...array_values($funcionario))) {
         return false;
       }
       if ($stmt->execute()) {
@@ -122,7 +121,7 @@ class funcionario implements crud
         $types_bind,
         ...array_values($dados)
       );
-      if (higiene_de_dados::is_null(...array_values($dados))) {
+      if (higiene_dados::is_null(...array_values($dados))) {
         return false;
       }
       if ($stmt->execute()) {
