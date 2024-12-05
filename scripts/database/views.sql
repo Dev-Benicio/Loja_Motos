@@ -15,7 +15,7 @@ ORDER BY
     venda DESC;
  
 -- -----------------------------------------------------
--- Views Modelo mais vendido
+-- Views Vendas por vendedor
 -- ----------------------------------------------------- 
 CREATE VIEW vendas_por_vendedor AS
 SELECT 
@@ -26,7 +26,9 @@ SELECT
 FROM 
     thunder_gears.venda v
 JOIN 
-    thunder_gears.funcionario f ON v.id_funcionario = f.id_funcionario
+    thunder_gears.funcionario f ON v.id_funcionario = f.id_funcionario    
+WHERE
+	f.status_funcionario = 'ativo'
 GROUP BY 
     f.id_funcionario
 ORDER BY 
@@ -60,16 +62,17 @@ SELECT
     m.quantidade_estoque,
     m.status_moto,
     CASE
-        WHEN m.quantidade_estoque < 5 THEN 'Precisa repor'
+        WHEN m.quantidade_estoque = 0 THEN `Esgotado`
+        WHEN m.quantidade_estoque < 15 THEN `Estoque baixo`
         ELSE 'Estoque suficiente'
     END AS status_reposicao,
     '2024-12-10' AS previsao_chegada -- Essa é um data de exemplo
 FROM 
     thunder_gears.moto m
 WHERE 
-    m.status_moto = 'disponivel'
+    m.status_moto IN (`disponivel`, `esgotado`)
 ORDER BY 
-    m.modelo;
+    m.quantidade_estoque ASC;
     
 -- -----------------------------------------------------
 -- Views Status funcionário
