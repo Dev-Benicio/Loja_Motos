@@ -2,7 +2,6 @@
   <header class="d-flex justify-content-between align-items-center border-bottom mt-1 shadow-sm">
     <?php
     use App\Components\navbar;
-
     $navbar = new navbar();
     echo $navbar->render("Home");
     ?>

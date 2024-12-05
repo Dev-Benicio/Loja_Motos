@@ -7,8 +7,7 @@ use App\Helpers\sessao;
 
 class roteador implements rotas
 {
-  private static const BASE_CONTROLLER_NAMESPACE = "App\\Controllers\\";
-  private static const CONTROLLERS_PUBLICOS = ["login_controller"];
+  private const BASE_CONTROLLER_NAMESPACE = "App\\Controllers\\";
 
   /**
    * Chama o controller e o método, passando os parâmetros
@@ -22,12 +21,6 @@ class roteador implements rotas
     $controller_path = $base_namespace . $controller . "_controller";
     
     $controller = new $controller_path();
-    $is_controller_publico = in_array($controller, self::CONTROLLERS_PUBLICOS);
-
-    if (!$is_controller_publico && !sessao::get_sessao("usuario")) {
-      header ("Location: /");
-      exit;
-    }
     $controller->$method($params);
   }
 

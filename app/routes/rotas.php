@@ -33,7 +33,7 @@ interface rotas
       '/motos/edicao/{id}' => 'moto@call_view_edicao',
     ],
     'POST' => [
-      '/' => 'login@authenticate',
+      '/' => 'login@validar_login',
       '/perfil' => 'perfil@editar',
 
       /* Funcionários */

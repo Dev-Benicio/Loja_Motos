@@ -1,9 +1,9 @@
 <div class="d-flex flex-column vh-100">
+  <link rel="stylesheet" href="/assets/CSS/dashboard.css">
   <!-- HEADER -->
   <header class="d-flex justify-content-between align-items-center border-bottom mt-1 shadow-sm">
     <?php
     use App\Components\navbar;
-
     $navbar = new navbar();
     echo $navbar->render('Relatórios');
     ?>
@@ -14,8 +14,7 @@
     <div class="row">
       <div
         class="col-12 position-relative mb-4"
-        style="min-height: 300px; max-height: 350px;"
-      >
+        style="min-height: 300px; max-height: 350px;">
         <img
           src="./assets/images/motocross_dashboard.jpg"
           alt="Pessoa em uma motocicleta de motocross fazendo uma manobra no alto, depois de uma rampa"
@@ -23,8 +22,7 @@
         <!-- Top 3 funcionários -->
         <ul
           class="d-flex flex-column justify-content-center gap-3 list-group position-absolute top-0 end-0 me-3 h-100"
-          style="scale: 0.9;"
-        >
+          style="scale: 0.9;">
           <li class="list-group-item active bg-black border-0 text-white pt-1 pb-2 px-4 rounded-3">
             <span class="fw-medium fs-4">
               Os mais Thunders!
@@ -93,6 +91,11 @@
           </div>
           <!-- Gráfico de meio círculo -->
           <div class="card-body mt-2">
+            <style>
+              ::root {
+                --percent-half-circle: calc(157 * (1 - 0.75));
+              }
+            </style>
             <div class="position-relative d-flex justify-content-center">
               <svg class="svg-icon w-75 h-75" viewBox="0 0 120 60">
                 <!-- Background (cinza) -->
@@ -110,27 +113,6 @@
                   stroke="#0d6efd"
                   stroke-dasharray="157" />
               </svg>
-              <style>
-                .svg-icon {
-                  --percent-half-circle: calc(157 * (1 - 0.75));
-
-                  @keyframes loadHalfCircle {
-                    from {
-                      stroke-dashoffset: 157;
-                    } to {
-                      stroke-dashoffset: var(--percent-half-circle);
-                    }
-                  }
-
-                  & path:nth-child(2) {
-                    will-change: stroke-dashoffset;
-                    stroke-dashoffset: var(--percent-half-circle);
-                    animation: loadHalfCircle 0.5s ease-in-out;
-                    animation-fill-mode: none;
-                    animation-play-state: running;
-                  }
-                }
-              </style>
               <!-- Texto central -->
               <span class="fs-3 fw-semibold position-absolute translate-middle-x start-50 top-50 mt-2">
                 75%

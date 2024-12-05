@@ -2,9 +2,9 @@
 
 namespace App\Controllers;
 
-use App\Controllers\Controller;
+use App\Controllers\controller;
 
-class welcome extends Controller
+class welcome_controller extends controller
 {
   public function index()
   {

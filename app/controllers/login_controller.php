@@ -19,7 +19,7 @@ class login_controller extends controller
    * Verifica se as credenciais do usuário são válidas.
    * Se as credenciais forem válidas, define as credenciais do usuário na variável de sessão e redireciona para a página de welcome.
    */
-  public function valida_login(): void
+  public function validar_login(): void
   {
     $user = $_POST["user"];
     $password = $_POST["password"];

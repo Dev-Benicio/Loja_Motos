@@ -1,0 +1,18 @@
+@keyframes loadHalfCircle {
+  from {
+    stroke-dashoffset: 157;
+  }
+  to {
+    stroke-dashoffset: var(--percent-half-circle);
+  }
+}
+
+.svg-icon {
+  & path:nth-child(2) {
+    will-change: stroke-dashoffset;
+    stroke-dashoffset: var(--percent-half-circle);
+    animation: loadHalfCircle 0.5s ease-in-out;
+    animation-fill-mode: none;
+    animation-play-state: running;
+  }
+}
