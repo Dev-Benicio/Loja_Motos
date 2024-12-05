@@ -5,7 +5,6 @@ namespace App\Controllers;
 abstract class controller
 {
   abstract public function index();
-
   /**
    * Chama uma view e passa, quando tiver, os parâmetros para serem acessados na view.
    * @param string $view_name Nome da view que deseja chamar.
