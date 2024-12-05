@@ -9,7 +9,7 @@ use Exception;
 
 class moto implements crud
 {
-	private static mysqli $conexao = gerente_conexao::conectar();
+	private static mysqli $conexao = gerente_conexao::get_conexao();
 
 	public static function create(array $moto): bool
 	{

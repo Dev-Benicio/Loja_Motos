@@ -18,6 +18,7 @@
         <div class="mb-3">
           <label for="user" class="form-label">Login</label>
           <input
+            value="<?= App\Helpers\env::get_env('LOGIN') ?? '' ?>"
             type="text"
             class="form-control bg-body-tertiary"
             id="user"
@@ -30,6 +31,7 @@
         <div class="mb-3">
           <label for="password" class="form-label">Senha</label>
           <input
+            value="<?= App\Helpers\env::get_env('SENHA_LOGIN') ?? '' ?>"
             type="password"
             class="form-control bg-body-tertiary"
             id="password"

@@ -26,10 +26,10 @@ class gerente_conexao
   private static function conectar(): void
   {
     self::$conexao = new mysqli(
-      hostname: env::get_env('hostname'),
-      username: env::get_env('username'),
-      password: env::get_env('user_passwd'),
-      database: env::get_env('database'),
+      hostname: env::get_env('HOST_NAME'),
+      username: env::get_env('DATABASE_USUARIO'),
+      password: env::get_env('DATABASE_SENHA'),
+      database: env::get_env('DATABASE_NOME'),
     );
   }
 

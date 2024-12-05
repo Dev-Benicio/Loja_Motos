@@ -8,7 +8,7 @@ use Exception;
 
 class endereco
 {
-  private static mysqli $conexao = gerente_conexao::conectar();
+  private static mysqli $conexao = gerente_conexao::get_conexao();
   private const CAMPOS_ENDERECO = [
     'unidade_federativa',
     'cidade',

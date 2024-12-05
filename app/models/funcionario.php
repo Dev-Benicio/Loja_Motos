@@ -9,7 +9,7 @@ use Exception;
 
 class funcionario implements crud
 {
-  private static mysqli $conexao = gerente_conexao::conectar();
+  private static mysqli $conexao = gerente_conexao::get_conexao();
   private const COLUNAS = [
     'funcionario' => [
       'id_funcionario',
