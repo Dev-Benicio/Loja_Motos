@@ -8,26 +8,24 @@ use mysqli;
 class gerente_conexao
 {
   private static mysqli $conexao;
+  private static const CONFIG_CONEXAO = [
+    'hostname' => env::get('DB_HOST'),
+    'username' => env::get('DB_USER'),
+    'user_passwd' => env::get('DB_PASSWD'),
+    'database' => env::get('DB_NAME'),
+  ];
 
   /**
-   * Fornece uma conexão com o banco de dados.
-   * @param string $hostname
-   * @param string $username
-   * @param string $user_passwd
-   * @param string $database
+   * Fornece uma conexão com o banco de dados, à partir dos dados inseridos no aquivo .env.
    * @return bool|mysqli
    */
-  public static function conectar(
-    string $hostname = env::get('HOSTNAME'),
-    string $username = env::get('USERNAME'),
-    string $user_passwd = env::get('USER_PASSWD'),
-    string $database = env::get('DATABASE')
-  ): bool|mysqli {
+  public static function conectar(): bool|mysqli
+  {
     self::$conexao = mysqli_connect(
-      hostname: $hostname,
-      username: $username,
-      password: $user_passwd,
-      database: $database
+      hostname: self::CONFIG_CONEXAO['hostname'],
+      username: self::CONFIG_CONEXAO['username'],
+      password: self::CONFIG_CONEXAO['user_passwd'],
+      database: self::CONFIG_CONEXAO['database'],
     );
     return self::$conexao;
   }
@@ -65,4 +63,5 @@ class gerente_conexao
   {
     return self::$conexao->close();
   }
+
 }

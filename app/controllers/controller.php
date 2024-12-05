@@ -25,4 +25,5 @@ abstract class controller
     require_once $caminho_view;
     exit;
   }
+
 }

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Helpers\higiene_de_dados;
+use App\Helpers\higiene_dados;
 use App\Database\gerente_conexao;
 use mysqli, mysqli_result;
 use Exception;
@@ -10,7 +10,6 @@ use Exception;
 class cliente implements crud
 {
 	private static mysqli $conexao = gerente_conexao::conectar();
-
 	private const COLUNAS = [
 		'cliente' => [
 			'id_cliente',
@@ -49,7 +48,7 @@ class cliente implements crud
 				$types_bind,
 				...array_values($cliente)
 			);
-			if (higiene_de_dados::is_null(...array_values($cliente))) {
+			if (higiene_dados::is_null(...array_values($cliente))) {
 				return false;
 			}
 			if ($stmt->execute()) {
@@ -110,7 +109,7 @@ class cliente implements crud
 				...array_values($cliente),
 				$id
 			);
-			if (higiene_de_dados::is_null(...array_values($cliente))) {
+			if (higiene_dados::is_null(...array_values($cliente))) {
 				return false;
 			}
 			if ($stmt->execute()) {

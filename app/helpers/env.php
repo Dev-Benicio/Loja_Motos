@@ -9,7 +9,7 @@ class env
   * @param string $key A chave a ser obtida
   * @return mixed O valor da chave
   */
-  public static function get(string $key): mixed
+  public static function get_env(string $key): mixed
   {
     return $_ENV[$key];
   }
@@ -19,7 +19,7 @@ class env
   * @param string $key A chave a ser definida
   * @param string $value O valor a ser definido
   */
-  public static function set(string $key, string $value): void
+  public static function set_env(string $key, string $value): void
   {
     $_ENV[$key] = $value;
   }
@@ -44,8 +44,9 @@ class env
         $chave = trim($chave);
         $valor = trim($valor);
         // Insere a chave e o valor no array $_ENV
-        $_ENV[$chave] = $valor;
+        self::set($chave, $valor);
       }
     }
   }
+
 }
