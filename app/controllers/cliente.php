@@ -15,4 +15,6 @@ class cliente extends controller
    {
       $this->call_view("cliente_cadastro");
    }
+  
+   
 }

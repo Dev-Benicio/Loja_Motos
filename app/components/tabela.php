@@ -6,6 +6,7 @@ use App\Components\component;
 class tabela extends component
 {
   private array $linhas;
+
   private array $cabecalho;
 
   /**
