@@ -45,7 +45,7 @@ class sessao
   */
   public static function get_sessao(string $key): mixed
   {
-    return $_SESSION[$key];
+    return $_SESSION[$key] ?? null;
   }
   
 }
