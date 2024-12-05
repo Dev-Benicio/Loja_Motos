@@ -4,6 +4,9 @@ namespace App\Controllers;
 
 abstract class controller
 {
+  /**
+   * Chama a view principal que deve ser acessada ao chamar um determinado controller
+   */
   abstract public function index();
 
   /**

@@ -2,13 +2,11 @@
 
 <img src="./tela_login.png" alt="Tela de login do site Thunder Gears" style="border-radius: 10px; max-width: 90%">
 
-[Sobre](#-sobre) • [Como Rodar](#-como-rodar) • [Construção](#-construção-do-projeto) • [Desafios](#-desafios-vencidos) • [Tecnologias](#-tecnologias-usadas) • [Autores](#-autores)
+[Sobre](#-sobre) • [Como Rodar](#-como-rodar) • [Construção](#-construção-do-projeto) • [Tecnologias](#-tecnologias-usadas) • [Autores](#-autores)
 
 ![PHP](https://img.shields.io/badge/PHP-777BB4?style=flat-rounded&logo=php&logoColor=white)
 ![MariaDB](https://img.shields.io/badge/MariaDB-003545?style=flat-rounded&logo=mariadb&logoColor=white)
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?style=flat-rounded&logo=bootstrap&logoColor=white)
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-rounded&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-rounded&logo=css3&logoColor=white)
 
 ## 💬 Sobre
 > Projeto _Fullstack_ que faz o gerenciamento de estoque e venda para a loja de motos - fictícia - *Thunder Gears*. O sistema tem como objetivo ajudar a fazer o gerenciamento de estoque e venda de motos.
@@ -52,9 +50,6 @@ SENHA_LOGIN=sua_senha
 5. Começamos a fazer o código back-end do projeto.
 6. Começamos a fazer o design das páginas do projeto.
 7. Começamos a fazer o código front-end do projeto.
-
-## 😃 Desafios vencidos
-> Quais desafios foram vencidos?
 
 ## 👅 Tecnologias usadas
 > Quais linguagens foram usadas?

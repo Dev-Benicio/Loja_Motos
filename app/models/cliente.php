@@ -4,12 +4,11 @@ namespace App\Models;
 
 use App\Helpers\higiene_dados;
 use App\Database\gerente_conexao;
-use mysqli, mysqli_result;
+use mysqli_result;
 use Exception;
 
-class cliente implements crud
+class cliente extends model implements crud
 {
-	private static mysqli $conexao = gerente_conexao::get_conexao();
 	private const COLUNAS = [
 		'cliente' => [
 			'id_cliente',
@@ -31,8 +30,9 @@ class cliente implements crud
 
 	public static function create(array $cliente): bool
 	{
+		parent::init_conexao();
 		try {
-			self::$conexao->begin_transaction();
+			parent::$conexao->begin_transaction();
 			$colunas = array_keys($cliente);
 			// Obtém as colunas da tabela através das chaves do array associativo.
 			$interrogacoes = str_repeat('?, ', count($colunas) - 1) . '?';
@@ -43,7 +43,7 @@ class cliente implements crud
 				VALUES ({$interrogacoes})
 			";
 			$types_bind = gerente_conexao::gerar_types_bind_params(...array_values($cliente));
-			$stmt = self::$conexao->prepare($sql);
+			$stmt = parent::$conexao->prepare($sql);
 			$stmt->bind_param(
 				$types_bind,
 				...array_values($cliente)
@@ -52,19 +52,20 @@ class cliente implements crud
 				return false;
 			}
 			if ($stmt->execute()) {
-				self::$conexao->commit();
+				parent::$conexao->commit();
 				return true;
 			}
-			self::$conexao->rollback();
+			parent::$conexao->rollback();
 			return false;
 		} catch (Exception $e) {
-			self::$conexao->rollback();
+			parent::$conexao->rollback();
 			return false;
 		}
 	}
 
-	public static function read(int $id = null): mysqli_result
+	public static function read(null|int $id = null): mysqli_result
 	{
+		self::init_conexao();
 		$colunas = array_merge(
 			array_map(fn($col) => "c.{$col}", self::COLUNAS['cliente']),
 			array_map(fn($col) => "e.{$col}", self::COLUNAS['endereco'])
@@ -81,7 +82,7 @@ class cliente implements crud
 
 		$sql .= $id ? " AND c.id_cliente = ? AND c.status_cliente = 'ativo'"
 			: " AND c.status_cliente = 'ativo'";
-		$stmt = self::$conexao->prepare($sql);
+		$stmt = parent::$conexao->prepare($sql);
 
 		if ($id) {
 			$stmt->bind_param("i", $id);
@@ -92,8 +93,9 @@ class cliente implements crud
 
 	public static function update(int $id, array $cliente): bool
 	{
+		parent::init_conexao();
 		try {
-			self::$conexao->begin_transaction();
+			parent::$conexao->begin_transaction();
 			$colunas = array_keys($cliente);
 			$set = implode(',', array_map(fn($col) => "{$col} = ?", $colunas));
 
@@ -103,7 +105,7 @@ class cliente implements crud
 				$id
 			);
 
-			$stmt = self::$conexao->prepare($sql);
+			$stmt = parent::$conexao->prepare($sql);
 			$stmt->bind_param(
 				$types_bind,
 				...array_values($cliente),
@@ -113,36 +115,37 @@ class cliente implements crud
 				return false;
 			}
 			if ($stmt->execute()) {
-				self::$conexao->commit();
+				parent::$conexao->commit();
 				return true;
 			}
-			self::$conexao->rollback();
+			parent::$conexao->rollback();
 			return false;
 		} catch (Exception $e) {
-			self::$conexao->rollback();
+			parent::$conexao->rollback();
 			return false;
 		}
 	}
 
 	public  static function delete(int $id): bool
 	{
+		parent::init_conexao();
 		try {
-			self::$conexao->begin_transaction();
+			parent::$conexao->begin_transaction();
 			$sql = "UPDATE cliente SET status_cliente = 'deletado' WHERE id_cliente = ?";
-			$stmt = self::$conexao->prepare($sql);
+			$stmt = parent::$conexao->prepare($sql);
 			$stmt->bind_param("i", $id);
 			if (!$stmt) {
 				return false;
 			}
 
 			if ($stmt->execute()) {
-				self::$conexao->commit();
+				parent::$conexao->commit();
 				return true;
 			}
-			self::$conexao->rollback();
+			parent::$conexao->rollback();
 			return false;
 		} catch (Exception $e) {
-			self::$conexao->rollback();
+			parent::$conexao->rollback();
 			return false;
 		}
 	}

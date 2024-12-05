@@ -2,12 +2,11 @@
   <header class="d-flex justify-content-between align-items-center border-bottom mt-1 shadow-sm">
     <?php
     use App\Components\navbar;
-
     $navbar = new navbar();
     echo $navbar->render("Bem-vindo");
     ?>
   </header>
-  <main class="d-flex flex-column align-items-center justify-content-center h-100">
+  <main class="m-auto">
     <div class="text-center">
       <!-- Logo -->
       <div
@@ -19,7 +18,7 @@
         </i>
       </div>
       <!-- Mensagem de boas vindas -->
-      <div class="d-grid gap-1">
+      <div class="d-grid gap-3 mb-1">
         <h1 class="fw-semibold" style="font-size: 2.4rem;">
           Olá, <?= App\Helpers\sessao::get_sessao('usuario')['nome'] ?>!
         </h1>

@@ -8,6 +8,7 @@ use App\Helpers\sessao;
 class roteador implements rotas
 {
   private const BASE_CONTROLLER_NAMESPACE = "App\\Controllers\\";
+  private const CONTROLLERS_PUBLICOS = ["login"];
 
   /**
    * Chama o controller e o método, passando os parâmetros
@@ -20,6 +21,12 @@ class roteador implements rotas
     $base_namespace = self::BASE_CONTROLLER_NAMESPACE;
     $controller_path = $base_namespace . $controller . "_controller";
     
+    $is_controller_publico = in_array($controller, self::CONTROLLERS_PUBLICOS);
+    if (!$is_controller_publico && !sessao::get_sessao('usuario')) {
+      header('Location: /');
+      return;
+    }
+
     $controller = new $controller_path();
     $controller->$method($params);
   }
@@ -73,8 +80,7 @@ class roteador implements rotas
     $rota_sem_nome_site === '/' ?: rtrim($rota_sem_nome_site, '/');
 
     foreach (self::ROTAS[$method] as $rota => $controller) {
-      $pattern = preg_replace('/{id}/', '(\d+)', $rota);
-      $pattern = preg_replace('/{query}/', '(\?.+)', $pattern);
+      $pattern = preg_replace(['/{id}/', '/{query}/'], ['(\d+)', '(\?.+)'], $rota);
       
       if (preg_match("#^{$pattern}$#", $rota_sem_nome_site, $matches)) {
         // Remove o primeiro item do array, deixando somente os parâmetros encontradods

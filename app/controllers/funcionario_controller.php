@@ -17,29 +17,59 @@ class funcionario_controller extends controller
   {
     $resultado = funcionario::read();
     $funcionarios = $resultado->fetch_all(MYSQLI_ASSOC);
-    gerente_conexao::fechar_conexao();
     $this->call_view('lista_funcionarios', ['funcionarios' => $funcionarios]);
   }
 
+  /**
+   * Chama a view que permite cadastrar um funcionário.
+   */
+  public function call_cadastro_view()
+  {
+    $this->call_view('cadastro_funcionarios');
+  }
+
+  /**
+   * Chama a view que permite editar os dados de um funcionário.
+   * @param int $id Identificador do funcionário a ser editado.
+   */
+  public function call_edicao_view(int $id)
+  {
+    $resultado = funcionario::read($id);
+    if ($resultado->num_rows === 0) {
+      $this->call_view('error_404');
+    }
+    $funcionario = $resultado->fetch_assoc();
+    $this->call_view('edicao_funcionarios', ['funcionario' => $funcionario]);
+  }
+
+  /**
+   * Chama a view que permite cadastrar um novo funcionário.
+   */
   public function cadastrar()
   {
     $funcionario = endereco::validarSalvarEndereco($_POST);
     if (!empty($funcionario)) {
       funcionario::create($funcionario);
     }
-    gerente_conexao::fechar_conexao();
   }
 
+  /**
+   * Atualiza os dados de um funcionário
+   * @param int $id Identificador do funcionário a ser editado.
+   */
   public function editar($id)
   {
     $funcionario = endereco::update($_POST);
     funcionario::update($id, $funcionario);
-    gerente_conexao::fechar_conexao();
   }
 
+  /**
+   * Exclui um funcionário
+   * @param int $id Identificador do funcionário a ser excluído.
+   */
   public function delete($id)
   {
     funcionario::delete($id);
-    gerente_conexao::fechar_conexao();
   }
+
 }

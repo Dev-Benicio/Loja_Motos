@@ -3,12 +3,10 @@
 namespace App\Models;
 
 use App\Database\gerente_conexao;
-use mysqli;
 use Exception;
 
-class endereco
+class endereco extends model
 {
-  private static mysqli $conexao = gerente_conexao::get_conexao();
   private const CAMPOS_ENDERECO = [
     'unidade_federativa',
     'cidade',
@@ -18,8 +16,9 @@ class endereco
 
   public static function validarSalvarEndereco(array $dados): array
   {
+    parent::init_conexao();
     try {
-      self::$conexao->begin_transaction();
+      parent::$conexao->begin_transaction();
       // Filtra e remove os campos que não são de endereço
       $endereco = array_filter(
         array_intersect_key(
@@ -43,11 +42,11 @@ class endereco
         }
         // Adiciona o id_endereco aos dados
         $dados['id_endereco'] = $id_endereco;
-        self::$conexao->commit();
+        parent::$conexao->commit();
         return $dados;
       }
     } catch (Exception $e) {
-      self::$conexao->rollback();
+      parent::$conexao->rollback();
     }
     return [];
   }
@@ -57,8 +56,9 @@ class endereco
    */
   public static function create(array $endereco): int
   {
+    parent::init_conexao();
     try {
-      self::$conexao->begin_transaction();
+      parent::$conexao->begin_transaction();
       $colunas = array_keys($endereco);
       // Cria uma string com interrogacoes para cada coluna.
       $interrogacoes = str_repeat('?, ', count($colunas) - 1) . '?';
@@ -70,7 +70,7 @@ class endereco
       ";
 
       $types_bind = gerente_conexao::gerar_types_bind_params(...array_values($endereco));
-      $stmt = self::$conexao->prepare($sql);
+      $stmt = parent::$conexao->prepare($sql);
       $stmt->bind_param(
         $types_bind,
         ...array_values($endereco)
@@ -78,22 +78,23 @@ class endereco
 
       // Executa a inserção
       if ($stmt->execute()) {
-        $id = self::$conexao->insert_id;
-        self::$conexao->commit();
+        $id = parent::$conexao->insert_id;
+        parent::$conexao->commit();
         return $id;
       }
-      self::$conexao->rollback();
+      parent::$conexao->rollback();
       return 0;
     } catch (Exception $e) {
-      self::$conexao->rollback();
+      parent::$conexao->rollback();
       return 0;
     }
   }
 
   public static function update(array $dados): array
   {
+    parent::init_conexao();
     try {
-      self::$conexao->begin_transaction();
+      parent::$conexao->begin_transaction();
       // Filtra campos válidos do endereço e remove nulos
       $endereco = array_filter(
         array_intersect_key(
@@ -112,13 +113,13 @@ class endereco
           ...array_values($endereco)
         );
 
-        $stmt = self::$conexao->prepare($sql);
+        $stmt = parent::$conexao->prepare($sql);
         $stmt->bind_param(
           $types_bind,
           ...array_values($endereco),
           $dados['id_endereco']
         );
-        $stmt->execute() ? self::$conexao->commit() : self::$conexao->rollback();
+        $stmt->execute() ? parent::$conexao->commit() : parent::$conexao->rollback();
 
         // Remove campos de endereço do array original
         foreach (self::CAMPOS_ENDERECO as $campo) {
@@ -126,8 +127,9 @@ class endereco
         }
       }
     } catch (Exception $e) {
-      self::$conexao->rollback();
+      parent::$conexao->rollback();
     }
     return $dados;
   }
+
 }

@@ -70,4 +70,5 @@ class tabela extends component
       </table>
     ";
   }
+  
 }

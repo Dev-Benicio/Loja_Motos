@@ -17,20 +17,29 @@ class venda_controller extends controller
   {
     $resultado = venda::read();
     $vendas = $resultado->fetch_all(MYSQLI_ASSOC);
-    gerente_conexao::fechar_conexao();
     $this->call_view('lista_vendas', ['vendas' => $vendas]);
   }
 
+  /**
+   * Chama a view que permite cadastrar uma venda.
+   */
   public function call_cadastro_view(): void
   {
     $this->call_view('cadastro_vendas');
   }
 
+  /**
+   * Chama a view que permite editar os dados de uma venda.
+   * @param int $id Identificador da venda a ser editada.
+   */
   public function call_edicao_view(): void
   {
     $this->call_view('edicao_vendas');
   }
 
+  /**
+   * Cadastra uma venda
+   */
   public function cadastrar()
   {
     // Realizavalidação de dados, e se tem moto disponivel no estoque
@@ -38,9 +47,12 @@ class venda_controller extends controller
       // Se a venda for realizada com sucesso, diminui a quantidade de moto no estoque já que uma moto foi vendida
       venda::create($_POST) ? moto::atualizarEstoqueMoto($_POST['id_moto'], true) : false;
     }
-    gerente_conexao::fechar_conexao();
   }
 
+  /**
+   * Atualiza os dados de uma venda
+   * @param int $id Identificador da venda a ser editada.
+   */
   public function editar($id)
   {
     $venda_atual = venda::read($id)->fetch_assoc();
@@ -55,9 +67,12 @@ class venda_controller extends controller
         }
       }
     }
-    gerente_conexao::fechar_conexao();
   }
 
+  /**
+   * Exclui uma venda
+   * @param int $id Identificador da venda a ser excluída
+   */
   public function exluir($id)
   {
     $venda = venda::read($id)->fetch_assoc();
@@ -70,8 +85,9 @@ class venda_controller extends controller
         }
       }
     }
-    gerente_conexao::fechar_conexao();
+
     $redirect = false;
     $redirect ? $this->call_view('lista_vendas') : $this->call_view('erro');
   }
+
 }

@@ -5,7 +5,6 @@ namespace App\Controllers;
 use App\Controllers\controller;
 use App\Models\cliente;
 use App\Models\endereco;
-use App\Database\gerente_conexao;
 
 class cliente_controller extends controller
 {
@@ -17,7 +16,7 @@ class cliente_controller extends controller
   {
     $clientes = cliente::read();
     $clientes = $clientes->fetch_all(MYSQLI_ASSOC);
-    gerente_conexao::fechar_conexao();
+
     $this->call_view('lista_clientes', ['clientes' => $clientes]);
   }
 
@@ -44,25 +43,34 @@ class cliente_controller extends controller
     $this->call_view('edicao_clientes', ['cliente' => $cliente]);
   }
 
+  /**
+   * Cadastra clientes
+   */
   public function cadastrar(): void
   {
     $cliente = endereco::validarSalvarEndereco($_POST);
     if (!empty($cliente)) {
       cliente::create($cliente);
     }
-    gerente_conexao::fechar_conexao();
   }
 
-  public function editar($id) {
+  /**
+   * Atualiza os dados de um cliente
+   * @param int $id Identificador do cliente a ser editado.
+   */
+  public function editar($id): void
+  {
     $cliente = endereco::update($_POST);
     cliente::update($id, $cliente);
-    gerente_conexao::fechar_conexao();
   }
 
-  public function exluir($id)
+  /**
+   * Exclui um cliente
+   * @param int $id Identificador do cliente a ser excluído.
+   */
+  public function exluir($id): void
   {
     cliente::delete($id);
-    gerente_conexao::fechar_conexao();
   }
 
 }

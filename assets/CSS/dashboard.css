@@ -1,5 +1,6 @@
-::root {
-  --percent-half-circle: calc(157 * (1 - 0.75));
+:root {
+  --percent-half-circle: 0.75;
+  --calc-percent-half-circle: calc(157 * (1 - 0.75));
 }
 
 @keyframes loadHalfCircle {
@@ -7,14 +8,14 @@
     stroke-dashoffset: 157;
   }
   to {
-    stroke-dashoffset: var(--percent-half-circle);
+    stroke-dashoffset: var(--calc-percent-half-circle);
   }
 }
 
 .svg-icon {
   & path:nth-child(2) {
     will-change: stroke-dashoffset;
-    stroke-dashoffset: var(--percent-half-circle);
+    stroke-dashoffset: var(--calc-percent-half-circle);
     animation: loadHalfCircle 1s ease-in-out;
     animation-fill-mode: none;
     animation-play-state: running;

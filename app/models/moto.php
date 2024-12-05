@@ -4,17 +4,16 @@ namespace App\Models;
 
 use App\Database\gerente_conexao;
 use App\Helpers\higiene_dados;
-use mysqli, mysqli_result;
+use mysqli_result;
 use Exception;
 
-class moto implements crud
+class moto extends model implements crud
 {
-	private static mysqli $conexao = gerente_conexao::get_conexao();
-
 	public static function create(array $moto): bool
 	{
+    parent::init_conexao();
 		try {
-			self::$conexao->begin_transaction();
+			parent::$conexao->begin_transaction();
 			$colunas = array_keys($moto);
 			$interrogacoes = str_repeat('?, ', count($colunas) - 1) . '?';
 
@@ -24,7 +23,7 @@ class moto implements crud
 						VALUES ({$interrogacoes})
 				";
 
-			$stmt = self::$conexao->prepare($sql);
+			$stmt = parent::$conexao->prepare($sql);
 			$stmt->bind_param(
 				'sssdiisis', // Define o tipo de dados de cada parâmetro
 				...array_values($moto)
@@ -35,22 +34,23 @@ class moto implements crud
 			}
 
 			if ($stmt->execute()) {
-				self::$conexao->commit();
+				parent::$conexao->commit();
 				return true;
 			}
 
-			self::$conexao->rollback();
+			parent::$conexao->rollback();
 			return false;
 		} catch (Exception $e) {
-			self::$conexao->rollback();
+			parent::$conexao->rollback();
 			return false;
 		}
 	}
 
-	public static function read(int $id = null): mysqli_result
+	public static function read(null|int $id = null): mysqli_result
 	{
+    parent::init_conexao();
 		$sql = $id ? "SELECT * FROM moto WHERE id_moto = ? AND status_moto IN ('disponivel', 'esgotado')" : "SELECT * FROM moto WHERE status_moto IN ('disponivel', 'esgotado')";
-		$stmt = self::$conexao->prepare($sql);
+		$stmt = parent::$conexao->prepare($sql);
 		if ($id) {
 			$stmt->bind_param("i", $id);
 		}
@@ -61,6 +61,7 @@ class moto implements crud
 
 	public static function update(int $id, array $moto): bool
 	{
+    parent::init_conexao();
 		try {
 			$colunas = array_keys($moto);
 			$set = implode(',', array_map(fn($col) => "{$col} = ?", $colunas));
@@ -71,7 +72,7 @@ class moto implements crud
 				$id
 			);
 
-			$stmt = self::$conexao->prepare($sql);
+			$stmt = parent::$conexao->prepare($sql);
 			$stmt->bind_param(
 				$types_bind,
 				...array_values($moto),
@@ -88,9 +89,10 @@ class moto implements crud
 
 	public  static function delete(int $id): bool
 	{
+    parent::init_conexao();
 		try {
 			$sql = "UPDATE moto SET status_moto = 'deletado' WHERE id_moto = ?";
-			$stmt = self::$conexao->prepare($sql);
+			$stmt = parent::$conexao->prepare($sql);
 			$stmt->bind_param("i", $id);
 			return $stmt->execute();
 		} catch (Exception $e) {
@@ -100,8 +102,9 @@ class moto implements crud
 
 	public static function atualizarEstoqueMoto(int $id, bool $cond): bool
 	{
+    parent::init_conexao();
 		try {
-			self::$conexao->begin_transaction();
+			parent::$conexao->begin_transaction();
 			if (!$cond) {
 				// Quando cancela venda - aumenta estoque
 				$sql = "UPDATE moto 
@@ -118,19 +121,20 @@ class moto implements crud
                        END
                    WHERE id_moto = ?";
 			}
-			$stmt = self::$conexao->prepare($sql);
+			$stmt = parent::$conexao->prepare($sql);
 			$stmt->bind_param("i", $id);
 
 			if ($stmt->execute()) {
-				self::$conexao->commit();
+				parent::$conexao->commit();
 				return true;
 			}
 
-			self::$conexao->rollback();
+			parent::$conexao->rollback();
 			return false;
 		} catch (Exception $e) {
-			self::$conexao->rollback();
+			parent::$conexao->rollback();
 			return false;
 		}
 	}
+
 }

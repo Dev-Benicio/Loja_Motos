@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\Database\gerente_conexao;
-use mysqli, mysqli_sql_exception;
+use mysqli_sql_exception;
 
-class login
+class login extends model
 {
   private static array $credenciais = [
     "id" => null,
@@ -21,11 +21,11 @@ class login
    */
   public static function autenticar(string $user, string $password): bool
   {
-    $conexao = gerente_conexao::get_conexao();
+    parent::init_conexao();
     try {
       $sql = "SELECT * FROM funcionario WHERE login = ? AND senha = ?";
 
-      $stmt = $conexao->prepare($sql);
+      $stmt = parent::$conexao->prepare($sql);
       $stmt->bind_param("ss", $user, $password);
       $stmt->execute();
       $resultado = $stmt->get_result();
@@ -42,7 +42,7 @@ class login
         </script>
       ";
     }
-    $conexao->close();
+    parent::$conexao->close();
     return false;
   }
 
@@ -75,4 +75,5 @@ class login
   {
     return self::$credenciais;
   }
+
 }

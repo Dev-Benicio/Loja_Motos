@@ -4,12 +4,11 @@ namespace App\Models;
 
 use App\Database\gerente_conexao;
 use App\Helpers\higiene_dados;
-use mysqli, mysqli_result;
+use mysqli_result;
 use Exception;
 
-class funcionario implements crud
+class funcionario extends model implements crud
 {
-  private static mysqli $conexao = gerente_conexao::get_conexao();
   private const COLUNAS = [
     'funcionario' => [
       'id_funcionario',
@@ -40,8 +39,9 @@ class funcionario implements crud
    */
   public static function create(array $funcionario): bool
   {
+    parent::init_conexao();
     try {
-      self::$conexao->begin_transaction();
+      parent::$conexao->begin_transaction();
       // Obtém as colunas da tabela através das chaves do array associativo.
       $colunas = array_keys($funcionario);
       // Cria uma string com interrogacoes para cada coluna.
@@ -53,7 +53,7 @@ class funcionario implements crud
         VALUES ({$interrogacoes})
       ";
 
-      $stmt = self::$conexao->prepare($sql);
+      $stmt = parent::$conexao->prepare($sql);
       $stmt->bind_param(
         'ssssssssdssi', // Define o tipo de dados de cada parâmetro
         ...array_values($funcionario),
@@ -62,13 +62,13 @@ class funcionario implements crud
         return false;
       }
       if ($stmt->execute()) {
-        self::$conexao->commit();
+        parent::$conexao->commit();
         return true;
       }
-      self::$conexao->rollback();
+      parent::$conexao->rollback();
       return false;
     } catch (Exception $e) {
-      self::$conexao->rollback();
+      parent::$conexao->rollback();
       return false;
     }
   }
@@ -76,8 +76,9 @@ class funcionario implements crud
   /**
    * Lê registros de funcionários do banco de dados.
    */
-  public static function read(int $id = null): mysqli_result
+  public static function read(null|int $id = null): mysqli_result
   {
+    parent::init_conexao();
     $colunas = array_merge(
       array_map(fn($col) => "f.{$col}", self::COLUNAS['funcionario']),
       array_map(fn($col) => "e.{$col}", self::COLUNAS['endereco'])
@@ -91,7 +92,7 @@ class funcionario implements crud
     ;
     $sql .= $id ? " AND f.id_funcionario = ? AND f.status_funcionario IN ('ativo', 'inativo')"
     : " AND f.status_funcionario IN ('ativo', 'inativo')";
-    $stmt = self::$conexao->prepare($sql);
+    $stmt = parent::$conexao->prepare($sql);
 
     if ($id) {
       $stmt->bind_param("i", $id);
@@ -105,8 +106,9 @@ class funcionario implements crud
    */
   public static function update(int $id, array $dados): bool
   {
+    parent::init_conexao();
     try {
-      self::$conexao->begin_transaction();
+      parent::$conexao->begin_transaction();
 
       $colunas = array_keys($dados);
       $set = implode(',', array_map(fn($col) => "{$col} = ?", $colunas));
@@ -116,7 +118,7 @@ class funcionario implements crud
       $types_bind = gerente_conexao::gerar_types_bind_params(
         ...array_values($dados)
       );
-      $stmt = self::$conexao->prepare($sql);
+      $stmt = parent::$conexao->prepare($sql);
       $stmt->bind_param(
         $types_bind,
         ...array_values($dados)
@@ -125,13 +127,13 @@ class funcionario implements crud
         return false;
       }
       if ($stmt->execute()) {
-        self::$conexao->commit();
+        parent::$conexao->commit();
         return true;
       }
-      self::$conexao->rollback();
+      parent::$conexao->rollback();
       return false;
     } catch (Exception $e) {
-      self::$conexao->rollback();
+      parent::$conexao->rollback();
       return false;
     }
   }
@@ -141,21 +143,23 @@ class funcionario implements crud
   */
   public static function delete(int $id): bool
   {
+    parent::init_conexao();
     try {
-      self::$conexao->begin_transaction();
+      parent::$conexao->begin_transaction();
       $sql = "UPDATE funcionario SET status_funcionario = 'deletado' WHERE id_funcionario = ?";
-      $stmt = self::$conexao->prepare($sql);
+      $stmt = parent::$conexao->prepare($sql);
       $stmt->bind_param("i", $id);
 
       if ($stmt->execute()) {
-        self::$conexao->commit();
+        parent::$conexao->commit();
         return true;
       }
-      self::$conexao->rollback();
+      parent::$conexao->rollback();
       return false;
     } catch (Exception $e) {
-      self::$conexao->rollback();
+      parent::$conexao->rollback();
       return false;
     }
   }
+
 }

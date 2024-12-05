@@ -40,6 +40,8 @@ class login_controller extends controller
   public function logout(): void
   {
     sessao::limpar_sessao();
+    header("Location: /");
+    exit;
   }
   
 }
