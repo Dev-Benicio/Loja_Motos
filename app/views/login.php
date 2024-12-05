@@ -21,6 +21,7 @@
             type="text"
             class="form-control bg-body-tertiary"
             id="user"
+            name="user"
             aria-describedby="loginHelp"
             pattern="[a-zA-Z]+"
             title="Esse campo aceita apenas letras"
@@ -32,6 +33,7 @@
             type="password"
             class="form-control bg-body-tertiary"
             id="password"
+            name="password"
             minlength="8"
             autocomplete="off">
         </div>

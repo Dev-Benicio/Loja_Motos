@@ -7,7 +7,6 @@ use mysqli, mysqli_sql_exception;
 
 class login
 {
-  private static mysqli $conexao = gerente_conexao::conectar();
   private static array $credenciais = [
     "id" => null,
     "nome" => null,
@@ -22,10 +21,11 @@ class login
    */
   public static function autenticar(string $user, string $password): bool
   {
+    $conexao = gerente_conexao::get_conexao();
     try {
       $sql = "SELECT * FROM funcionario WHERE login = ? AND senha = ?";
 
-      $stmt = self::$conexao->prepare($sql);
+      $stmt = $conexao->prepare($sql);
       $stmt->bind_param("ss", $user, $password);
       $stmt->execute();
       $resultado = $stmt->get_result();
@@ -42,7 +42,7 @@ class login
         </script>
       ";
     }
-    self::$conexao->close();
+    $conexao->close();
     return false;
   }
 
@@ -75,5 +75,4 @@ class login
   {
     return self::$credenciais;
   }
-  
 }

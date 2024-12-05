@@ -7,27 +7,30 @@ use mysqli;
 
 class gerente_conexao
 {
-  private static mysqli $conexao;
-  private static const CONFIG_CONEXAO = [
-    'hostname' => env::get_env('DB_HOST'),
-    'username' => env::get_env('DB_USER'),
-    'user_passwd' => env::get_env('DB_PASSWD'),
-    'database' => env::get_env('DB_NAME'),
-  ];
+  private static null|mysqli $conexao = null;
+
+  /**
+   * Retorna a conexão com o banco de dados.
+   * @return mysqli
+   */
+  public static function get_conexao(): mysqli {
+    if (self::$conexao === null) {
+      self::$conexao = gerente_conexao::conectar();
+    }
+    return self::$conexao;
+  }
 
   /**
    * Fornece uma conexão com o banco de dados, à partir dos dados inseridos no aquivo .env.
-   * @return bool|mysqli
    */
-  public static function conectar(): bool|mysqli
+  private static function conectar(): void
   {
-    self::$conexao = mysqli_connect(
-      hostname: self::CONFIG_CONEXAO['hostname'],
-      username: self::CONFIG_CONEXAO['username'],
-      password: self::CONFIG_CONEXAO['user_passwd'],
-      database: self::CONFIG_CONEXAO['database'],
+    self::$conexao = new mysqli(
+      hostname: env::get_env('hostname'),
+      username: env::get_env('username'),
+      password: env::get_env('user_passwd'),
+      database: env::get_env('database'),
     );
-    return self::$conexao;
   }
 
   /**
@@ -53,15 +56,6 @@ class gerente_conexao
 
     $types_string = implode('', $types_array);
     return $types_string;
-  }
-
-  /**
-   * Fecha a conexão com o banco de dados.
-   * @return bool
-   */
-  public static function fechar_conexao(): bool
-  {
-    return self::$conexao->close();
   }
 
 }
