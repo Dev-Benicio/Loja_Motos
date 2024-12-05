@@ -68,14 +68,14 @@ class moto extends model implements crud
 
 			$sql = "UPDATE moto SET {$set} WHERE id_moto = ?";
 			$types_bind = gerente_conexao::gerar_types_bind_params(
-				...array_values($moto),
+				array_values($moto),
 				$id
 			);
 
 			$stmt = parent::$conexao->prepare($sql);
 			$stmt->bind_param(
 				$types_bind,
-				...array_values($moto),
+				array_values($moto),
 				$id
 			);
 			if (higiene_dados::is_null(...array_values($moto))) {

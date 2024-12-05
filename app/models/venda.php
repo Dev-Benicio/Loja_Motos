@@ -81,7 +81,7 @@ class venda extends model implements crud
         return false;
       }
       $types_bind = gerente_conexao::gerar_types_bind_params(
-        ...array_values($venda),
+        array_values($venda),
         $id
       );
 

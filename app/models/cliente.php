@@ -42,7 +42,7 @@ class cliente extends model implements crud
 					(" . implode(',', $colunas) . ")
 				VALUES ({$interrogacoes})
 			";
-			$types_bind = gerente_conexao::gerar_types_bind_params(...array_values($cliente));
+			$types_bind = gerente_conexao::gerar_types_bind_params(array_values($cliente));
 			$stmt = parent::$conexao->prepare($sql);
 			$stmt->bind_param(
 				$types_bind,
@@ -101,14 +101,14 @@ class cliente extends model implements crud
 
 			$sql = "UPDATE cliente SET {$set} WHERE id_cliente = ?";
 			$types_bind = gerente_conexao::gerar_types_bind_params(
-				...array_values($cliente),
+				array_values($cliente),
 				$id
 			);
 
 			$stmt = parent::$conexao->prepare($sql);
 			$stmt->bind_param(
 				$types_bind,
-				...array_values($cliente),
+				array_values($cliente),
 				$id
 			);
 			if (higiene_dados::is_null(...array_values($cliente))) {

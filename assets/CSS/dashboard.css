@@ -1,13 +1,12 @@
 :root {
   --percent-half-circle: 0.75;
-  --calc-percent-half-circle: calc(157 * (1 - 0.75));
+  --calc-percent-half-circle: calc(157 * (1 - var(--percent-half-circle)));
 }
 
 @keyframes loadHalfCircle {
   from {
     stroke-dashoffset: 157;
-  }
-  to {
+  } to {
     stroke-dashoffset: var(--calc-percent-half-circle);
   }
 }
@@ -16,8 +15,6 @@
   & path:nth-child(2) {
     will-change: stroke-dashoffset;
     stroke-dashoffset: var(--calc-percent-half-circle);
-    animation: loadHalfCircle 1s ease-in-out;
-    animation-fill-mode: none;
-    animation-play-state: running;
+    animation: loadHalfCircle 1s linear;
   }
 }

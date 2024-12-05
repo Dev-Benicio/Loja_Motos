@@ -116,7 +116,7 @@ class funcionario extends model implements crud
       $sql = "UPDATE funcionario SET {$set} WHERE id_funcionario = ?";
       $dados['id_funcionario'] = $id;
       $types_bind = gerente_conexao::gerar_types_bind_params(
-        ...array_values($dados)
+        array_values($dados)
       );
       $stmt = parent::$conexao->prepare($sql);
       $stmt->bind_param(

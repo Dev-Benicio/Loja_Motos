@@ -69,7 +69,7 @@ class endereco extends model
         VALUES ({$interrogacoes})
       ";
 
-      $types_bind = gerente_conexao::gerar_types_bind_params(...array_values($endereco));
+      $types_bind = gerente_conexao::gerar_types_bind_params(array_values($endereco));
       $stmt = parent::$conexao->prepare($sql);
       $stmt->bind_param(
         $types_bind,
