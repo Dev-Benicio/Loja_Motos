@@ -9,6 +9,18 @@ CREATE SCHEMA IF NOT EXISTS `thunder_gears` DEFAULT CHARACTER SET utf8;
 USE `thunder_gears`;
 
 -- -----------------------------------------------------
+-- Table `thunder_gears`.`endereco`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `thunder_gears`.`endereco` (
+  `id_endereco` INT NOT NULL AUTO_INCREMENT,
+  `unidade_federativa` CHAR(2) NOT NULL,
+  `cidade` VARCHAR(50) NOT NULL,
+  `numero` VARCHAR(10) NOT NULL,
+  `rua` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`id_endereco`)
+) ENGINE = InnoDB;
+
+-- -----------------------------------------------------
 -- Table `thunder_gears`.`cliente`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `thunder_gears`.`cliente` (
@@ -81,18 +93,6 @@ CREATE TABLE IF NOT EXISTS `thunder_gears`.`venda` (
   FOREIGN KEY (`id_cliente`) REFERENCES `cliente`(`id_cliente`),
   FOREIGN KEY (`id_funcionario`) REFERENCES `funcionario`(`id_funcionario`),
   FOREIGN KEY (`id_moto`) REFERENCES `moto`(`id_moto`)
-) ENGINE = InnoDB;
-
--- -----------------------------------------------------
--- Table `thunder_gears`.`endereco`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `thunder_gears`.`endereco` (
-  `id_endereco` INT NOT NULL AUTO_INCREMENT,
-  `unidade_federativa` CHAR(2) NOT NULL,
-  `cidade` VARCHAR(50) NOT NULL,
-  `numero` VARCHAR(10) NOT NULL,
-  `rua` VARCHAR(100) NOT NULL,
-  PRIMARY KEY (`id_endereco`)
 ) ENGINE = InnoDB;
 
 SET SQL_MODE=@OLD_SQL_MODE;
