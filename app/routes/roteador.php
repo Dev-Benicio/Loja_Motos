@@ -74,7 +74,8 @@ class roteador implements rotas
 
     foreach (self::ROTAS[$method] as $rota => $controller) {
       $pattern = preg_replace('/{id}/', '(\d+)', $rota);
-
+      $pattern = preg_replace('/{query}/', '(\?.+)', $pattern);
+      
       if (preg_match("#^{$pattern}$#", $rota_sem_nome_site, $matches)) {
         // Remove o primeiro item do array, deixando somente os parâmetros encontradods
         array_shift($matches);

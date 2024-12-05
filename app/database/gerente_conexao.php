@@ -7,7 +7,7 @@ use mysqli;
 
 class gerente_conexao
 {
-  private static null|mysqli $conexao = null;
+  private static ?mysqli $conexao = null;
 
   /**
    * Retorna a conexão com o banco de dados.
@@ -15,22 +15,15 @@ class gerente_conexao
    */
   public static function get_conexao(): mysqli {
     if (self::$conexao === null) {
-      self::$conexao = gerente_conexao::conectar();
+      self::$conexao = new mysqli(
+        hostname: env::get_env('DB_HOST'),
+        username: env::get_env('DB_USER'),
+        password: env::get_env('DB_PASS'),
+        database: env::get_env('DB_NAME'),
+        port: env::get_env('DB_PORT')
+      );
     }
     return self::$conexao;
-  }
-
-  /**
-   * Fornece uma conexão com o banco de dados, à partir dos dados inseridos no aquivo .env.
-   */
-  private static function conectar(): void
-  {
-    self::$conexao = new mysqli(
-      hostname: env::get_env('HOST_NAME'),
-      username: env::get_env('DATABASE_USUARIO'),
-      password: env::get_env('DATABASE_SENHA'),
-      database: env::get_env('DATABASE_NOME'),
-    );
   }
 
   /**

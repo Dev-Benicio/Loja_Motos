@@ -8,8 +8,10 @@ interface rotas
     'GET' => [
       /* Login */
       '/' => 'login@index',
+      '/{query}' => 'login@index',
       '/logout' => 'login@logout',
 
+      '/welcome' => 'welcome@index',
       '/dashboard' => 'dashboard@index',
       '/perfil' => 'perfil@index',
 

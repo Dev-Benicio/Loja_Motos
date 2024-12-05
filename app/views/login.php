@@ -1,3 +1,6 @@
+<?php 
+  $has_campos_invalidos = isset($_GET['error']) && $_GET['error'] === 'true';
+?>
 <div class="d-flex flex-column justify-content-center vh-100">
   <main class="d-flex h-100 w-100 p-1">
     <!-- Formulário de cadastro-->
@@ -20,7 +23,7 @@
           <input
             value="<?= App\Helpers\env::get_env('LOGIN') ?? '' ?>"
             type="text"
-            class="form-control bg-body-tertiary"
+            class="form-control bg-body-tertiary<?= $has_campos_invalidos ? ' is-invalid' : '' ?>"
             id="user"
             name="user"
             aria-describedby="loginHelp"
@@ -33,12 +36,22 @@
           <input
             value="<?= App\Helpers\env::get_env('SENHA_LOGIN') ?? '' ?>"
             type="password"
-            class="form-control bg-body-tertiary"
+            class="form-control bg-body-tertiary<?= $has_campos_invalidos ? ' is-invalid' : '' ?>"
             id="password"
             name="password"
             minlength="8"
             autocomplete="off">
         </div>
+        <?php
+        if ($has_campos_invalidos) {
+          echo "
+            <!-- Mensagem de erro -->
+            <span class=\"status-text mb-0 fs-6 text-center text-danger\">
+              Campo login e/ou senha estão incorretos...
+            </span>
+          ";
+        }
+        ?>
         <div class="col-12 mt-3">
           <button
             class="btn btn-dark w-100 rounded-5"

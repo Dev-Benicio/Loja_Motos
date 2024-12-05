@@ -24,7 +24,7 @@ class login_controller extends controller
     $user = $_POST["user"];
     $password = $_POST["password"];
     
-    $nova_url = "/";
+    $nova_url = "/?error=true";
     $is_autenticado = login::autenticar($user, $password);
 
     if ($is_autenticado) {

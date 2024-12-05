@@ -91,11 +91,6 @@
           </div>
           <!-- Gráfico de meio círculo -->
           <div class="card-body mt-2">
-            <style>
-              ::root {
-                --percent-half-circle: calc(157 * (1 - 0.75));
-              }
-            </style>
             <div class="position-relative d-flex justify-content-center">
               <svg class="svg-icon w-75 h-75" viewBox="0 0 120 60">
                 <!-- Background (cinza) -->
