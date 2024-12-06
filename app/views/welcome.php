@@ -23,46 +23,13 @@
           Olá, <?= App\Helpers\sessao::get_sessao('usuario')['nome'] ?>!
         </h1>
         <span class="text-body-secondary fw-normal fs-3">
-          <?php
-          $_btn_link;
-          switch (App\Helpers\sessao::get_sessao('usuario')['cargo']) {
-            case 'vendedor':
-              echo "Vamos começar mais um dia de vendas?";
-              $_btn_link = "./vendas";
-              break;
-            case 'estoquista':
-              echo "Deseja ver como anda o seu estoque?";
-              $_btn_link = "./estoque";
-              break;
-            case 'admin':
-              echo "Aoba chefe, quer ver como anda os négocios?";
-              $_btn_link = "./dashboard";
-              break;
-            default:
-              echo "Ué, quem é tu? Cargo desconhecido.";
-              $_btn_link = "./logout";
-          }
-          ?>
+          <?= $text_boas_vindas ?>
         </span>
       </div>
       <!-- Botão de atalho para a tarefa principal -->
-      <a href="<?= $_btn_link ?>" class="btn btn-dark rounded-pill mt-4 py-2 w-75 hover-outline">
+      <a href="<?= $link_botao ?>" class="btn btn-dark rounded-pill mt-4 py-2 w-75 hover-outline">
         <span class="d-flex align-items-center justify-content-center">
-          <?php
-          switch (App\Helpers\sessao::get_sessao('usuario')['cargo']) {
-            case 'vendedor':
-              echo "Começar a vender";
-              break;
-            case 'estoquista':
-              echo "Ver estoque";
-              break;
-            case 'admin':
-              echo "Ver relatórios";
-              break;
-            default:
-              echo "Bora sair daqui, bora...";
-          }
-          ?>
+          <?= $texto_botao ?>
           <div class="d-flex align-items-center">
             <i class="bi bi-arrow-right ms-2 mt-1"></i>
           </div>
