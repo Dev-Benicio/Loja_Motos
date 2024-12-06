@@ -8,7 +8,6 @@ abstract class controller
    * Chama a view principal que deve ser acessada ao chamar um determinado controller
    */
   abstract public function index();
-
   /**
    * Chama uma view e passa, quando tiver, os parâmetros para serem acessados na view.
    * @param string $view_name Nome da view que deseja chamar.

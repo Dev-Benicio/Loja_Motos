@@ -72,5 +72,4 @@ class cliente_controller extends controller
   {
     cliente::delete($id);
   }
-
 }
