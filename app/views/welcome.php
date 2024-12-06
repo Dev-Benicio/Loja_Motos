@@ -20,7 +20,7 @@
       <!-- Mensagem de boas vindas -->
       <div class="d-grid gap-3 mb-1">
         <h1 class="fw-semibold" style="font-size: 2.4rem;">
-          Olá, <?= App\Helpers\sessao::get_sessao('usuario')['nome'] ?>!
+          Olá, <?= $nome_usuario ?>!
         </h1>
         <span class="text-body-secondary fw-normal fs-3">
           <?= $text_boas_vindas ?>
