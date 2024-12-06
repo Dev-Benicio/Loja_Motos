@@ -32,6 +32,7 @@ interface rotas
     ],
     'POST' => [
       '/' => 'login@validar_login',
+      '/{query}' => 'login@validar_login',
       '/perfil' => 'perfil@editar',
 
       '/funcionarios/cadastro' => 'funcionario@cadastrar',

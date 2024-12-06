@@ -9,12 +9,12 @@ class navbar extends component
 {
   private const acesso_nav_items = [
     "admin" => [
-      "Bem-vindo" => "/welcome",
-      "Funcionários" => "/funcionarios",
-      "Clientes" => "/clientes",
-      "Motos" => "/motos",
-      "Vendas" => "/vendas",
-      "Relatórios" => "/dashboard",
+      "Bem-vindo" => "./welcome",
+      "Funcionários" => "./funcionarios",
+      "Clientes" => "./clientes",
+      "Motos" => "./motos",
+      "Vendas" => "./vendas",
+      "Relatórios" => "./dashboard",
     ],
     "vendedor" => [
       "Home" => "./home",
@@ -32,10 +32,12 @@ class navbar extends component
    * Renderiza os itens da navegação em html.
    * @return string Retorna os itens da navegação em html de acordo com o cargo do usuário.
    */
-  private function render_items(string $item_ativo = ''): string|null
+  private function render_items(string $item_ativo = ''): string
   {
-    $cargo_usuario = sessao::get_sessao('usuario')['cargo'];
-
+    $cargo_usuario = sessao::get_sessao('usuario')['cargo'] ?? '';
+    if ($cargo_usuario === '') {
+      return "";
+    }
     $nav_items_permitidos = self::acesso_nav_items[$cargo_usuario] ?? [];
 
     $nav_items = array_map(
@@ -56,6 +58,26 @@ class navbar extends component
       array_values($nav_items_permitidos)
     );
 
+    $nav_items[] = '
+      <li class="nav-item d-flex align-items-center dropdown">
+        <button
+          type="button"
+          class="dropdown-toggle border-0 outline-0 bg-transparent"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <i class="bi bi-person-circle fs-5 ps-2"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end mt-2">
+          <li>
+            <a class="dropdown-item" href="perfil">Meu perfil</a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="logout">Sair</a>
+          </li>
+        </ul>
+      </li>
+    ';
     return implode('', $nav_items);
   }
 
@@ -93,29 +115,10 @@ class navbar extends component
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
           <ul class="navbar-nav gap-2" style="font-size: 1.1rem;">
             {$nav_items}
-            <li class="nav-item d-flex align-items-center dropdown">
-              <button
-                type="button"
-                class="dropdown-toggle border-0 outline-0 bg-transparent"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <i class="bi bi-person-circle fs-5 ps-2"></i>
-              </button>
-              <ul class="dropdown-menu dropdown-menu-end mt-2">
-                <li>
-                  <a class="dropdown-item" href="perfil">Meu perfil</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="logout">Sair</a>
-                </li>
-              </ul>
-            </li>
           </ul>
         </div>
       </div>
     </nav>
     HTML;
   }
-
 }

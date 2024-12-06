@@ -6,76 +6,91 @@ use App\Database\gerente_conexao;
 use mysqli;
 use Exception;
 
-class Relatorios
+class relatorios extends model
 {
-  private static mysqli $conexao = gerente_conexao::conectar();
-
-  public static function modeloMaisVendido()
+  public static function modelo_mais_vendido(): array
   {
+    parent::init_conexao();
     try {
-      self::$conexao->begin_transaction();
-      $sql = "SELECT * FROM motos_mais_vendidos LIMIT 1";
-      $stmt = self::$conexao->prepare($sql);
+      parent::$conexao->begin_transaction();
+      $sql = "SELECT * FROM motos_mais_vendidos LIMIT 5";
+      $stmt = parent::$conexao->prepare($sql);
       $stmt->execute();
-      return $stmt->get_result();
+
+      $resultado = $stmt->get_result();
+      while ($linha = $resultado->fetch_assoc()) {
+        $modelos_mais_vendidos[] = $linha;
+      }
+      return count($modelos_mais_vendidos) > 0 ? $modelos_mais_vendidos : [];
     } catch (Exception $e) {
-      self::$conexao->rollback();
+      parent::$conexao->rollback();
       return false;
     }
   }
 
-  public static function vendedorMaisVendas()
+  public static function vendedores_com_mais_vendas(): array
   {
+    parent::init_conexao();
     try {
-      self::$conexao->begin_transaction();
-      $sql = "SELECT * FROM vendas_por_vendedor LIMIT 1";
-      $stmt = self::$conexao->prepare($sql);
+      parent::$conexao->begin_transaction();
+      $sql = "SELECT * FROM vendas_por_vendedor LIMIT 3";
+      $stmt = parent::$conexao->prepare($sql);
       $stmt->execute();
-      return $stmt->get_result();
+
+      $resultado = $stmt->get_result();
+      while ($linha = $resultado->fetch_assoc()) {
+        $vendedores_com_mais_vendas[] = $linha;
+      }
+      return count($vendedores_com_mais_vendas) > 0 ? $vendedores_com_mais_vendas : [];
     } catch (Exception $e) {
-      self::$conexao->rollback();
+      parent::$conexao->rollback();
       return false;
     }
   }
 
-  public static function estoqueMotos()
+  public static function estoque_motos(): int
   {
+    parent::init_conexao();
     try {
-      self::$conexao->begin_transaction();
+      parent::$conexao->begin_transaction();
       $sql = "SELECT * FROM quantidade_em_estoque";
-      $stmt = self::$conexao->prepare($sql);
+      $stmt = parent::$conexao->prepare($sql);
       $stmt->execute();
-      return $stmt->get_result();
+
+      $result = $stmt->get_result();
+      return $result->fetch_row()[0] ?? 0;
     } catch (Exception $e) {
-      self::$conexao->rollback();
+      parent::$conexao->rollback();
       return false;
     }
   }
 
-  public static function statusReposicao()
+  public static function status_reposicao()
   {
+    parent::init_conexao();
     try {
-      self::$conexao->begin_transaction();
+      parent::$conexao->begin_transaction();
       $sql = "SELECT * FROM status_reposicao WHERE quantidade_estoque < 15";
-      $stmt = self::$conexao->prepare($sql);
+      $stmt = parent::$conexao->prepare($sql);
       $stmt->execute();
       return $stmt->get_result();
     } catch (Exception $e) {
-      self::$conexao->rollback();
+      parent::$conexao->rollback();
       return false;
     }
   }
 
-  public static function statusFuncionarios()
+  public static function status_funcionarios()
   {
+    parent::init_conexao();
     try {
-      self::$conexao->begin_transaction();
+      parent::$conexao->begin_transaction();
       $sql = "SELECT * FROM status_funcionario";
-      $stmt = self::$conexao->prepare($sql);
+      $stmt = parent::$conexao->prepare($sql);
       $stmt->execute();
       return $stmt->get_result();
     } catch (Exception $e) {
-      self::$conexao->rollback();
+      parent::$conexao->rollback();
       return false;
     }
   }

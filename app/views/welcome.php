@@ -28,19 +28,19 @@
           switch (App\Helpers\sessao::get_sessao('usuario')['cargo']) {
             case 'vendedor':
               echo "Vamos começar mais um dia de vendas?";
-              $_btn_link = "/vendas";
+              $_btn_link = "./vendas";
               break;
             case 'estoquista':
               echo "Deseja ver como anda o seu estoque?";
-              $_btn_link = "/estoque";
+              $_btn_link = "./estoque";
               break;
             case 'admin':
               echo "Aoba chefe, quer ver como anda os négocios?";
-              $_btn_link = "/dashboard";
+              $_btn_link = "./dashboard";
               break;
             default:
               echo "Ué, quem é tu? Cargo desconhecido.";
-              $_btn_link = "/logout";
+              $_btn_link = "./logout";
           }
           ?>
         </span>

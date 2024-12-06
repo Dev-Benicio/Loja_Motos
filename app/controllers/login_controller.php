@@ -24,14 +24,15 @@ class login_controller extends controller
     $user = $_POST["user"];
     $password = $_POST["password"];
     
-    $nova_url = "/?error=true";
     $is_autenticado = login::autenticar($user, $password);
+    $nova_url = "?error=true";
 
     if ($is_autenticado) {
       sessao::set_sessao("usuario", login::get_credenciais());
-      $nova_url = "/welcome"; 
+      $nova_url = "welcome";
     }
     header("Location: {$nova_url}");
+    exit;
   }
 
   /**

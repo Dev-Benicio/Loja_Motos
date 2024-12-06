@@ -17,7 +17,10 @@
       <h1 class="brand-name fw-semibold fs-1 mt-1">Área Restrita</h1>
       <p class="fs-5">Entre com sua conta para continuar</p>
       <!-- Formulário de Login -->
-      <form class="d-grid gap-2 flex-column w-75 px-3" method="POST">
+      <form
+        class="d-grid gap-2 flex-column w-75 px-3"
+        method="POST"
+      >
         <div class="mb-3">
           <label for="user" class="form-label">Login</label>
           <input

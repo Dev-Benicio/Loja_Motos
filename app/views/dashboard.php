@@ -1,5 +1,6 @@
+<link rel="stylesheet" href="./assets/CSS/dashboard.css">
+
 <div class="d-flex flex-column vh-100">
-  <link rel="stylesheet" href="/assets/CSS/dashboard.css">
   <!-- HEADER -->
   <header class="d-flex justify-content-between align-items-center border-bottom mt-1 shadow-sm">
     <?php
@@ -32,7 +33,8 @@
             </p>
           </li>
           <?php
-          for ($i = 1; $i <= 3; $i++) {
+          foreach ($vendedores_com_mais_vendas as $index => $vendedor) {
+            $posicao_rank = $index + 1;
             echo <<<HTML
               <li
                 class="d-flex align-items-center gap-3 list-group-item border-0 rounded-3"
@@ -54,10 +56,10 @@
                 <div class="d-flex justify-content-between w-100">
                   <div class="d-flex flex-column justify-content-center">
                     <span class="fw-semibold" style="font-size: 1.15rem; line-height: 1.15rem;">
-                      Júlia Silva
+                      {$vendedor['vendedor_nome']}
                     </span>
                     <p class="mb-0 text-secondary">
-                      {$i}° Lugar
+                      {$posicao_rank}° Lugar
                     </p>
                   </div>
                   <div class="d-flex flex-column justify-content-center align-items-end me-2">
@@ -65,7 +67,7 @@
                       Vendas
                     </span>
                     <p class="mb-0" style="font-size: 1.05rem;">
-                      R$ 1900,65
+                      R$ {$vendedor['total_valor_vendas']}
                     </p>
                   </div>
                 </div>
@@ -98,7 +100,7 @@
                   d="M 10,60 A 50,50 0 1,1 110,60"
                   stroke-width="7"
                   fill="none"
-                  stroke="#a5a5a5" />
+                  stroke="#ccc" />
                 <!-- Indicador (azul) -->
                 <path
                   class="animate"
@@ -108,14 +110,25 @@
                   stroke="#0d6efd"
                   stroke-dasharray="157" />
               </svg>
+              <?php
+              $total_estoque = 200;
+              $ocupacao_estoque = ($estoque_motos * 100) / $total_estoque;
+              $ocupacao_estoque = round($ocupacao_estoque, 2);
+              ?>
               <!-- Texto central -->
               <span class="fs-3 fw-semibold position-absolute translate-middle-x start-50 top-50 mt-2">
-                75%
+                <?= $ocupacao_estoque ?>%
               </span>
             </div>
             <p class="text-center mb-3 mt-4">
-              O estoque está com 75% de ocupação
+              O estoque está com <?= $ocupacao_estoque ?>% de ocupação
             </p>
+            <script>
+              // Altera o valor da variável CSS --percent-half-circle
+              document.documentElement.style.setProperty(
+                '--percent-half-circle', <?= $ocupacao_estoque ?>
+              );
+            </script>
             <!-- legenda -->
           </div>
           <legend class="card-footer mt-3 mb-0">
@@ -146,7 +159,7 @@
           <legend class="card-footer mb-0">
             <div class="d-flex align-items-center gap-3">
               <span class="fs-6 text-body">
-                Moto com maior rotatividade: Yamaha TX 8090
+                Moto com maior rotatividade: <?= $modelos_mais_vendidos[0]['modelo'] ?>
               </span>
             </div>
           </legend>
@@ -156,15 +169,21 @@
           // Dados de exemplo para o gráfico de rotação de motos 
           const dataMotos = {
             labels: [
-              'Yamaha TX 8090',
-              'Honda CB 500',
-              'Kawasaki Ninja',
-              'BMW GS 1250',
-              'Suzuki GSX'
+              <?php
+                foreach ($modelos_mais_vendidos as $modelo_mais_vendido) {
+                  echo "'{$modelo_mais_vendido['modelo']}', ";
+                }
+              ?>
             ],
             datasets: [{
               label: 'Quantidade de vendas',
-              data: [45, 35, 30, 25, 20],
+              data: [
+                <?php
+                foreach ($modelos_mais_vendidos as $modelo_mais_vendido) {
+                  echo "'{$modelo_mais_vendido['total_vendas']}', ";
+                }
+              ?>
+              ],
               hoverOffset: 4
             }]
           };

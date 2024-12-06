@@ -1,6 +1,6 @@
 :root {
-  --percent-half-circle: 0.75;
-  --calc-percent-half-circle: calc(157 * (1 - var(--percent-half-circle)));
+  --percent-half-circle: 0;
+  --calc-percent-half-circle: calc(157 * (1 - var(--percent-half-circle) / 100));
 }
 
 @keyframes loadHalfCircle {
