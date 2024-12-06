@@ -12,7 +12,7 @@ class funcionario extends model implements crud
   private const COLUNAS = [
     'funcionario' => [
       'id_funcionario',
-      'login_funcionario',
+      'login',
       'senha',
       'nome',
       'cpf',
