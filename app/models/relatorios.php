@@ -32,22 +32,21 @@ class relatorios extends model
   }
 
 
+  /**
+   * Retorna os 3 vendedores com maior número de vendas
+   * @return array Array com dados dos vendedores ou array vazio se erro
+   */
   public static function vendedores_com_mais_vendas(): array
   {
     parent::init_conexao();
     try {
-      parent::$conexao->begin_transaction();
       $sql = "SELECT * FROM vendas_por_vendedor LIMIT 3";
       $stmt = parent::$conexao->prepare($sql);
       $stmt->execute();
 
       $resultado = $stmt->get_result();
-      while ($linha = $resultado->fetch_assoc()) {
-        $vendedores_com_mais_vendas[] = $linha;
-      }
-      return count($vendedores_com_mais_vendas) > 0 ? $vendedores_com_mais_vendas : [];
+      return $resultado->fetch_all(MYSQLI_ASSOC) ?: [];
     } catch (Exception $e) {
-      parent::$conexao->rollback();
       return [];
     }
   }
@@ -87,18 +86,21 @@ class relatorios extends model
   }
 
 
-  public static function status_funcionarios()
+  /**
+   * Retorna dados da view status_funcionario
+   * @return array Array com status dos funcionários ou array vazio se erro
+   */
+  public static function status_funcionarios(): array
   {
     parent::init_conexao();
     try {
-      parent::$conexao->begin_transaction();
       $sql = "SELECT * FROM status_funcionario";
       $stmt = parent::$conexao->prepare($sql);
       $stmt->execute();
-      return $stmt->get_result();
+
+      return $stmt->get_result()->fetch_all(MYSQLI_ASSOC) ?: [];
     } catch (Exception $e) {
-      parent::$conexao->rollback();
-      return false;
+      return [];
     }
   }
 }
