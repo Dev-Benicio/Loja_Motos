@@ -24,7 +24,7 @@ class relatorios extends model
       return count($modelos_mais_vendidos) > 0 ? $modelos_mais_vendidos : [];
     } catch (Exception $e) {
       parent::$conexao->rollback();
-      return false;
+      return [];
     }
   }
 
