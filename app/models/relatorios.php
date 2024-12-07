@@ -80,7 +80,6 @@ class relatorios extends model
       $stmt->execute();
       return $stmt->get_result();
     } catch (Exception $e) {
-      error_log("Erro ao verificar status reposição: " . $e->getMessage());
       return false;
     }
   }
