@@ -23,7 +23,7 @@ class roteador implements rotas
 
     $is_controller_publico = in_array($controller, self::CONTROLLERS_PUBLICOS);
     if (!$is_controller_publico && !sessao::get_sessao('usuario')) {
-      header('Location: ');
+      header('Location: ./');
       return;
     }
 

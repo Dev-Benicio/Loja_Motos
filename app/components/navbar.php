@@ -8,7 +8,7 @@ use App\Helpers\sessao;
 class navbar extends component
 {
   private const acesso_nav_items = [
-    "admin" => [
+    "gerente" => [
       "Bem-vindo" => "./welcome",
       "Funcionários" => "./funcionarios",
       "Clientes" => "./clientes",

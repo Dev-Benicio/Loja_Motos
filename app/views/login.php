@@ -30,7 +30,6 @@
             id="user"
             name="user"
             aria-describedby="loginHelp"
-            pattern="[a-zA-Z]+"
             title="Esse campo aceita apenas letras"
             autofocus>
         </div>

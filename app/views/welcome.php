@@ -23,7 +23,7 @@
           Olá, <?= $nome_usuario ?>!
         </h1>
         <span class="text-body-secondary fw-normal fs-3">
-          <?= $text_boas_vindas ?>
+          <?= $texto_boas_vindas ?>
         </span>
       </div>
       <!-- Botão de atalho para a tarefa principal -->

@@ -3,7 +3,7 @@
 -- -----------------------------------------------------
 CREATE VIEW motos_mais_vendidos AS
 SELECT
-    m.modelo, SUM(v.quantidade_vendida) AS vendas
+    m.modelo, SUM(v.quantidade_vendida) AS total_vendas
 FROM
     venda AS v
 LEFT JOIN
@@ -11,7 +11,7 @@ LEFT JOIN
 GROUP BY
     m.modelo
 ORDER BY
-    venda DESC;
+    total_vendas DESC;
  
 -- -----------------------------------------------------
 -- Views Vendas por vendedor

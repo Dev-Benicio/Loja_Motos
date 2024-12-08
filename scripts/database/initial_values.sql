@@ -1,4 +1,3 @@
--- Active: 1733411170237@@127.0.0.1@3306@thunder_gears
 --------------------------------------------------------------------------------
 -- Motos
 --------------------------------------------------------------------------------
@@ -31,11 +30,11 @@ VALUES
 INSERT INTO funcionario
   (login, senha, nome, cpf, id_endereco, telefone, email, cargo, data_admissao, salario, foto_perfil)
 VALUES
-('joao.silva', 'senha123', 'João Silva', '12345678901', 1, '11999887766', 'joao.silva@email.com', 'vendedor', '2023-01-15', 3500.00, 'joao.jpg'),
-('maria.santos', 'senha456', 'Maria Santos', '23456789012', 2, '11988776655', 'maria.santos@email.com', 'estoquista', '2022-08-20', 5500.00, 'maria.jpg'),
-('pedro.oliveira', 'senha789', 'Pedro Oliveira', '34567890123', 3, '11977665544', 'pedro.oliveira@email.com', 'estoquista', '2023-03-10', 4000.00, 'pedro.jpg'),
-('ana.costa', 'senha321', 'Ana Costa', '45678901234', 4, '11966554433', 'ana.costa@email.com', 'vendedor', '2023-02-01', 3500.00, 'ana.jpg'),
-('carlos.ferreira', 'senha654', 'Carlos Ferreira', '56789012345', 5, '11955443322', 'carlos.ferreira@email.com', 'estoquista', '2022-11-05', 4000.00, 'carlos.jpg')
+('joao silva', 'senha123', 'João Silva', '12345678901', 1, '11999887766', 'joao.silva@email.com', 'vendedor', '2023-01-15', 3500.00, 'joao.jpg'),
+('maria santos', 'senha456', 'Maria Santos', '23456789012', 2, '11988776655', 'maria.santos@email.com', 'estoquista', '2022-08-20', 5500.00, 'maria.jpg'),
+('pedro oliveira', 'senha789', 'Pedro Oliveira', '34567890123', 3, '11977665544', 'pedro.oliveira@email.com', 'estoquista', '2023-03-10', 4000.00, 'pedro.jpg'),
+('ana costa', 'senha321', 'Ana Costa', '45678901234', 4, '11966554433', 'ana.costa@email.com', 'vendedor', '2023-02-01', 3500.00, 'ana.jpg'),
+('carlos ferreira', 'senha654', 'Carlos Ferreira', '56789012345', 5, '11955443322', 'carlos.ferreira@email.com', 'gerente', '2022-11-05', 4000.00, 'carlos.jpg')
 
 --------------------------------------------------------------------------------
 -- Clientes
