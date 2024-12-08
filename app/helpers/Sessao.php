@@ -20,10 +20,13 @@ class sessao
   /**
    * Destrói a sessão
    */
-  public static function limpar_sessao(): void
+  public static function limpar_sessao(null|string $key = null): void
   {
+    if ($key) {
+      unset($_SESSION[$key]);
+      return;
+    }
     session_unset();
-    $_SESSION = [];
     session_destroy();
   }
 

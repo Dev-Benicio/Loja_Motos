@@ -1,5 +1,5 @@
 <?php 
-  $has_campos_invalidos = isset($_GET['error']) && $_GET['error'] === 'true';
+  $is_login_invalido = App\Helpers\sessao::get_sessao('is_login_invalido') ?? false;
 ?>
 <div class="d-flex flex-column justify-content-center vh-100">
   <main class="d-flex h-100 w-100 p-1">
@@ -26,7 +26,7 @@
           <input
             value="<?= App\Helpers\env::get_env('LOGIN') ?? '' ?>"
             type="text"
-            class="form-control bg-body-tertiary<?= $has_campos_invalidos ? ' is-invalid' : '' ?>"
+            class="<?='form-control bg-body-tertiary' . ($is_login_invalido ? ' is-invalid' : '') ?>"
             id="user"
             name="user"
             aria-describedby="loginHelp"
@@ -38,14 +38,14 @@
           <input
             value="<?= App\Helpers\env::get_env('SENHA_LOGIN') ?? '' ?>"
             type="password"
-            class="form-control bg-body-tertiary<?= $has_campos_invalidos ? ' is-invalid' : '' ?>"
+            class="<?='form-control bg-body-tertiary' . ($is_login_invalido ? ' is-invalid' : '') ?>"
             id="password"
             name="password"
             minlength="8"
             autocomplete="off">
         </div>
         <?php
-        if ($has_campos_invalidos) {
+        if ($is_login_invalido) {
           echo "
             <!-- Mensagem de erro -->
             <span class=\"status-text mb-0 fs-6 text-center text-danger\">
