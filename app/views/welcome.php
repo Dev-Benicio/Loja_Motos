@@ -1,11 +1,9 @@
 <div class="d-flex flex-column vh-100">
-  <header class="d-flex justify-content-between align-items-center border-bottom mt-1 shadow-sm">
-    <?php
-    use App\Components\navbar;
-    $navbar = new navbar();
-    echo $navbar->render("Bem-vindo");
-    ?>
-  </header>
+  <?php
+  use App\Components\navbar;
+  $navbar = new navbar();
+  echo $navbar->render("Bem-vindo");
+  ?>
   <main class="m-auto">
     <div class="text-center">
       <!-- Logo -->

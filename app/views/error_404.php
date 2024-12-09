@@ -1,12 +1,10 @@
 <div class="d-flex flex-column justify-content-between vh-100">
   <!-- HEADER -->
-  <header class="d-flex justify-content-between align-items-center border-bottom mt-1 shadow-sm">
-    <?php
-    use App\Components\navbar;
-    $navbar = new navbar();
-    echo $navbar->render();
-    ?>
-  </header>
+  <?php
+  use App\Components\navbar;
+  $navbar = new navbar();
+  echo $navbar->render();
+  ?>
   <!-- Mensagem de erro 404 -->
   <main class="d-flex flex-column align-items-center justify-content-center gap-3">
     <!-- Erro 404 -->
