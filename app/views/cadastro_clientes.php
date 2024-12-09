@@ -1,12 +1,10 @@
 <div class="d-flex flex-column vh-100">
   <!-- HEADER -->
-  <header class="d-flex justify-content-between align-items-center border-bottom py-2 mt-1">
-    <?php
-    use App\Components\navbar;
-    $navbar = new navbar();
-    echo $navbar->render();
-    ?>
-  </header>
+  <?php
+  use App\Components\navbar;
+  $navbar = new navbar();
+  echo $navbar->render("Clientes");
+  ?>
   <div class="flex-grow-1 d-flex flex-column justify-content-center align-items-center">
     <form class="row g- form-border">
       <span class="material-symbols-outlined"></span>

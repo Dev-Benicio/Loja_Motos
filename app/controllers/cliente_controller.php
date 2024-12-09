@@ -55,7 +55,7 @@ class cliente_controller extends controller
   /**
    * Chama a view que permite cadastrar um novo cliente.
    */
-  public function call_cadastro_view(): void
+  public function call_view_cadastro(): void
   {
     $this->call_view('cadastro_clientes');
   }
@@ -64,7 +64,7 @@ class cliente_controller extends controller
    * Chama a view que permite editar os dados de um cliente.
    * @param int $id Identificador do cliente a ser editado.
    */
-  public function call_edicao_view(int $id): void
+  public function call_view_edicao(int $id): void
   {
     $cliente = cliente::read($id);
     if (count($cliente) === 0) {

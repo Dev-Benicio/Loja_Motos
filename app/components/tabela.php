@@ -64,7 +64,7 @@ class tabela extends component
         <thead class=\"thead table-dark\">
           {$this->render_cabecalho()}
         </thead>
-        <tbody class=\"tbody\">
+        <tbody class=\"tbody overflow-hidden\" style=\"height: 500px;\">
           {$this->render_linhas()}
         </tbody>
       </table>

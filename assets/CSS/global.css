@@ -1,5 +1,7 @@
 * {
   font-family: 'Poppins', sans-serif;
+  -webkit-font-smothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .active-nav-link {
