@@ -4,27 +4,27 @@ namespace App\Helpers;
 
 class env
 {
-  /*
+  /**
   * Obtém o valor de uma chave do array $_ENV
   * @param string $key A chave a ser obtida
   * @return mixed O valor da chave
   */
-  public static function get(string $key): mixed
+  public static function get_env(string $key): mixed
   {
     return $_ENV[$key];
   }
 
-  /*
+  /**
   * Define o valor de uma chave no array $_ENV
   * @param string $key A chave a ser definida
   * @param string $value O valor a ser definido
   */
-  public static function set(string $key, string $value): void
+  public static function set_env(string $key, string $value): void
   {
     $_ENV[$key] = $value;
   }
 
-  /*
+  /**
   * Carrega as variáveis de ambiente do arquivo .env
   * @param string $path O caminho para o arquivo .env
   */
@@ -44,8 +44,9 @@ class env
         $chave = trim($chave);
         $valor = trim($valor);
         // Insere a chave e o valor no array $_ENV
-        self::set($chave, $valor);
+        self::set_env($chave, $valor);
       }
     }
   }
+
 }

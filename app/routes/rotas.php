@@ -7,52 +7,43 @@ interface rotas
   const ROTAS = [
     'GET' => [
       '/' => 'login@index',
-      '/dashboard' => 'dashboard@index',
+      '/{query}' => 'login@index',
+      '/logout' => 'login@logout',
+
       '/welcome' => 'welcome@index',
+      '/dashboard' => 'dashboard@index',
 
-      /* Funcionários */
+      '/perfil' => 'funcionario@call_view_perfil',
+
       '/funcionarios' => 'funcionario@index',
-      '/funcionarios/cadastro' => 'funcionario@cadastro',
-      '/funcionarios/lista' => 'funcionario@lista',
-      '/funcionarios/edicao/{id}' => 'funcionario@edicao',
+      '/funcionarios/cadastro' => 'funcionario@call_view_cadastro',
+      '/funcionarios/edicao/{id}' => 'funcionario@call_view_edicao',
 
-      /* Clientes */
       '/clientes' => 'cliente@index',
-      '/clientes/cadastro' => 'cliente@cadastro',
-      '/clientes/lista' => 'cliente@lista',
-      '/clientes/edicao/{id}' => 'cliente@edicao',
+      '/clientes/cadastro' => 'cliente@call_view_cadastro',
+      '/clientes/edicao/{id}' => 'cliente@call_view_edicao',
 
-      /* Vendas */
-      '/vendas' => 'vendas@index',
-      '/vendas/cadastro' => 'vendas@cadastro',
-      '/vendas/lista' => 'vendas@lista',
+      '/vendas' => 'venda@index',
+      '/vendas/cadastro' => 'venda@call_view_cadastro',
 
-      /* Motos */
       '/motos' => 'moto@index',
-      '/motos/cadastro' => 'moto@cadastro',
-      '/motos/lista' => 'moto@lista',
-      '/motos/edicao/{id}' => 'moto@edicao',
-
-      /* Relatórios */
-      '/relatorios' => 'relatorios@index',
+      '/motos/cadastro' => 'moto@call_view_cadastro',
+      '/motos/edicao/{id}' => 'moto@call_view_edicao',
     ],
-
     'POST' => [
-      '/' => 'login@authenticate',
+      '/' => 'login@validar_login',
+      '/{query}' => 'login@validar_login',
+      '/perfil' => 'perfil@editar',
 
-      /* Funcionários */
       '/funcionarios/cadastro' => 'funcionario@cadastrar',
       '/funcionarios/edicao/{id}' => 'funcionario@editar',
 
-      /* Clientes */
       '/clientes/cadastro' => 'clientes@cadastrar',
       '/clientes/edicao/{id}' => 'clientes@editar',
 
-      /* Vendas */
-      '/vendas/cadastro' => 'vendas@cadastrar',
-      '/vendas/lista' => 'vendas@listar',
+      '/vendas/cadastro' => 'venda@cadastrar',
+      '/vendas/remocao/{id}' => 'venda@remover',
 
-      /* Motos */
       '/motos/cadastro' => 'moto@cadastrar',
       '/motos/edicao/{id}' => 'moto@editar',
     ],

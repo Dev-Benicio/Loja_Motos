@@ -24,4 +24,5 @@ abstract class component
    * @return string Retorna uma string com o conteúdo do componente em html
    */
   abstract public function render(): string;
+
 }
