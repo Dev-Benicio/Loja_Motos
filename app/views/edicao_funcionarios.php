@@ -3,23 +3,23 @@
   <?php
   use App\Components\navbar;
   $navbar = new navbar();
-  echo $navbar->render("Clientes");
+  echo $navbar->render("Funcionários");
   ?>
   <main class="flex-grow-1 d-flex flex-column justify-content-center align-items-center">
     <form method="POST" class="w-50 border border-1 border-secondary-subtle rounded-3 shadow-sm p-4">
       <!-- Cabeçalho do formulário -->
       <header class="d-flex gap-3 mb-4">
         <img
-          src="../assets/icons/cliente_cadastro.svg"
+          src="../../assets/icons/cliente_cadastro.svg"
           alt="Cadastro de Clientes"
           class="brand-icon"
           style="height: 80px; width: 80px;" />
         <div class="lh-sm">
           <h1 class="brand-name fw-semibold fs-2 mt-1 d-flex flex-column gap-3">
-            Cadastro de Clientes
+            Atualizar funcionários
           </h1>
           <p class="fs-5 text-secondary">
-            Insira as informações do cliente para cadastrá-lo
+          Atualize as informações do funcionário
           </p>
         </div>
       </header>
@@ -66,6 +66,21 @@
             <input type="number" required class="form-control bg-body-tertiary" id=numero>
           </div>
         </div>
+        <!-- Quarta linha do formulário -->
+        <div class="row">
+          <div class="col-md-4">
+            <label for="cargo" class="form-label">Cargo</label>
+            <input type="text" required class="form-control bg-body-tertiary" id="cargo">
+          </div>
+          <div class="col-md-4">
+            <label for="salario" class="form-label">Salário</label>
+            <input type="number" required class="form-control bg-body-tertiary" id=salario min="1200">
+          </div>
+          <div class="col-md-4">
+            <label for="foto_perfil" class="form-label">Foto de Perfil</label>
+            <input type="file" required class="form-control bg-body-tertiary" id="foto_perfil" class="form-label">
+          </div>
+        </div>
       </div>
       <!-- Footer do formulário -->
       <footer class="d-flex justify-content-between align-items-start mt-5">
@@ -81,7 +96,7 @@
             Cancelar
           </button>
           <button class="btn btn-dark px-5 rounded-pill">
-            Cadastrar
+            Atualizar
           </button>
         </div>
       </footer>

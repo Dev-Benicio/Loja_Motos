@@ -27,6 +27,10 @@ class roteador implements rotas
       return;
     }
 
+    if (count($params) === 1) {
+      [$params] = $params;
+    }
+
     $controller = new $controller_path();
     $controller->$method($params);
   }
@@ -84,7 +88,7 @@ class roteador implements rotas
         ['/{id}/', '/{query}/'], ['(\d+)', '(\?[a-zA-Z0-9_\-=&]+)'],
         $rota
       );
-
+      
       if (preg_match("#^{$pattern}$#", $rota_sem_nome_site, $matches)) {
         // Remove o primeiro item do array, deixando somente os parâmetros encontradods
         array_shift($matches);

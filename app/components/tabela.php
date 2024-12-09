@@ -10,13 +10,13 @@ class tabela extends component
 
   /**
    * Construtor do componente tabela.
-   * @param array $linhas Array contendo outros arrays, cada array deve conter uma linha da tabela.
    * @param array $cabecalho Array contendo os nomes das colunas da tabela.
+   * @param array $linhas Array contendo outros arrays, cada array deve conter uma linha da tabela.
    */
-  public function __construct(array $linhas, array $cabecalho)
+  public function __construct(array $cabecalho, array $linhas)
   {
-    $this->linhas = $linhas;
     $this->cabecalho = $cabecalho;
+    $this->linhas = $linhas;
   }
 
   /** 
@@ -40,13 +40,13 @@ class tabela extends component
    */
   public function render_linhas(): string
   {
-    $linhas = '';
+    $linhas = "";
     foreach ($this->linhas as $linha) {
       $linha = array_map(
         fn($item) => "<td>{$item}</td>",
         $linha
       );
-      $linha = implode('', $linha);
+      $linha = implode("", $linha);
       $linhas .= "<tr>{$linha}</tr>";
     }
 
@@ -60,11 +60,11 @@ class tabela extends component
   public function render(): string
   {
     return "
-      <table class=\"table\">
-        <thead class=\"thead-dark\">
+      <table class=\"table table-striped table-hover table-borderless w-100 overflow-hidden rounded-3 shadow-sm\">
+        <thead class=\"thead table-dark\">
           {$this->render_cabecalho()}
         </thead>
-        <tbody class=\"tbody\">
+        <tbody class=\"tbody overflow-hidden\" style=\"height: 500px;\">
           {$this->render_linhas()}
         </tbody>
       </table>

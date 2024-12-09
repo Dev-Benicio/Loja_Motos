@@ -1,5 +1,5 @@
-<?php 
-  $is_login_invalido = App\Helpers\sessao::get_sessao('is_login_invalido') ?? false;
+<?php
+$is_login_invalido = App\Helpers\sessao::get_sessao('is_login_invalido') ?? false;
 ?>
 <div class="d-flex flex-column justify-content-center vh-100">
   <main class="d-flex h-100 w-100 p-1">
@@ -19,14 +19,13 @@
       <!-- Formulário de Login -->
       <form
         class="d-grid gap-2 flex-column w-75 px-3"
-        method="POST"
-      >
+        method="POST">
         <div class="mb-3">
           <label for="user" class="form-label">Login</label>
           <input
             value="<?= App\Helpers\env::get_env('LOGIN') ?? '' ?>"
             type="text"
-            class="<?='form-control bg-body-tertiary' . ($is_login_invalido ? ' is-invalid' : '') ?>"
+            class="<?= 'form-control bg-body-tertiary' . ($is_login_invalido ? ' is-invalid' : '') ?>"
             id="user"
             name="user"
             aria-describedby="loginHelp"
@@ -38,7 +37,7 @@
           <input
             value="<?= App\Helpers\env::get_env('SENHA_LOGIN') ?? '' ?>"
             type="password"
-            class="<?='form-control bg-body-tertiary' . ($is_login_invalido ? ' is-invalid' : '') ?>"
+            class="<?= 'form-control bg-body-tertiary' . ($is_login_invalido ? ' is-invalid' : '') ?>"
             id="password"
             name="password"
             minlength="8"
@@ -47,11 +46,11 @@
         <?php
         if ($is_login_invalido) {
           echo "
-            <!-- Mensagem de erro -->
-            <span class=\"status-text mb-0 fs-6 text-center text-danger\">
-              Campo login e/ou senha estão incorretos...
-            </span>
-          ";
+          <!-- Mensagem de erro -->
+          <span class=\"status-text mb-0 fs-6 text-center text-danger\">
+            Campo login e/ou senha estão incorretos...
+          </span>
+        ";
         }
         ?>
         <div class="col-12 mt-3">

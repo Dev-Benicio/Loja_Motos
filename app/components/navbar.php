@@ -9,22 +9,22 @@ class navbar extends component
 {
   private const acesso_nav_items = [
     "gerente" => [
-      "Bem-vindo" => "./welcome",
-      "Funcionários" => "./funcionarios",
-      "Clientes" => "./clientes",
-      "Motos" => "./motos",
-      "Vendas" => "./vendas",
-      "Relatórios" => "./dashboard",
+      "Bem-vindo" => "/loja_motos/welcome",
+      "Funcionários" => "/loja_motos/funcionarios",
+      "Clientes" => "/loja_motos/clientes",
+      "Motos" => "/loja_motos/motos",
+      "Vendas" => "/loja_motos/vendas",
+      "Relatórios" => "/loja_motos/dashboard",
     ],
     "vendedor" => [
-      "Home" => "./home",
-      "Clientes" => "./clientes",
-      "Motos" => "./motos",
-      "Vendas" => "./vendas",
+      "Home" => "/loja_motos/home",
+      "Clientes" => "/loja_motos/clientes",
+      "Motos" => "/loja_motos/motos",
+      "Vendas" => "/loja_motos/vendas",
     ],
     "estoquista" => [
-      "Home" => "./home",
-      "Motos" => "./motos",
+      "Home" => "/loja_motos/home",
+      "Motos" => "/loja_motos/motos",
     ],
   ];
 
@@ -90,35 +90,37 @@ class navbar extends component
     $nav_items = $this->render_items($item_ativo);
 
     return <<<HTML
-    <nav class="navbar navbar-expand-lg px-5 w-100">
-      <div class="container-fluid d-flex justify-content-between align-items-center w-100">
-        <!-- Nome do site e da página atual -->
-        <div class="nav-bar-brand">
-          <span class="status-text fw-light mb-0 fs-6">
-            {$item_ativo}
-          </span>
-          <h2 class="brand-name fw-semibold fs-5 mt-1">
-            Thunder Gears
-          </h2>
+    <header class="d-flex justify-content-between align-items-center border-bottom mt-1 shadow-sm">
+      <nav class="navbar navbar-expand-lg px-5 w-100">
+        <div class="container-fluid d-flex justify-content-between align-items-center w-100">
+          <!-- Nome do site e da página atual -->
+          <div class="nav-bar-brand">
+            <span class="status-text fw-light mb-0 fs-6">
+              {$item_ativo}
+            </span>
+            <h2 class="brand-name fw-semibold fs-5 mt-1">
+              Thunder Gears
+            </h2>
+          </div>
+          <!-- Botão que abre e fecha a navegação, quando a tela é pequena -->
+          <button 
+            class="navbar-toggler border-0 bg-transparent"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+            <i class="navbar-toggler-icon"></i>
+          </button>
+          <!-- Navegação -->
+          <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav gap-2" style="font-size: 1.1rem;">
+              {$nav_items}
+            </ul>
+          </div>
         </div>
-        <!-- Botão que abre e fecha a navegação, quando a tela é pequena -->
-        <button 
-          class="navbar-toggler border-0 bg-transparent"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation">
-          <i class="navbar-toggler-icon"></i>
-        </button>
-        <!-- Navegação -->
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-          <ul class="navbar-nav gap-2" style="font-size: 1.1rem;">
-            {$nav_items}
-          </ul>
-        </div>
-      </div>
-    </nav>
+      </nav>
+    </header>
     HTML;
   }
 }

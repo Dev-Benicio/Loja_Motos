@@ -2,13 +2,11 @@
 
 <div class="d-flex flex-column vh-100">
   <!-- HEADER -->
-  <header class="d-flex justify-content-between align-items-center border-bottom mt-1 shadow-sm">
-    <?php
-    use App\Components\navbar;
-    $navbar = new navbar();
-    echo $navbar->render('Relatórios');
-    ?>
-  </header>
+  <?php
+  use App\Components\navbar;
+  $navbar = new navbar();
+  echo $navbar->render('Relatórios');
+  ?>
   <!-- Bento Grid com cards de relatórios -->
   <main class="container mt-4">
     <!-- Primeira linha -->

@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Controllers\controller;
-use App\Database\gerente_conexao;
 use App\Models\moto;
 
 class moto_controller extends controller
@@ -14,8 +13,7 @@ class moto_controller extends controller
    */
   public function index(): void
   {
-    $resultado = moto::read();
-    $motos = $resultado->fetch_all(MYSQLI_ASSOC);
+    $motos = moto::read();
     $this->call_view('lista_motos', ['motos' => $motos]);
   }
 

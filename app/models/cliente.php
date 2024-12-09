@@ -63,7 +63,7 @@ class cliente extends model implements crud
 		}
 	}
 
-	public static function read(null|int $id = null): mysqli_result
+	public static function read(null|int $id = null): array
 	{
 		self::init_conexao();
 		$colunas = array_merge(
@@ -72,10 +72,13 @@ class cliente extends model implements crud
 		);
 
 		$select = implode(', ', array_filter($colunas));
-		$sql = "SELECT {$select}
-            FROM cliente c
-            LEFT JOIN endereco e ON c.id_endereco = e.id_endereco
-            WHERE " . implode(
+		$sql = "
+			SELECT {$select}
+			FROM cliente c
+			LEFT JOIN endereco e ON c.id_endereco = e.id_endereco
+			WHERE ";
+
+		$sql .= implode(
 			' IS NOT NULL AND ',
 			array_map(fn($col) => "$col IS NOT NULL", $colunas)
 		);
@@ -88,7 +91,12 @@ class cliente extends model implements crud
 			$stmt->bind_param("i", $id);
 		}
 		$stmt->execute();
-		return $stmt->get_result();
+
+		$resultado = $stmt->get_result();
+		while ($row = $resultado->fetch_assoc()) {
+			$clientes[] = $row;
+		}
+		return $clientes;
 	}
 
 	public static function update(int $id, array $cliente): bool

@@ -1,5 +1,7 @@
 * {
   font-family: 'Poppins', sans-serif;
+  -webkit-font-smothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .active-nav-link {
@@ -21,4 +23,16 @@
   box-shadow: var(--shadow-sm);
   color: var(--text-body);
   transition: background 0.25s ease-in-out;
+}
+
+.outline-btn {
+  background: none;
+  outline: 1px solid #4e4e4e;
+  color: #101010;
+  transition: outline 0.15s ease-in-out;
+ 
+  &:hover {
+    color: #484848;
+    outline: 1px solid #b8b8b8;
+  }
 }

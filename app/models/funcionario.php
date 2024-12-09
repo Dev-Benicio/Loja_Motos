@@ -17,6 +17,7 @@ class funcionario extends model implements crud
       'nome',
       'cpf',
       'email',
+      'telefone',
       'cargo',
       'data_admissao',
       'data_demissao',
@@ -76,7 +77,7 @@ class funcionario extends model implements crud
   /**
    * Lê registros de funcionários do banco de dados.
    */
-  public static function read(null|int $id = null): mysqli_result
+  public static function read(null|int $id = null): array
   {
     parent::init_conexao();
     $colunas = array_merge(
@@ -85,11 +86,15 @@ class funcionario extends model implements crud
     );
 
     $select = implode(', ', array_filter($colunas));
-    $sql = "SELECT {$select}
-            FROM funcionario f
-            LEFT JOIN endereco e ON f.id_endereco = e.id_endereco
-            WHERE " . implode(' IS NOT NULL AND ', array_map(fn($col) => "$col IS NOT NULL", $colunas))
-    ;
+    $sql = "
+      SELECT {$select}
+      FROM funcionario f
+      LEFT JOIN endereco e ON f.id_endereco = e.id_endereco
+      WHERE " . implode(
+        ' IS NOT NULL AND ',
+        array_map(fn($col) => "$col IS NOT NULL", $colunas)
+    );
+    
     $sql .= $id ? " AND f.id_funcionario = ? AND f.status_funcionario IN ('ativo', 'inativo')"
     : " AND f.status_funcionario IN ('ativo', 'inativo')";
     $stmt = parent::$conexao->prepare($sql);
@@ -98,7 +103,12 @@ class funcionario extends model implements crud
       $stmt->bind_param("i", $id);
     }
     $stmt->execute();
-    return $stmt->get_result();
+
+    $resultado = $stmt->get_result();
+    while ($row = $resultado->fetch_assoc()) {
+      $funcionarios[] = $row;
+    }
+    return $funcionarios;
   }
 
   /* 
