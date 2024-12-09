@@ -46,16 +46,25 @@ class moto extends model implements crud
 		}
 	}
 
-	public static function read(null|int $id = null): mysqli_result
+	public static function read(null|int $id = null): array
 	{
     parent::init_conexao();
-		$sql = $id ? "SELECT * FROM moto WHERE id_moto = ? AND status_moto IN ('disponivel', 'esgotado')" : "SELECT * FROM moto WHERE status_moto IN ('disponivel', 'esgotado')";
+		$sql = "
+			SELECT * FROM moto
+			". $id ? " WHERE id_moto = ? " : "" ."
+			AND status_moto IN ('disponivel', 'esgotado')
+		";
 		$stmt = parent::$conexao->prepare($sql);
 		if ($id) {
 			$stmt->bind_param("i", $id);
 		}
 		$stmt->execute();
-		return $stmt->get_result();
+
+		$resultado = $stmt->get_result();
+		while ($moto = $resultado->fetch_assoc()) {
+			$motos[] = $moto;
+		}
+		return $motos;
 	}
 
 

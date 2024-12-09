@@ -9,22 +9,22 @@ class navbar extends component
 {
   private const acesso_nav_items = [
     "gerente" => [
-      "Bem-vindo" => "./welcome",
-      "Funcionários" => "./funcionarios",
-      "Clientes" => "./clientes",
-      "Motos" => "./motos",
-      "Vendas" => "./vendas",
-      "Relatórios" => "./dashboard",
+      "Bem-vindo" => "/loja_motos/welcome",
+      "Funcionários" => "/loja_motos/funcionarios",
+      "Clientes" => "/loja_motos/clientes",
+      "Motos" => "/loja_motos/motos",
+      "Vendas" => "/loja_motos/vendas",
+      "Relatórios" => "/loja_motos/dashboard",
     ],
     "vendedor" => [
-      "Home" => "./home",
-      "Clientes" => "./clientes",
-      "Motos" => "./motos",
-      "Vendas" => "./vendas",
+      "Home" => "/loja_motos/home",
+      "Clientes" => "/loja_motos/clientes",
+      "Motos" => "/loja_motos/motos",
+      "Vendas" => "/loja_motos/vendas",
     ],
     "estoquista" => [
-      "Home" => "./home",
-      "Motos" => "./motos",
+      "Home" => "/loja_motos/home",
+      "Motos" => "/loja_motos/motos",
     ],
   ];
 

@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Controllers\controller;
-use App\Database\gerente_conexao;
 use App\Models\venda;
 use App\Models\moto;
 
@@ -15,8 +14,7 @@ class venda_controller extends controller
    */
   public function index(): void
   {
-    $resultado = venda::read();
-    $vendas = $resultado->fetch_all(MYSQLI_ASSOC);
+    $vendas = venda::read();
     $this->call_view('lista_vendas', ['vendas' => $vendas]);
   }
 
@@ -55,7 +53,7 @@ class venda_controller extends controller
    */
   public function editar($id)
   {
-    $venda_atual = venda::read($id)->fetch_assoc();
+    $venda_atual = venda::read($id);
     // Realiza a atualização de vendas
     if (venda::update($id, $_POST)) {
       // Só executa se o status tiver sido alterado
@@ -75,7 +73,7 @@ class venda_controller extends controller
    */
   public function exluir($id)
   {
-    $venda = venda::read($id)->fetch_assoc();
+    $venda = venda::read($id);
     if ($venda) {
       // Primeiro tenta excluir a venda
       if (venda::delete($id)) {

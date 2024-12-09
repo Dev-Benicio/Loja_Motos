@@ -20,6 +20,16 @@ class higiene_dados
   }
 
   /**
+   * Verifica se os dados são CEP válidos
+   * @param string $cep O CEP a ser verificado
+   * @return bool Retorna true se os dados são CEP válidos, caso contrário, false
+   */
+  public static function check_cep(string $cep): bool
+  {
+    return false;
+  }
+
+  /**
    * Formata o endereço para o padrão a ser exibido no site
    * @param array{
    *  cidade: string,

@@ -40,10 +40,10 @@ class cliente_controller extends controller
 
       // Adicionar campo de 'Ações' na listagem
       $cliente['editar_deletar'] = <<<Botoes
-        <a href="/cliente/editar/{$cliente['id_cliente']}" class="btn fs-5 p-1 link-primary">
+        <a href="./clientes/edicao/{$cliente['id_cliente']}" class="btn fs-5 p-1 link-primary">
           <i class="bi bi-pencil-square" title="Editar"></i>
         </a>
-        <a href="/cliente/excluir/{$cliente['id_cliente']}" class="btn fs-5 p-1 link-danger">
+        <a href="./clientes/remocao/{$cliente['id_cliente']}" class="btn fs-5 p-1 link-danger">
           <i class="bi bi-x-square" title="Deletar"></i>
         </a>
       Botoes;
@@ -66,10 +66,17 @@ class cliente_controller extends controller
    */
   public function call_view_edicao(int $id): void
   {
-    $cliente = cliente::read($id);
+    [$cliente] = cliente::read($id);
     if (count($cliente) === 0) {
       $this->call_view('error_404');
     }
+
+    // Formatar os dados que serão mostrados na listagem
+    $cliente['telefone'] = higiene_dados::formatar_telefone($cliente['telefone']);
+    $cliente['data_nascimento'] = date('Y/m/d', strtotime($cliente['data_nascimento']));
+    $cliente['data_nascimento'] = str_replace('/', '-', $cliente['data_nascimento']);
+    $cliente['cpf'] = higiene_dados::formatar_cpf($cliente['cpf']);
+
     $this->call_view('edicao_clientes', ['cliente' => $cliente]);
   }
 
@@ -77,7 +84,7 @@ class cliente_controller extends controller
    * Cadastra clientes
    */
   public function cadastrar(): void
-  {
+  { 
     $cliente = endereco::validarSalvarEndereco($_POST);
     if (!empty($cliente)) {
       cliente::create($cliente);
@@ -102,4 +109,5 @@ class cliente_controller extends controller
   {
     cliente::delete($id);
   }
+
 }

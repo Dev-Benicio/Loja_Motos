@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Controllers\controller;
 use App\Models\funcionario;
 use App\Models\endereco;
-use App\Database\gerente_conexao;
+use App\Helpers\higiene_dados;
 
 class funcionario_controller extends controller
 {
@@ -15,15 +15,56 @@ class funcionario_controller extends controller
    */
   public function index()
   {
-    $resultado = funcionario::read();
-    $funcionarios = $resultado->fetch_all(MYSQLI_ASSOC);
+    $funcionarios = funcionario::read();
+
+    array_walk($funcionarios, function (&$funcionario) {
+      $funcionario_endereco = [
+        'cidade' => $funcionario['cidade'],
+        'unidade_federativa' => $funcionario['unidade_federativa'],
+        'rua' => $funcionario['rua'],
+        'numero' => $funcionario['numero'],
+      ];
+
+      // Formatar os dados que serão mostrados na listagem
+      $funcionario['endereco'] = higiene_dados::formatar_endereco($funcionario_endereco);
+      $funcionario['telefone'] = higiene_dados::formatar_telefone($funcionario['telefone']);
+      $funcionario['data_demissao'] = higiene_dados::formatar_data($funcionario['data_admissao']);
+      $funcionario['cpf'] = higiene_dados::formatar_cpf($funcionario['cpf']);
+
+      // Remover os dados que não serão mostrados na listagem
+      unset($funcionario['foto_perfil']);
+      unset($funcionario['salario']);
+      unset($funcionario['nome']);
+      unset($funcionario['senha']);
+      unset($funcionario['data_demissao']);
+      unset($funcionario['id_endereco']);
+      unset($funcionario['cidade']);
+      unset($funcionario['unidade_federativa']);
+      unset($funcionario['rua']);
+      unset($funcionario['numero']);
+
+      // Adicionar campo de 'Ações' na listagem
+      $funcionario['editar_deletar'] = <<<Botoes
+        <a
+          href="./funcionarios/edicao/{$funcionario['id_funcionario']}"
+          class="btn fs-5 p-1 link-primary">
+          <i class="bi bi-pencil-square" title="Editar"></i>
+        </a>
+        <a
+          href="./funcionarios/remocao/{$funcionario['id_funcionario']}"
+          class="btn fs-5 p-1 link-danger">
+          <i class="bi bi-x-square" title="Deletar"></i>
+        </a>
+      Botoes;
+    });
+
     $this->call_view('lista_funcionarios', ['funcionarios' => $funcionarios]);
   }
 
   /**
    * Chama a view que permite cadastrar um funcionário.
    */
-  public function call_cadastro_view()
+  public function call_view_cadastro()
   {
     $this->call_view('cadastro_funcionarios');
   }
@@ -32,13 +73,12 @@ class funcionario_controller extends controller
    * Chama a view que permite editar os dados de um funcionário.
    * @param int $id Identificador do funcionário a ser editado.
    */
-  public function call_edicao_view(int $id)
+  public function call_view_edicao(int $id)
   {
-    $resultado = funcionario::read($id);
-    if ($resultado->num_rows === 0) {
+    $funcionario = funcionario::read($id);
+    if (count($funcionario) === 0) {
       $this->call_view('error_404');
     }
-    $funcionario = $resultado->fetch_assoc();
     $this->call_view('edicao_funcionarios', ['funcionario' => $funcionario]);
   }
 

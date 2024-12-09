@@ -42,7 +42,6 @@ interface rotas
       '/clientes/edicao/{id}' => 'cliente@editar',
 
       '/vendas/cadastro' => 'venda@cadastrar',
-      '/vendas/remocao/{id}' => 'venda@remover',
 
       '/motos/cadastro' => 'moto@cadastrar',
       '/motos/edicao/{id}' => 'moto@editar',

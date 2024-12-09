@@ -1,7 +1,9 @@
 <div class="d-flex flex-column vh-100">
   <!-- HEADER -->
   <?php
+
   use App\Components\navbar;
+
   $navbar = new navbar();
   echo $navbar->render("Clientes");
   ?>
@@ -10,40 +12,68 @@
       <!-- Cabeçalho do formulário -->
       <header class="d-flex gap-3 mb-4">
         <img
-          src="../assets/icons/cliente_cadastro.svg"
+          src="../../assets/icons/cliente_cadastro.svg"
           alt="Cadastro de Clientes"
           class="brand-icon"
           style="height: 80px; width: 80px;" />
         <div class="lh-sm">
           <h1 class="brand-name fw-semibold fs-2 mt-1 d-flex flex-column gap-3">
-            Cadastro de Clientes
+            Atualizar cliente
           </h1>
           <p class="fs-5 text-secondary">
-            Insira as informações do cliente para cadastrá-lo
+            Atualize as informações do cliente
           </p>
         </div>
       </header>
       <div class="d-grid gap-4">
         <!-- Primeira linha do formulário -->
         <div class="row">
-          <div class="col-md-8">
-            <label for="nome" class="form-label">Nome completo</label>
-            <input required type="text" class="form-control bg-body-tertiary" id="nome">
+          <div class="col-md-4">
+            <label for="nome" class="form-label">Nome</label>
+            <input
+              value="<?= $cliente['nome'] ?>"
+              required
+              type="text"
+              class="form-control bg-body-tertiary"
+              id="nome">
+          </div>
+          <div class="col-md-4">
+            <label for="sobrenome" class="form-label">Sobrenome</label>
+            <input
+              value="<?= $cliente['nome'] ?>"
+              required type="text"
+              class="form-control bg-body-tertiary"
+              id="sobrenome">
           </div>
           <div class="col-md-4">
             <label for="telefone" class="form-label">Telefone</label>
-            <input required type="text" class="form-control bg-body-tertiary" id="telefone">
+            <input
+              value="<?= $cliente['telefone'] ?>"
+              required
+              type="text"
+              class="form-control bg-body-tertiary"
+              id="telefone">
           </div>
         </div>
         <!-- Segunda linha do formulário -->
         <div class="row">
           <div class="col-md-4">
             <label for="cpf" class="form-label">CPF</label>
-            <input type="text" required class="form-control bg-body-tertiary" id="cpf">
+            <input
+              value="<?= $cliente['cpf'] ?>"
+              required
+              type="text"
+              class="form-control bg-body-tertiary"
+              id="cpf">
           </div>
           <div class="col-md-8">
             <label for="email" class="form-label">Email</label>
-            <input type="email" required class="form-control bg-body-tertiary" id="email">
+            <input
+              value="<?= $cliente['email'] ?>"
+              required
+              type="email"
+              class="form-control bg-body-tertiary"
+              id="email">
           </div>
         </div>
         <!-- Terceira linha do formulário -->
@@ -51,6 +81,7 @@
           <div class="col-md-4">
             <label for="data_nascimento" class="form-label">Data de nascimento</label>
             <input
+              value="<?= $cliente['data_nascimento'] ?>"
               type="date"
               required
               class="form-control bg-body-tertiary"
@@ -59,11 +90,21 @@
           </div>
           <div class="col-md-4">
             <label for="cep" class="form-label">CEP</label>
-            <input type="text" required class="form-control bg-body-tertiary" id="cep">
+            <input
+              value="<?= 123535 ?>"
+              required
+              type="text"
+              class="form-control bg-body-tertiary"
+              id="cep">
           </div>
           <div class="col-md-4">
             <label for="numero" class="form-label">Número</label>
-            <input type="number" required class="form-control bg-body-tertiary" id=numero>
+            <input
+              value="<?= $cliente['numero'] ?>"
+              required
+              type="number"
+              class="form-control bg-body-tertiary"
+              id=numero>
           </div>
         </div>
       </div>
@@ -81,7 +122,7 @@
             Cancelar
           </button>
           <button class="btn btn-dark px-5 rounded-pill">
-            Cadastrar
+            Alterar
           </button>
         </div>
       </footer>
