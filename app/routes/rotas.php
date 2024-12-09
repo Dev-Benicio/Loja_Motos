@@ -38,8 +38,8 @@ interface rotas
       '/funcionarios/cadastro' => 'funcionario@cadastrar',
       '/funcionarios/edicao/{id}' => 'funcionario@editar',
 
-      '/clientes/cadastro' => 'clientes@cadastrar',
-      '/clientes/edicao/{id}' => 'clientes@editar',
+      '/clientes/cadastro' => 'cliente@cadastrar',
+      '/clientes/edicao/{id}' => 'cliente@editar',
 
       '/vendas/cadastro' => 'venda@cadastrar',
       '/vendas/remocao/{id}' => 'venda@remover',
