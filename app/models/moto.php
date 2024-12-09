@@ -51,8 +51,8 @@ class moto extends model implements crud
     parent::init_conexao();
 		$sql = "
 			SELECT * FROM moto
-			". $id ? " WHERE id_moto = ? " : "" ."
-			AND status_moto IN ('disponivel', 'esgotado')
+			WHERE". ($id ? " id_moto = ? AND" : " ") ."
+			status_moto IN ('disponivel', 'esgotado')
 		";
 		$stmt = parent::$conexao->prepare($sql);
 		if ($id) {

@@ -70,10 +70,10 @@ class navbar extends component
         </button>
         <ul class="dropdown-menu dropdown-menu-end mt-2">
           <li>
-            <a class="dropdown-item" href="perfil">Meu perfil</a>
+            <a class="dropdown-item" href="/loja_motos/funcionarios/perfil">Meu perfil</a>
           </li>
           <li>
-            <a class="dropdown-item" href="logout">Sair</a>
+            <a class="dropdown-item" href="/loja_motos/logout">Sair</a>
           </li>
         </ul>
       </li>
