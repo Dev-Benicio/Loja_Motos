@@ -17,6 +17,37 @@ class venda_controller extends controller
   public function index(): void
   {
     $vendas = venda::read();
+
+    array_walk($vendas, function(&$venda) {
+      // Tratar dados que serão exibidos na listagem de vendas
+      $venda['cpf'] = higiene_dados::formatar_cpf($venda['cpf']);
+      $venda['nome_cliente'] = <<<HTML
+        <span class="fw-bold">{$venda['nome_cliente']}</span>
+        <br>
+        <span class="text-secondary">CPF: {$venda['cpf']}</span>
+      HTML;
+      $venda['valor_total_venda'] = higiene_dados::formatar_preco($venda['valor_total_venda']);
+      $venda['data_venda'] = higiene_dados::formatar_data($venda['data_venda']);
+
+      $venda['editar_remover'] = <<<HTML
+        <a
+          href="./funcionarios/edicao/{$venda['id_venda']}"
+          class="btn fs-5 p-1 link-primary">
+          <i class="bi bi-pencil-square" title="Editar"></i>
+        </a>
+        <a
+          href="./vendas/remocao/{$venda['id_venda']}"
+          class="btn fs-5 p-1 link-danger">
+          <i class="bi bi-x-square" title="Deletar"></i>
+        </a>
+      HTML;
+
+      // Limpar dados que não serão exibidos na listagem de vendas
+      unset($venda['cpf']);
+      unset($venda['id_cliente'], $venda['id_funcionario'], $venda['id_moto']);
+      unset($venda['status_venda']);
+    });
+
     $this->call_view('lista_vendas', ['vendas' => $vendas]);
   }
 

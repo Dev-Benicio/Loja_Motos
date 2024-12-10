@@ -52,9 +52,15 @@ class venda extends model implements crud
   {
     parent::init_conexao();
     $sql = $id
-      ? "SELECT * FROM venda WHERE id_funcionario = ? AND status_venda = 'realizada'"
-      :
-      "SELECT * FROM venda WHERE status_venda = 'realizada'";
+      ? "SELECT v.id_venda, c.nome as nome_cliente, c.cpf, v.*
+         FROM venda v
+         INNER JOIN cliente c ON v.id_cliente = c.id_cliente 
+         WHERE v.id_funcionario = ? 
+         AND v.status_venda = 'realizada'"
+      : "SELECT v.id_venda, c.nome as nome_cliente, c.cpf, v.*
+         FROM venda v 
+         INNER JOIN cliente c ON v.id_cliente = c.id_cliente
+         WHERE v.status_venda = 'realizada'";
 
     $stmt = parent::$conexao->prepare($sql);
     if ($id) {

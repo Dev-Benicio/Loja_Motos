@@ -23,30 +23,16 @@
     </div>
     <?php
     if (!empty($vendas)) {
-      $cabecalho = ['Cliente', 'Quantidade', 'Valor total', 'Data', 'Comissão', 'Ações'];
-      $linhas = array_map(function($venda) {
-        return [
-          $venda['nome_cliente'],
-          $venda['quantidade_vendida'],
-          $venda['valor_total'],
-          $venda['data_venda'],
-          $venda['comissao'],
-          "<div class='d-flex justify-content-center gap-2'>
-            <a href='./vendas/edicao/{$venda['id_venda']}' 
-               class='btn btn-light rounded-circle' 
-               title='Editar venda'>
-              <i class='bi bi-pencil'></i>
-            </a>
-            <a href='./vendas/exclusao/{$venda['id_venda']}' 
-               class='btn btn-dark rounded-circle' 
-               title='Excluir venda'>
-              <i class='bi bi-trash'></i>
-            </a>
-          </div>"
-        ];
-      }, $vendas);
-
-      $tabela = new tabela($cabecalho, $linhas);
+      $cabecalho = [
+        '#',
+        'Cliente',
+        'Forma de pagamento',
+        'Valor total',
+        'Data',
+        'Quantidade vendida',
+        'Ações'
+      ];
+      $tabela = new tabela($cabecalho, $vendas);
       echo $tabela->render();
     } else {
       echo '<div class="alert alert-info">Nenhuma venda registrada</div>';
