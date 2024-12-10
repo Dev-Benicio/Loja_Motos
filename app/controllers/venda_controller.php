@@ -54,7 +54,7 @@ class venda_controller extends controller
   /**
    * Chama a view que permite cadastrar uma venda.
    */
-  public function call_cadastro_view(): void
+  public function call_view_cadastro(): void
   {
     $this->call_view('cadastro_vendas');
   }
@@ -63,9 +63,9 @@ class venda_controller extends controller
    * Chama a view que permite editar os dados de uma venda.
    * @param int $id Identificador da venda a ser editada.
    */
-  public function call_edicao_view(): void
+  public function call_view_edicao(int $id): void
   {
-    $this->call_view('edicao_vendas');
+    $this->call_view('edicao_vendas', ['id_venda' => $id]);
   }
 
   /**

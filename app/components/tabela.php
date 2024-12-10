@@ -40,6 +40,14 @@ class tabela extends component
    */
   public function render_linhas(): string
   {
+    if (empty($this->linhas) || count($this->linhas) === 0) {
+      return "
+        <tr>
+          <td colspan=\"{$this->cabecalho}\">Nenhum dado encontrado</td>
+        </tr>
+      ";
+    }
+
     $linhas = "";
     foreach ($this->linhas as $linha) {
       $linha = array_map(
