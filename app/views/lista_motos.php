@@ -12,10 +12,12 @@
       </div>
       <div class="d-flex gap-2 btn-group">
         <a
-          href="./cadastro"
-          class="btn btn-dark rounded-pill px-3">
-          <i class="bi bi-plus"></i>
-          Registrar moto
+          href="./motos/cadastro"
+          class="btn btn-dark rounded-5 px-3 py-0 d-flex align-items-center gap-1">
+          <div class="d-grid place-items-center">
+            <i class="bi bi-plus fs-4 m-0"></i>
+          </div>
+          Cadastrar moto
         </a>
         <a
           href="./carrinho"
@@ -30,12 +32,24 @@
       echo <<<HTML
         <div class="card flex-row overflow-hidden rounded-3 shadow-sm">
           <!-- Imagem da moto -->
-          <div class="ratio ratio-1x1" style="max-height: 400px; max-width: 300px;">
+          <div class="position-relative ratio ratio-1x1" style="max-height: 400px; max-width: 300px;">
             <img
               src="{$moto['foto_moto']}"
               alt="Foto da moto"
-              class="object-fit-cover h-100 w-100"
+              class="object-fit-contain h-100 w-100"
               loading="lazy" />
+            <div class="position-absolute d-flex justify-content-start align-items-end gap-2 p-2">
+              <a
+                href="./motos/edicao/{$moto['id_moto']}"
+                class="btn btn-light rounded-circle shadow-sm">
+                <i class="bi bi-pencil fs-5"></i>
+              </a>
+              <a
+                href="./motos/exclusao/{$moto['id_moto']}"
+                class="btn btn-dark rounded-circle">
+                <i class="bi bi-trash fs-5"></i>
+              </a>
+            </div>
           </div>
           <!-- Informações da moto -->
           <div class="card-body bg-body-secondary p-4 d-flex flex-column justify-content-between">

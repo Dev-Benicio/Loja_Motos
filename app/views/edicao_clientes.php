@@ -12,7 +12,7 @@
       <!-- Cabeçalho do formulário -->
       <header class="d-flex gap-3 mb-4">
         <img
-          src="../../assets/icons/cliente_cadastro.svg"
+          src="/loja_motos/assets/icons/cliente_cadastro.svg"
           alt="Cadastro de Clientes"
           class="brand-icon"
           style="height: 80px; width: 80px;" />

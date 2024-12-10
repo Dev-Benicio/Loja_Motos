@@ -1,5 +1,12 @@
 <?php
-$is_login_invalido = App\Helpers\sessao::get_sessao('is_login_invalido') ?? false;
+use App\Helpers\sessao;
+
+if (sessao::get_sessao('usuario')) {
+  header('Location: /loja_motos/welcome');
+  exit;
+}
+
+$is_login_invalido = sessao::get_sessao('is_login_invalido') ?? false;
 ?>
 <div class="d-flex flex-column justify-content-center vh-100">
   <main class="d-flex h-100 w-100 p-1">
