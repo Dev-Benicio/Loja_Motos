@@ -30,6 +30,16 @@ class higiene_dados
   }
 
   /**
+   * Formata o preço para o padrão R$ X.XXX,XX
+   * @param string $preco O preço a ser formatado
+   * @return string Retorna o preço formatado
+   */
+  public static function formatar_preco(string $preco): string
+  {
+    return "R$ " . number_format($preco, 2, ',', '.');
+  }
+
+  /**
    * Formata o endereço para o padrão a ser exibido no site
    * @param array{
    *  cidade: string,

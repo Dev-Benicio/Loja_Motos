@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\controller;
+use App\Helpers\higiene_dados;
 use App\Models\moto;
 
 class moto_controller extends controller
@@ -14,6 +15,20 @@ class moto_controller extends controller
   public function index(): void
   {
     $motos = moto::read();
+
+    array_walk($motos, function(&$moto) {
+      // Tratamento dos dados que serão exibidos na listagem
+      $moto['foto_moto'] = "images/motos/{$moto['foto_moto']}";
+
+      $moto['preco'] = higiene_dados::formatar_preco($moto['preco']);
+
+      $moto['tipo_motor'] = match($moto['tipo_motor']) {
+        'Combustão' => '<i class="bi bi-fuel-pump" title="Combustão"></i>',
+        'Elétrico' => '<i class="bi bi-plug" title="Elétrico"></i>',
+        default => $moto['tipo_motor']
+      };
+    });
+
     $this->call_view('lista_motos', ['motos' => $motos]);
   }
 
