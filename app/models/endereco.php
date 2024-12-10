@@ -116,7 +116,7 @@ class endereco extends model
         $stmt = parent::$conexao->prepare($sql);
         $stmt->bind_param(
           $types_bind,
-          ...array_values($endereco),
+          array_values($endereco),
           $dados['id_endereco']
         );
         $stmt->execute() ? parent::$conexao->commit() : parent::$conexao->rollback();

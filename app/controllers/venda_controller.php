@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use App\Controllers\controller;
+use App\Helpers\higiene_dados;
+use App\Helpers\sessao;
 use App\Models\venda;
 use App\Models\moto;
 
@@ -15,6 +17,37 @@ class venda_controller extends controller
   public function index(): void
   {
     $vendas = venda::read();
+
+    array_walk($vendas, function(&$venda) {
+      // Tratar dados que serão exibidos na listagem de vendas
+      $venda['cpf'] = higiene_dados::formatar_cpf($venda['cpf']);
+      $venda['nome_cliente'] = <<<HTML
+        <span class="fw-bold">{$venda['nome_cliente']}</span>
+        <br>
+        <span class="text-secondary">CPF: {$venda['cpf']}</span>
+      HTML;
+      $venda['valor_total_venda'] = higiene_dados::formatar_preco($venda['valor_total_venda']);
+      $venda['data_venda'] = higiene_dados::formatar_data($venda['data_venda']);
+
+      $venda['editar_remover'] = <<<HTML
+        <a
+          href="./funcionarios/edicao/{$venda['id_venda']}"
+          class="btn fs-5 p-1 link-primary">
+          <i class="bi bi-pencil-square" title="Editar"></i>
+        </a>
+        <a
+          href="./vendas/remocao/{$venda['id_venda']}"
+          class="btn fs-5 p-1 link-danger">
+          <i class="bi bi-x-square" title="Deletar"></i>
+        </a>
+      HTML;
+
+      // Limpar dados que não serão exibidos na listagem de vendas
+      unset($venda['cpf']);
+      unset($venda['id_cliente'], $venda['id_funcionario'], $venda['id_moto']);
+      unset($venda['status_venda']);
+    });
+
     $this->call_view('lista_vendas', ['vendas' => $vendas]);
   }
 
@@ -33,6 +66,70 @@ class venda_controller extends controller
   public function call_edicao_view(): void
   {
     $this->call_view('edicao_vendas');
+  }
+
+  /**
+   * Chama a view que lista os produtos no carrinho de compras.
+   */
+  public function call_carrinho_view(): void
+  {
+    $ids_motos = sessao::get_sessao('carrinho') ?? [];
+    $motos = [];
+
+    if (!empty($ids_motos)) {
+      foreach ($ids_motos as $id) {
+        [ $moto ] = moto::read($id);
+        if ($moto) {
+          $moto['preco'] = higiene_dados::formatar_preco($moto['preco']);
+          $moto['foto_moto'] = "/loja_motos/images/motos/{$moto['foto_moto']}";
+          $motos[] = $moto;
+        }
+      }
+    }
+
+    $this->call_view('carrinho_de_compras', ['motos' => $motos]);
+  }
+
+  /**
+   * Adiciona uma moto ao carrinho de compras.
+   * @param int $id Identificador da moto a ser adicionada.
+   */
+  public function adicionar_moto_ao_carrinho($id): void
+  {
+    // Debug para ver o ID recebido
+    var_dump('ID recebido:', $id);
+    
+    $carrinho_atual = sessao::get_sessao('carrinho') ?? [];
+    // Debug para ver o carrinho atual
+    var_dump('Carrinho atual:', $carrinho_atual);
+    
+    if (!in_array($id, $carrinho_atual)) {
+      $carrinho_atual[] = $id;
+      sessao::set_sessao('carrinho', $carrinho_atual);
+    }
+    
+    // Debug para ver o carrinho após adição
+    var_dump('Carrinho após adição:', sessao::get_sessao('carrinho'));
+    
+    header('Location: /loja_motos/motos');
+    exit;
+  }
+
+  /**
+   * Remove uma moto do carrinho de compras.
+   * @param int $id Identificador da moto a ser removida.
+   */
+  public function remover_moto_do_carrinho($id): void
+  {
+    $carrinho_atual = sessao::get_sessao('carrinho') ?? [];
+    
+    if (($chave = array_search($id, $carrinho_atual)) !== false) {
+      unset($carrinho_atual[$chave]);
+      sessao::set_sessao('carrinho', array_values($carrinho_atual));
+    }
+    
+    header('Location: /loja_motos/vendas/carrinho');
+    exit;
   }
 
   /**

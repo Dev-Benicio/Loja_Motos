@@ -14,7 +14,7 @@
       <span>4</span>
       <img
         class="d-block"
-        src="./assets/icons/roda_de_moto.svg"
+        src="/loja_motos/assets/icons/roda_de_moto.svg"
         alt="roda de moto representando o zero do erro 404"
         style="height: 8.5rem; width: auto;">
       <span>4</span>

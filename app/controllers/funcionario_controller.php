@@ -44,7 +44,7 @@ class funcionario_controller extends controller
       unset($funcionario['numero']);
 
       // Adicionar campo de 'Ações' na listagem
-      $funcionario['editar_deletar'] = <<<Botoes
+      $funcionario['editar_deletar'] = <<<HTML
         <a
           href="./funcionarios/edicao/{$funcionario['id_funcionario']}"
           class="btn fs-5 p-1 link-primary">
@@ -55,7 +55,7 @@ class funcionario_controller extends controller
           class="btn fs-5 p-1 link-danger">
           <i class="bi bi-x-square" title="Deletar"></i>
         </a>
-      Botoes;
+      HTML;
     });
 
     $this->call_view('lista_funcionarios', ['funcionarios' => $funcionarios]);
