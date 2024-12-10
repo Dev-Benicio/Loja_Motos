@@ -11,7 +11,8 @@ class endereco extends model
     'unidade_federativa',
     'cidade',
     'numero',
-    'rua'
+    'rua',
+    'cep'
   ];
 
   public static function validarSalvarEndereco(array $dados): array

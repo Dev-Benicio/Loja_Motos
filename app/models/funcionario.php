@@ -170,5 +170,4 @@ class funcionario extends model implements crud
       return false;
     }
   }
-
 }
