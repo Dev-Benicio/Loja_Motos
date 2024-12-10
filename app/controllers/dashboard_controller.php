@@ -14,6 +14,7 @@ class dashboard_controller extends controller
   {
     $modelos_mais_vendidos = relatorios::modelo_mais_vendido();
     $vendedores_com_mais_vendas = relatorios::vendedores_com_mais_vendas();
+    $vendedores_com_mais_vendas[''] = 
     $estoque_motos = relatorios::estoque_motos();
 
     $this->call_view('dashboard', [

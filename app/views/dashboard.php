@@ -20,7 +20,7 @@
           class="object-fit-cover w-100 h-100 rounded-3 shadow-sm">
         <!-- Top 3 funcionários -->
         <ul
-          class="d-flex flex-column justify-content-center gap-3 list-group position-absolute top-0 end-0 me-3 h-100"
+          class="d-flex flex-column justify-content-start gap-3 list-group position-absolute top-0 end-0 me-3 h-100"
           style="scale: 0.9;">
           <li class="list-group-item active bg-black border-0 text-white pt-1 pb-2 px-4 rounded-3">
             <span class="fw-medium fs-4">
@@ -31,46 +31,51 @@
             </p>
           </li>
           <?php
-          foreach ($vendedores_com_mais_vendas as $index => $vendedor) {
-            $posicao_rank = $index + 1;
-            echo <<<HTML
-              <li
-                class="d-flex align-items-center gap-3 list-group-item border-0 rounded-3"
-                style="padding: 0.8rem 0.75rem;"
-              >
-                <!-- Avatar -->
-                <div class="position-relative">
-                  <div
-                    class="d-flex align-items-center justify-content-center bg-body-secondary rounded-circle p-2"
-                    style="height: 50px; width: 50px;"
-                  >
-                    <i class="bi bi-person fs-2 text-secondary"></i>
+          if (!empty($vendedores_com_mais_vendas) && is_array($vendedores_com_mais_vendas)) {
+            $posicao_rank = 1;
+            for ($i = 0; $i < 3; $i++) {
+              $vendedor = $vendedores_com_mais_vendas[$i];
+              echo <<<HTML
+                <li
+                  class="d-flex align-items-center gap-3 list-group-item border-0 rounded-3"
+                  style="padding: 0.8rem 0.75rem;">
+                  <!-- Avatar -->
+                  <div class="position-relative">
+                    <div
+                      class="d-flex align-items-center justify-content-center bg-body-secondary rounded-circle p-2"
+                      style="height: 50px; width: 50px;"
+                    >
+                      <i class="bi bi-person fs-2 text-secondary"></i>
+                    </div>
+                    <div class="position-absolute top-50 start-50 ms-1 d-flex align-items-center justify-content-center">
+                      <i class="bi bi-award fs-3"></i>
+                    </div>
                   </div>
-                  <div class="position-absolute top-50 start-50 ms-1 d-flex align-items-center justify-content-center">
-                    <i class="bi bi-award fs-3"></i>
+                  <!-- Informações do funcionário -->
+                  <div class="d-flex justify-content-between w-100">
+                    <div class="d-flex flex-column justify-content-center">
+                      <span class="fw-semibold" style="font-size: 1.15rem; line-height: 1.15rem;">
+                        {$vendedor['vendedor_nome']}
+                      </span>
+                      <p class="mb-0 text-secondary">
+                        {$posicao_rank}° Lugar
+                      </p>
+                    </div>
+                    <div class="d-flex flex-column justify-content-center align-items-end me-2">
+                      <span class="fw-semibold fs-6">
+                        Vendas
+                      </span>
+                      <p class="mb-0" style="font-size: 1.05rem;">
+                        R$ {$vendedor['total_valor_vendas']}
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <!-- Informações do funcionário -->
-                <div class="d-flex justify-content-between w-100">
-                  <div class="d-flex flex-column justify-content-center">
-                    <span class="fw-semibold" style="font-size: 1.15rem; line-height: 1.15rem;">
-                      {$vendedor['vendedor_nome']}
-                    </span>
-                    <p class="mb-0 text-secondary">
-                      {$posicao_rank}° Lugar
-                    </p>
-                  </div>
-                  <div class="d-flex flex-column justify-content-center align-items-end me-2">
-                    <span class="fw-semibold fs-6">
-                      Vendas
-                    </span>
-                    <p class="mb-0" style="font-size: 1.05rem;">
-                      R$ {$vendedor['total_valor_vendas']}
-                    </p>
-                  </div>
-                </div>
-              </li>
-              HTML;
+                </li>
+                HTML;
+              $posicao_rank++;
+            }
+          } else {
+            echo '<li class="list-group-item border-0 rounded-3">Nenhum vendedor encontrado.</li>';
           }
           ?>
         </ul>
@@ -115,7 +120,7 @@
               ?>
               <!-- Texto central -->
               <span class="fs-3 fw-semibold position-absolute translate-middle-x start-50 top-50 mt-2">
-                <?= $ocupacao_estoque ?>%
+                <?= strval($ocupacao_estoque) ?>%
               </span>
             </div>
             <p class="text-center mb-3 mt-4">
