@@ -81,7 +81,7 @@ class roteador implements rotas
     $method = self::get_method();
 
     // Remove o '/' final da rota se a rota não for a '/' somente
-    $rota_sem_nome_site === '/' ?: rtrim($rota_sem_nome_site, '/');
+    $rota_sem_nome_site = $rota_sem_nome_site === '/' ? $rota_sem_nome_site : rtrim($rota_sem_nome_site, '/');
 
     foreach (self::ROTAS[$method] as $rota => $controller) {
       $pattern = preg_replace(

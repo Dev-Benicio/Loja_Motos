@@ -76,10 +76,16 @@ class funcionario_controller extends controller
    */
   public function call_view_edicao(int $id)
   {
-    $funcionario = funcionario::read($id);
+    [ $funcionario ] = funcionario::read($id);
     if (count($funcionario) === 0) {
       $this->call_view('error_404');
     }
+
+    if ($funcionario['data_demissao']) {
+      $funcionario['data_demissao'] = higiene_dados::formatar_data($funcionario['data_demissao']);
+    }
+    $funcionario['data_admissao'] = higiene_dados::formatar_data($funcionario['data_admissao']);
+
     $this->call_view('edicao_funcionarios', ['funcionario' => $funcionario]);
   }
 

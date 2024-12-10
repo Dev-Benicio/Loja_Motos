@@ -16,10 +16,10 @@
           style="height: 80px; width: 80px;" />
         <div class="lh-sm">
           <h1 class="brand-name fw-semibold fs-2 mt-1 d-flex flex-column gap-3">
-            Cadastro de motos
+            Atualizar motos
           </h1>
           <p class="fs-5 text-secondary">
-            Insira as informações da moto para cadastrá-la
+            Atualize as informações da moto
           </p>
         </div>
       </header>
