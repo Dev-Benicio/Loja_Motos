@@ -53,7 +53,7 @@
                 <h2 class="h1 fw-semibold">{$moto['preco']}</h2>
               </div>
               <span class="text-end text-secondary">
-                Quantidade disponível: {$moto['quantidade_estoque']}
+                Quantidade: {$moto['quantidade_carrinho']}
               </span>
             </div>
           </div>

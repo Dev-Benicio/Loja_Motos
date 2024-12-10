@@ -36,20 +36,6 @@
       </div>
       <div class="card-body">
         <?php
-        $motos = [];
-        $ids_motos = \App\Helpers\sessao::get_sessao('carrinho') ?? [];
-
-        if (!empty($ids_motos)) {
-          foreach ($ids_motos as $id) {
-            [$moto] = \App\Models\moto::read($id);
-            if ($moto) {
-              $moto['preco'] = \App\Helpers\higiene_dados::formatar_preco($moto['preco']);
-              $moto['foto_moto'] = "/loja_motos/images/motos/{$moto['foto_moto']}";
-              $motos[] = $moto;
-            }
-          }
-        }
-
         if (!empty($motos)) {
           foreach ($motos as $moto) {
             echo <<<HTML
@@ -58,12 +44,17 @@
                   <img src="{$moto['foto_moto']}" alt="Foto da moto" class="object-fit-contain h-100 w-100" loading="lazy" />
                 </div>
                 <div class="card-body bg-body-secondary p-3">
-                  <div class="d-flex justify-content-between align-items-start">
+                  <div class="d-flex justify-content-between align-items-start h-100">
                     <div>
                       <h5 class="mb-1">{$moto['modelo']} {$moto['tipo_motor']}</h5>
                       <span class="text-secondary">{$moto['marca']} - {$moto['ano']}</span>
                     </div>
-                    <h5 class="mb-0">{$moto['preco']}</h5>
+                    <div class="d-flex flex-column align-items-end justify-content-between h-100">
+                      <h5 class="mb-0">{$moto['preco']}</h5>
+                      <span class="text-secondary">
+                        Quantidade: {$moto['quantidade_carrinho']}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -35,7 +35,7 @@ class funcionario_controller extends controller
       // Remover os dados que não serão mostrados na listagem
       unset($funcionario['foto_perfil']);
       unset($funcionario['salario']);
-      unset($funcionario['nome']);
+      unset($funcionario['login']);
       unset($funcionario['senha']);
       unset($funcionario['data_demissao']);
       unset($funcionario['id_endereco']);
