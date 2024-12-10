@@ -13,7 +13,7 @@
             <h1 class="fs-2 fw-semibold mb-0">Meu Perfil</h1>
             <span>•</span>
             <span class="bg-primary-subtle rounded-pill px-4 py-1">
-              Vendedor
+              <?= $funcionario['cargo'] ?>
             </span>
           </div>
           <p class="text-secondary">Informações da minha conta de usuário</p>
@@ -34,7 +34,7 @@
                   class="form-control bg-secondary-subtle text-secondary"
                   id="nome"
                   name="nome"
-                  value="João da Silva">
+                  value="<?= $funcionario['nome'] ?>">
               </div>
             </div>
             <div class="row">
@@ -45,25 +45,25 @@
                   class="form-control bg-body-tertiary"
                   id="email"
                   name="email"
-                  value="joao@gmail.com">
+                  value="<?= $funcionario['email'] ?>">
               </div>
             </div>
             <div class="row">
               <div class="mb-3 col-6">
-                <label for="email" class="form-label">Senha antiga</label>
+                <label for="senha_antiga" class="form-label">Senha antiga</label>
                 <input
                   type="password"
                   class="form-control bg-body-tertiary"
-                  id="email"
-                  name="email">
+                  id="senha_antiga"
+                  name="senha_antiga">
               </div>
               <div class="mb-3 col-6">
-                <label for="email" class="form-label">Senha nova</label>
+                <label for="senha_nova" class="form-label">Senha nova</label>
                 <input
                   type="password"
                   class="form-control bg-body-tertiary"
-                  id="email"
-                  name="email">
+                  id="senha_nova"
+                  name="senha_nova">
               </div>
             </div>
             <div class="row">
@@ -74,7 +74,7 @@
                   class="form-control bg-body-tertiary"
                   id="telefone"
                   name="telefone"
-                  value="(11) 99999-9999">
+                  value="<?= $funcionario['telefone'] ?>">
               </div>
               <div class="col-6">
                 <label for="endereco" class="form-label">Endereço</label>
@@ -84,7 +84,7 @@
                   class="form-control bg-secondary-subtle text-secondary"
                   id="endereco"
                   name="endereco"
-                  value="Rua das Flores, 123">
+                  value="<?= $funcionario['endereco'] ?>">
               </div>
             </div>
           </form>
@@ -95,13 +95,19 @@
         <div style="width: 300px; height: 300px;">
           <img
             class="rounded-circle object-fit-cover h-100 w-100 shadow border border-1 border-dark"
-            src="https://github.com/ItaloBrazucaDeveloper.png"
+            src="<?= $funcionario['foto_perfil'] ?>"
+            onerror="this.src='/loja_motos/images/funcionarios/default_user.png'"
             alt="foto de perfil">
         </div>
         <div class="d-grid gap-3">
           <div class="d-flex flex-column gap-2 mb-3">
             <label for="foto_funcionario" class="form-label">Foto de perfil</label>
-            <input type="file" name="foto_funcionario" id="foto_funcionario" class="form-control">
+            <input 
+              type="file" 
+              name="foto_funcionario" 
+              id="foto_funcionario" 
+              class="form-control"
+              accept="image/*">
           </div>
           <!-- Botão de salvar -->
           <button

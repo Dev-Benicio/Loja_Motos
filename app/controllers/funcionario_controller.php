@@ -6,6 +6,7 @@ use App\Controllers\controller;
 use App\Models\funcionario;
 use App\Models\endereco;
 use App\Helpers\higiene_dados;
+use App\Helpers\sessao;
 
 class funcionario_controller extends controller
 {
@@ -87,7 +88,13 @@ class funcionario_controller extends controller
    */
   public function call_view_perfil()
   {
-    $this->call_view('perfil');
+    $id_funcionario = sessao::get_sessao('usuario')['id'];
+    [$funcionario] = funcionario::read($id_funcionario);
+
+    $funcionario['endereco'] = "{$funcionario['rua']}, {$funcionario['numero']}, {$funcionario['cidade']}, {$funcionario['unidade_federativa']}";
+    $funcionario['telefone'] = higiene_dados::formatar_telefone($funcionario['telefone']);
+    $funcionario['foto_perfil'] = "/loja_motos/images/funcionarios/{$funcionario['foto_perfil']}";
+    $this->call_view('perfil', ['funcionario' => $funcionario]);
   }
 
   /**
@@ -119,5 +126,4 @@ class funcionario_controller extends controller
   {
     funcionario::delete($id);
   }
-
 }
