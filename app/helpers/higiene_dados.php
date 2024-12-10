@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Helpers;
+use Exception;
 
 class higiene_dados
 {
@@ -26,7 +27,29 @@ class higiene_dados
    */
   public static function check_cep(string $cep): bool
   {
-    return false;
+    $cep = preg_replace('/[^0-9]/', '', $cep);
+    if (strlen($cep) !== 8) {
+      return false;
+    }
+
+    try {
+      $url = "https://brasilapi.com.br/api/cep/v1/{$cep}";
+      $response = file_get_contents($url);
+    
+      if (!$response) {
+        return false;
+      }
+      // Decodifica a resposta em JSON
+      $data = json_decode($response, true);
+      
+      if (isset($data['errors'])) {
+        return false;
+      }
+      return true;
+
+    } catch (Exception $e) {
+      return false;
+    }
   }
 
   /**

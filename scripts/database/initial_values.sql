@@ -19,13 +19,13 @@ VALUES
 -- Funcionarios
 --------------------------------------------------------------------------------
 INSERT INTO endereco
- (unidade_federativa, cidade, numero, rua)
+ (unidade_federativa, cidade, numero, rua, cep)
 VALUES
-('SP', 'São Paulo', 123, 'Rua das Flores'),
-('SP', 'Campinas', 456, 'Avenida Brasil'),
-('RJ', 'Rio de Janeiro', 789, 'Rua do Sol'),
-('MG', 'Belo Horizonte', 321, 'Rua das Palmeiras'),
-('PR', 'Curitiba', 654, 'Avenida das Araucárias')
+('SP', 'São Paulo', 123, 'Rua das Flores', '01234-567'),
+('SP', 'Campinas', 456, 'Avenida Brasil', '13024-851'),
+('RJ', 'Rio de Janeiro', 789, 'Rua do Sol', '20040-123'),
+('MG', 'Belo Horizonte', 321, 'Rua das Palmeiras', '30112-456'),
+('PR', 'Curitiba', 654, 'Avenida das Araucárias', '80240-789');
 
 INSERT INTO funcionario
   (login, senha, nome, cpf, id_endereco, telefone, email, cargo, data_admissao, salario, foto_perfil)
@@ -41,18 +41,18 @@ VALUES
 --------------------------------------------------------------------------------
 
 INSERT INTO endereco
- (unidade_federativa, cidade, numero, rua)
+ (unidade_federativa, cidade, numero, rua, cep)
 VALUES
-('SP', 'São Paulo', 789, 'Rua dos Pinheiros'),
-('RJ', 'Niterói', 234, 'Avenida Beira Mar'),
-('MG', 'Uberlândia', 567, 'Rua das Acácias'),
-('RS', 'Porto Alegre', 890, 'Rua dos Andradas'),
-('SC', 'Florianópolis', 123, 'Avenida Beira Mar Norte'),
-('PR', 'Londrina', 456, 'Rua Sergipe'),
-('BA', 'Salvador', 789, 'Avenida Oceânica'),
-('PE', 'Recife', 321, 'Rua da Aurora'),
-('GO', 'Goiânia', 654, 'Avenida Goiás'),
-('DF', 'Brasília', 987, 'Quadra 202 Sul')
+('SP', 'São Paulo', 789, 'Rua dos Pinheiros', '05422-030'),
+('RJ', 'Niterói', 234, 'Avenida Beira Mar', '24030-120'),
+('MG', 'Uberlândia', 567, 'Rua das Acácias', '38400-456'),
+('RS', 'Porto Alegre', 890, 'Rua dos Andradas', '90020-789'),
+('SC', 'Florianópolis', 123, 'Avenida Beira Mar Norte', '88015-123'),
+('PR', 'Londrina', 456, 'Rua Sergipe', '86010-456'),
+('BA', 'Salvador', 789, 'Avenida Oceânica', '40170-789'),
+('PE', 'Recife', 321, 'Rua da Aurora', '50050-321'),
+('GO', 'Goiânia', 654, 'Avenida Goiás', '74120-654'),
+('DF', 'Brasília', 987, 'Quadra 202 Sul', '70232-987');
 
 INSERT INTO cliente
   (nome, cpf, id_endereco, telefone, email, data_nascimento)

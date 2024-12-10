@@ -170,6 +170,8 @@ class venda_controller extends controller
       // Se a venda for realizada com sucesso, diminui a quantidade de moto no estoque já que uma moto foi vendida
       venda::create($_POST) ? moto::atualizarEstoqueMoto($_POST['id_moto'], true) : false;
     }
+    // Remove do carrinho as motos que foram compradas
+    $this->remover_moto_do_carrinho($_POST['id_moto']);
   }
 
   /**
