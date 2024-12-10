@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use mysqli_result;
-
 interface crud
 {
   public static function create(array $dados): bool;

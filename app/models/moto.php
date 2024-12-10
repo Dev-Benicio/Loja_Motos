@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Database\gerente_conexao;
 use App\Helpers\higiene_dados;
-use mysqli_result;
 use Exception;
 
 class moto extends model implements crud

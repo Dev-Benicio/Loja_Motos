@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Helpers\higiene_dados;
 use App\Database\gerente_conexao;
-use mysqli_result;
 use Exception;
 
 class cliente extends model implements crud

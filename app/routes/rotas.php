@@ -13,8 +13,7 @@ interface rotas
       '/welcome' => 'welcome@index',
       '/dashboard' => 'dashboard@index',
 
-      '/perfil' => 'funcionario@call_view_perfil',
-
+      '/funcionarios/perfil' => 'funcionario@call_view_perfil',
       '/funcionarios' => 'funcionario@index',
       '/funcionarios/cadastro' => 'funcionario@call_view_cadastro',
       '/funcionarios/edicao/{id}' => 'funcionario@call_view_edicao',
@@ -36,8 +35,8 @@ interface rotas
     'POST' => [
       '/' => 'login@validar_login',
       '/{query}' => 'login@validar_login',
-      '/perfil' => 'perfil@editar',
 
+      '/funcionarios/perfil' => 'funcionario@editar_perfil',
       '/funcionarios/cadastro' => 'funcionario@cadastrar',
       '/funcionarios/edicao/{id}' => 'funcionario@editar',
 

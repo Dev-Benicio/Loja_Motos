@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Database\gerente_conexao;
 use mysqli_sql_exception;
 
 class login extends model

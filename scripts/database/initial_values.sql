@@ -4,16 +4,16 @@
 INSERT INTO moto
   (modelo, marca, ano, tipo_motor, potencia_cavalos, preco, consumo_km, quantidade_estoque, foto_moto)
 VALUES
-('CBR 1000RR', 'Honda', 2023, 'Combustão', 214, 120000.00, 12, 5, 'cbr1000rr.jpg'),
-('Ninja ZX-10R', 'Kawasaki', 2023, 'Combustão', 203, 115000.00, 15, 3, 'ninja-zx10r.jpg'),
-('GSX-R1000', 'Suzuki', 2023, 'Combustão', 202, 110000.00, 14, 4, 'gsxr1000.jpg'),
-('YZF R1', 'Yamaha', 2023, 'Combustão', 200, 118000.00, 15, 6, 'yzf-r1.jpg'),
-('Panigale V4', 'Ducati', 2023, 'Combustão', 214, 150000.00, 16, 2, 'panigale-v4.jpg'),
-('S1000RR', 'BMW', 2023, 'Combustão', 207, 135000.00, 15, 4, 's1000rr.jpg'),
-('RSV4', 'Aprilia', 2023, 'Combustão', 217, 140000.00, 16, 3, 'rsv4.jpg'),
-('MT-09', 'Yamaha', 2023, 'Combustão', 119, 55000.00, 18, 8, 'mt09.jpg'),
-('Z900', 'Kawasaki', 2023, 'Combustão', 125, 52000.00, 19, 7, 'z900.jpg'),
-('Street Triple', 'Triumph', 2023, 'Combustão', 123, 65000.00, 17, 5, 'street-triple.jpg');
+('CBR 1000RR', 'Honda', 2023, 'Combustão', 214, 120000.00, 12, 5, 'CBR1000RR.webp'),
+('Ninja ZX-10R', 'Kawasaki', 2023, 'Combustão', 203, 115000.00, 15, 3, 'ninja-zx10r.png'),
+('GSX-R1000', 'Suzuki', 2023, 'Combustão', 202, 110000.00, 14, 4, 'suzukigsxr1000r_1.jpg'),
+('YZF R1', 'Yamaha', 2023, 'Combustão', 200, 118000.00, 15, 6, 'yamaha-r1.webp'),
+('Panigale V4', 'Ducati', 2023, 'Combustão', 214, 150000.00, 16, 2, 'Ducati-Panigale-V4.jpg'),
+('S1000RR', 'BMW', 2023, 'Combustão', 207, 135000.00, 15, 4, 'bmw-s1000RR.jpg'),
+('RSV4', 'Aprilia', 2023, 'Combustão', 217, 140000.00, 16, 3, 'aprilia-rsv4.jpeg'),
+('MT-09', 'Yamaha', 2023, 'Combustão', 119, 55000.00, 18, 8, 'yamaha-mt-09.jpg'),
+('Z900', 'Kawasaki', 2023, 'Combustão', 125, 52000.00, 19, 7, 'Z900.jpg'),
+('Street Triple', 'Triumph', 2023, 'Combustão', 123, 65000.00, 17, 5, 'street-triple-765.avif');
 
 --------------------------------------------------------------------------------
 -- Funcionarios

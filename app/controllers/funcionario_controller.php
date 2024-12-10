@@ -83,6 +83,14 @@ class funcionario_controller extends controller
   }
 
   /**
+   * Chama a view que permite visualizar o perfil do usuário logado.
+   */
+  public function call_view_perfil()
+  {
+    $this->call_view('perfil');
+  }
+
+  /**
    * Chama a view que permite cadastrar um novo funcionário.
    */
   public function cadastrar()
