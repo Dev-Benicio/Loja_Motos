@@ -4,28 +4,28 @@
 INSERT INTO moto
   (modelo, marca, ano, tipo_motor, potencia_cavalos, preco, consumo_km, quantidade_estoque, foto_moto)
 VALUES
-('CBR 1000RR', 'Honda', 2023, 'Combustão', 214, 120000.00, 12, 5, 'cbr1000rr.jpg'),
-('Ninja ZX-10R', 'Kawasaki', 2023, 'Combustão', 203, 115000.00, 15, 3, 'ninja-zx10r.jpg'),
-('GSX-R1000', 'Suzuki', 2023, 'Combustão', 202, 110000.00, 14, 4, 'gsxr1000.jpg'),
-('YZF R1', 'Yamaha', 2023, 'Combustão', 200, 118000.00, 15, 6, 'yzf-r1.jpg'),
-('Panigale V4', 'Ducati', 2023, 'Combustão', 214, 150000.00, 16, 2, 'panigale-v4.jpg'),
-('S1000RR', 'BMW', 2023, 'Combustão', 207, 135000.00, 15, 4, 's1000rr.jpg'),
-('RSV4', 'Aprilia', 2023, 'Combustão', 217, 140000.00, 16, 3, 'rsv4.jpg'),
-('MT-09', 'Yamaha', 2023, 'Combustão', 119, 55000.00, 18, 8, 'mt09.jpg'),
-('Z900', 'Kawasaki', 2023, 'Combustão', 125, 52000.00, 19, 7, 'z900.jpg'),
-('Street Triple', 'Triumph', 2023, 'Combustão', 123, 65000.00, 17, 5, 'street-triple.jpg');
+('CBR 1000RR', 'Honda', 2023, 'Combustão', 214, 120000.00, 12, 5, 'CBR1000RR.webp'),
+('Ninja ZX-10R', 'Kawasaki', 2023, 'Combustão', 203, 115000.00, 15, 3, 'ninja-zx10r.png'),
+('GSX-R1000', 'Suzuki', 2023, 'Combustão', 202, 110000.00, 14, 4, 'suzukigsxr1000r_1.jpg'),
+('YZF R1', 'Yamaha', 2023, 'Combustão', 200, 118000.00, 15, 6, 'yamaha-r1.webp'),
+('Panigale V4', 'Ducati', 2023, 'Combustão', 214, 150000.00, 16, 2, 'Ducati-Panigale-V4.jpg'),
+('S1000RR', 'BMW', 2023, 'Combustão', 207, 135000.00, 15, 4, 'bmw-s1000RR.jpg'),
+('RSV4', 'Aprilia', 2023, 'Combustão', 217, 140000.00, 16, 3, 'aprilia-rsv4.jpeg'),
+('MT-09', 'Yamaha', 2023, 'Combustão', 119, 55000.00, 18, 8, 'yamaha-mt-09.jpg'),
+('Z900', 'Kawasaki', 2023, 'Combustão', 125, 52000.00, 19, 7, 'Z900.jpg'),
+('Street Triple', 'Triumph', 2023, 'Combustão', 123, 65000.00, 17, 5, 'street-triple-765.avif');
 
 --------------------------------------------------------------------------------
 -- Funcionarios
 --------------------------------------------------------------------------------
 INSERT INTO endereco
- (unidade_federativa, cidade, numero, rua)
+ (unidade_federativa, cidade, numero, rua, cep)
 VALUES
-('SP', 'São Paulo', 123, 'Rua das Flores'),
-('SP', 'Campinas', 456, 'Avenida Brasil'),
-('RJ', 'Rio de Janeiro', 789, 'Rua do Sol'),
-('MG', 'Belo Horizonte', 321, 'Rua das Palmeiras'),
-('PR', 'Curitiba', 654, 'Avenida das Araucárias')
+('SP', 'São Paulo', 123, 'Rua das Flores', '01234-567'),
+('SP', 'Campinas', 456, 'Avenida Brasil', '13024-851'),
+('RJ', 'Rio de Janeiro', 789, 'Rua do Sol', '20040-123'),
+('MG', 'Belo Horizonte', 321, 'Rua das Palmeiras', '30112-456'),
+('PR', 'Curitiba', 654, 'Avenida das Araucárias', '80240-789');
 
 INSERT INTO funcionario
   (login, senha, nome, cpf, id_endereco, telefone, email, cargo, data_admissao, salario, foto_perfil)
@@ -41,18 +41,18 @@ VALUES
 --------------------------------------------------------------------------------
 
 INSERT INTO endereco
- (unidade_federativa, cidade, numero, rua)
+ (unidade_federativa, cidade, numero, rua, cep)
 VALUES
-('SP', 'São Paulo', 789, 'Rua dos Pinheiros'),
-('RJ', 'Niterói', 234, 'Avenida Beira Mar'),
-('MG', 'Uberlândia', 567, 'Rua das Acácias'),
-('RS', 'Porto Alegre', 890, 'Rua dos Andradas'),
-('SC', 'Florianópolis', 123, 'Avenida Beira Mar Norte'),
-('PR', 'Londrina', 456, 'Rua Sergipe'),
-('BA', 'Salvador', 789, 'Avenida Oceânica'),
-('PE', 'Recife', 321, 'Rua da Aurora'),
-('GO', 'Goiânia', 654, 'Avenida Goiás'),
-('DF', 'Brasília', 987, 'Quadra 202 Sul')
+('SP', 'São Paulo', 789, 'Rua dos Pinheiros', '05422-030'),
+('RJ', 'Niterói', 234, 'Avenida Beira Mar', '24030-120'),
+('MG', 'Uberlândia', 567, 'Rua das Acácias', '38400-456'),
+('RS', 'Porto Alegre', 890, 'Rua dos Andradas', '90020-789'),
+('SC', 'Florianópolis', 123, 'Avenida Beira Mar Norte', '88015-123'),
+('PR', 'Londrina', 456, 'Rua Sergipe', '86010-456'),
+('BA', 'Salvador', 789, 'Avenida Oceânica', '40170-789'),
+('PE', 'Recife', 321, 'Rua da Aurora', '50050-321'),
+('GO', 'Goiânia', 654, 'Avenida Goiás', '74120-654'),
+('DF', 'Brasília', 987, 'Quadra 202 Sul', '70232-987');
 
 INSERT INTO cliente
   (nome, cpf, id_endereco, telefone, email, data_nascimento)

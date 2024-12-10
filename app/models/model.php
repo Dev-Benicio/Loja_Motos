@@ -3,8 +3,7 @@
 namespace App\Models;
 
 use App\Database\gerente_conexao;
-use mysqli, mysqli_result;
-use Exception;
+use mysqli;
 
 class model
 {

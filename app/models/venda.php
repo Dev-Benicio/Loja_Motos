@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Database\gerente_conexao;
-use mysqli_result;
 use Exception;
 
 class venda extends model implements crud

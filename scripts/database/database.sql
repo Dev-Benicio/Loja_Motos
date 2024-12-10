@@ -13,6 +13,7 @@ USE `thunder_gears`;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `thunder_gears`.`endereco` (
   `id_endereco` INT NOT NULL AUTO_INCREMENT,
+  `cep` VARCHAR(8) NOT NULL,
   `unidade_federativa` CHAR(2) NOT NULL,
   `cidade` VARCHAR(50) NOT NULL,
   `numero` VARCHAR(10) NOT NULL,

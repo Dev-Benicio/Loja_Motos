@@ -6,6 +6,7 @@ use App\Controllers\controller;
 use App\Models\funcionario;
 use App\Models\endereco;
 use App\Helpers\higiene_dados;
+use App\Helpers\sessao;
 
 class funcionario_controller extends controller
 {
@@ -34,7 +35,7 @@ class funcionario_controller extends controller
       // Remover os dados que não serão mostrados na listagem
       unset($funcionario['foto_perfil']);
       unset($funcionario['salario']);
-      unset($funcionario['nome']);
+      unset($funcionario['login']);
       unset($funcionario['senha']);
       unset($funcionario['data_demissao']);
       unset($funcionario['id_endereco']);
@@ -83,6 +84,20 @@ class funcionario_controller extends controller
   }
 
   /**
+   * Chama a view que permite visualizar o perfil do usuário logado.
+   */
+  public function call_view_perfil()
+  {
+    $id_funcionario = sessao::get_sessao('usuario')['id'];
+    [$funcionario] = funcionario::read($id_funcionario);
+
+    $funcionario['endereco'] = "{$funcionario['rua']}, {$funcionario['numero']}, {$funcionario['cidade']}, {$funcionario['unidade_federativa']}";
+    $funcionario['telefone'] = higiene_dados::formatar_telefone($funcionario['telefone']);
+    $funcionario['foto_perfil'] = "/loja_motos/images/funcionarios/{$funcionario['foto_perfil']}";
+    $this->call_view('perfil', ['funcionario' => $funcionario]);
+  }
+
+  /**
    * Chama a view que permite cadastrar um novo funcionário.
    */
   public function cadastrar()
@@ -111,5 +126,4 @@ class funcionario_controller extends controller
   {
     funcionario::delete($id);
   }
-
 }

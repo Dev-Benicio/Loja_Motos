@@ -18,7 +18,7 @@ class venda_controller extends controller
   {
     $vendas = venda::read();
 
-    array_walk($vendas, function(&$venda) {
+    array_walk($vendas, function (&$venda) {
       // Tratar dados que serão exibidos na listagem de vendas
       $venda['cpf'] = higiene_dados::formatar_cpf($venda['cpf']);
       $venda['nome_cliente'] = <<<HTML
@@ -54,18 +54,32 @@ class venda_controller extends controller
   /**
    * Chama a view que permite cadastrar uma venda.
    */
-  public function call_cadastro_view(): void
+  public function call_view_cadastro(): void
   {
-    $this->call_view('cadastro_vendas');
+    $motos = [];
+    $carrinho = sessao::get_sessao('carrinho') ?? [];
+
+    if (!empty($carrinho)) {
+      foreach ($carrinho as $item) {
+        [$moto] = \App\Models\moto::read($item[0]);
+        if ($moto) {
+          $moto['preco'] = higiene_dados::formatar_preco($moto['preco']);
+          $moto['foto_moto'] = "/loja_motos/images/motos/{$moto['foto_moto']}";
+          $moto['quantidade_carrinho'] = $item[1];
+          $motos[] = $moto;
+        }
+      }
+    }
+    $this->call_view('cadastro_vendas', ['motos' => $motos]);
   }
 
   /**
    * Chama a view que permite editar os dados de uma venda.
    * @param int $id Identificador da venda a ser editada.
    */
-  public function call_edicao_view(): void
+  public function call_view_edicao(int $id): void
   {
-    $this->call_view('edicao_vendas');
+    $this->call_view('edicao_vendas', ['id_venda' => $id]);
   }
 
   /**
@@ -78,10 +92,11 @@ class venda_controller extends controller
 
     if (!empty($ids_motos)) {
       foreach ($ids_motos as $id) {
-        [ $moto ] = moto::read($id);
+        [$moto] = moto::read($id[0]);
         if ($moto) {
           $moto['preco'] = higiene_dados::formatar_preco($moto['preco']);
           $moto['foto_moto'] = "/loja_motos/images/motos/{$moto['foto_moto']}";
+          $moto['quantidade_carrinho'] = $id[1];
           $motos[] = $moto;
         }
       }
@@ -96,21 +111,22 @@ class venda_controller extends controller
    */
   public function adicionar_moto_ao_carrinho($id): void
   {
-    // Debug para ver o ID recebido
-    var_dump('ID recebido:', $id);
-    
     $carrinho_atual = sessao::get_sessao('carrinho') ?? [];
-    // Debug para ver o carrinho atual
-    var_dump('Carrinho atual:', $carrinho_atual);
-    
-    if (!in_array($id, $carrinho_atual)) {
-      $carrinho_atual[] = $id;
-      sessao::set_sessao('carrinho', $carrinho_atual);
+    $encontrou_moto = false;
+
+    foreach ($carrinho_atual as $chave => $item) {
+      if ($item[0] == $id) {
+        $carrinho_atual[$chave][1]++;
+        $encontrou_moto = true;
+        break;
+      }
     }
-    
-    // Debug para ver o carrinho após adição
-    var_dump('Carrinho após adição:', sessao::get_sessao('carrinho'));
-    
+
+    if (!$encontrou_moto) {
+      $carrinho_atual[] = [$id, 1];
+    }
+
+    sessao::set_sessao('carrinho', $carrinho_atual);
     header('Location: /loja_motos/motos');
     exit;
   }
@@ -119,15 +135,27 @@ class venda_controller extends controller
    * Remove uma moto do carrinho de compras.
    * @param int $id Identificador da moto a ser removida.
    */
-  public function remover_moto_do_carrinho($id): void
+  public function remover_moto_do_carrinho(int $id): void
   {
     $carrinho_atual = sessao::get_sessao('carrinho') ?? [];
-    
-    if (($chave = array_search($id, $carrinho_atual)) !== false) {
-      unset($carrinho_atual[$chave]);
+    $encontrou_item = false;
+
+    foreach ($carrinho_atual as $chave => $item) {
+      if ($item[0] == $id) {
+        if ($item[1] > 1) {
+          $carrinho_atual[$chave][1]--;
+        } else {
+          unset($carrinho_atual[$chave]);
+        }
+        $encontrou_item = true;
+        break;
+      }
+    }
+
+    if ($encontrou_item) {
       sessao::set_sessao('carrinho', array_values($carrinho_atual));
     }
-    
+
     header('Location: /loja_motos/vendas/carrinho');
     exit;
   }
@@ -142,6 +170,8 @@ class venda_controller extends controller
       // Se a venda for realizada com sucesso, diminui a quantidade de moto no estoque já que uma moto foi vendida
       venda::create($_POST) ? moto::atualizarEstoqueMoto($_POST['id_moto'], true) : false;
     }
+    // Remove do carrinho as motos que foram compradas
+    $this->remover_moto_do_carrinho($_POST['id_moto']);
   }
 
   /**
@@ -184,5 +214,4 @@ class venda_controller extends controller
     $redirect = false;
     $redirect ? $this->call_view('lista_vendas') : $this->call_view('erro');
   }
-
 }

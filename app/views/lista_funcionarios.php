@@ -18,23 +18,23 @@
         <div class="d-grid place-items-center">
           <i class="bi bi-plus fs-4 m-0"></i>
         </div>
-        Casdastrar funcionário
+        Cadastrar funcionário
       </a>
     </div>
     <?php
     use App\Components\tabela;
     $tabela = new tabela(
       [
-        '#' => '#',
-        'login' => 'Login',
-        'cpf' => 'CPF',
-        'email' => 'Email',
-        'telefone' => 'Telefone',
-        'cargo' => 'Cargo',
-        'data_admissao' => 'Admissão',
-        'status_funcionario' => 'Status',
-        'endereco' => 'Endereço',
-        'editar_deletar' => 'Ações',
+        '#',
+        'Nome',
+        'CPF', 
+        'Email',
+        'Telefone',
+        'Cargo',
+        'Admissão',
+        'Status',
+        'Endereço',
+        'Ações',
       ],
       $funcionarios
     );

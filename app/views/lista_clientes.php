@@ -18,7 +18,7 @@
         <div class="d-grid place-items-center">
           <i class="bi bi-plus fs-4 m-0"></i>
         </div>
-        Casdastrar cliente
+        Cadastrar cliente
       </a>
     </div>
     <?php
