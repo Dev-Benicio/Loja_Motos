@@ -30,7 +30,7 @@
         'Valor total',
         'Data',
         'Quantidade vendida',
-        'Ações'
+        'Ação'
       ];
       $tabela = new tabela($cabecalho, $vendas);
       echo $tabela->render();
