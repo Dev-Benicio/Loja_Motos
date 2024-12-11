@@ -42,29 +42,31 @@ class funcionario extends model implements crud
     parent::init_conexao();
     try {
       parent::$conexao->begin_transaction();
-      // Obtém as colunas da tabela através das chaves do array associativo.
-      $colunas = array_keys($funcionario);
-      // Cria uma string com interrogacoes para cada coluna.
-      $interrogacoes = str_repeat('?, ', count($colunas) - 1) . '?';
 
-      $sql = "
-        INSERT INTO funcionario
-          (" . implode(',', $colunas) . ")
-        VALUES ({$interrogacoes})
-      ";
+      // Remove valores nulos e limpa os dados
+      $funcionario = array_filter($funcionario, fn($valor) => $valor !== null);
+      $colunas = array_keys($funcionario);
+      $valores = array_values($funcionario);
+      $interrogacoes = str_repeat('?, ', count($colunas) - 1) . '?';
+      $sql = "INSERT INTO funcionario (" . implode(',', $colunas) . ") 
+                VALUES ({$interrogacoes})";
+
+      // Gera tipos dinâmicos baseado nos valores
+      $types = '';
+      foreach ($valores as $valor) {
+        if (is_int($valor)) $types .= 'i';
+        elseif (is_float($valor) || is_double($valor)) $types .= 'd';
+        else $types .= 's';
+      }
 
       $stmt = parent::$conexao->prepare($sql);
-      $stmt->bind_param(
-        'ssssssssdssi', // Define o tipo de dados de cada parâmetro
-        ...array_values($funcionario),
-      );
-      if (higiene_dados::is_null(...array_values($funcionario))) {
-        return false;
-      }
+      $stmt->bind_param($types, ...$valores);
+
       if ($stmt->execute()) {
         parent::$conexao->commit();
         return true;
       }
+
       parent::$conexao->rollback();
       return false;
     } catch (Exception $e) {
@@ -90,12 +92,12 @@ class funcionario extends model implements crud
       FROM funcionario f
       LEFT JOIN endereco e ON f.id_endereco = e.id_endereco
       WHERE " . implode(
-        ' IS NOT NULL AND ',
-        array_map(fn($col) => "$col IS NOT NULL", $colunas)
+      ' IS NOT NULL AND ',
+      array_map(fn($col) => "$col IS NOT NULL", $colunas)
     );
-    
+
     $sql .= $id ? " AND f.id_funcionario = ? AND f.status_funcionario IN ('ativo', 'inativo')"
-    : " AND f.status_funcionario IN ('ativo', 'inativo')";
+      : " AND f.status_funcionario IN ('ativo', 'inativo')";
     $stmt = parent::$conexao->prepare($sql);
 
     if ($id) {
@@ -116,29 +118,36 @@ class funcionario extends model implements crud
   public static function update(int $id, array $dados): bool
   {
     parent::init_conexao();
+
     try {
       parent::$conexao->begin_transaction();
 
+      // Remove valores nulos
+      $dados = array_filter($dados, fn($valor) => $valor !== null);
       $colunas = array_keys($dados);
       $set = implode(',', array_map(fn($col) => "{$col} = ?", $colunas));
-
       $sql = "UPDATE funcionario SET {$set} WHERE id_funcionario = ?";
-      $dados['id_funcionario'] = $id;
-      $types_bind = gerente_conexao::gerar_types_bind_params(
-        array_values($dados)
-      );
-      $stmt = parent::$conexao->prepare($sql);
-      $stmt->bind_param(
-        $types_bind,
-        ...array_values($dados)
-      );
-      if (higiene_dados::is_null(...array_values($dados))) {
-        return false;
+
+      // Preparamos os valores na ordem correta
+      $valores = array_values($dados);
+      $valores[] = $id;  // Adiciona o ID por último
+
+      // Geramos os tipos baseados nos valores
+      $types = '';
+      foreach ($valores as $valor) {
+        if (is_int($valor)) $types .= 'i';
+        elseif (is_float($valor)) $types .= 'd';
+        else $types .= 's';
       }
+
+      $stmt = parent::$conexao->prepare($sql);
+      $stmt->bind_param($types, ...$valores);
+
       if ($stmt->execute()) {
         parent::$conexao->commit();
         return true;
       }
+
       parent::$conexao->rollback();
       return false;
     } catch (Exception $e) {

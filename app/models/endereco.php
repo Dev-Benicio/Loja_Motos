@@ -94,8 +94,12 @@ class endereco extends model
   public static function update(array $dados): array
   {
     parent::init_conexao();
+
     try {
       parent::$conexao->begin_transaction();
+
+      $id_endereco = $dados['id_endereco'];
+
       // Filtra campos válidos do endereço e remove nulos
       $endereco = array_filter(
         array_intersect_key(
@@ -110,27 +114,34 @@ class endereco extends model
         $set = implode(',', array_map(fn($col) => "{$col} = ?", $colunas));
 
         $sql = "UPDATE endereco SET {$set} WHERE id_endereco = ?";
-        $types_bind = gerente_conexao::gerar_types_bind_params(
-          ...array_values($endereco)
-        );
+
+        // Preparamos os valores na ordem correta
+        $valores = array_values($endereco);
+        $valores[] = $id_endereco;
+
+        // Geramos os tipos baseados nos valores
+        $types = str_repeat('s', count($valores) - 1) . 'i';
 
         $stmt = parent::$conexao->prepare($sql);
-        $stmt->bind_param(
-          $types_bind,
-          array_values($endereco),
-          $dados['id_endereco']
-        );
-        $stmt->execute() ? parent::$conexao->commit() : parent::$conexao->rollback();
+        $stmt->bind_param($types, ...$valores);
+
+        if ($stmt->execute()) {
+          parent::$conexao->commit();
+        } else {
+          parent::$conexao->rollback();
+        }
 
         // Remove campos de endereço do array original
         foreach (self::CAMPOS_ENDERECO as $campo) {
           unset($dados[$campo]);
         }
       }
+
+      $dados['id_endereco'] = $id_endereco;
     } catch (Exception $e) {
       parent::$conexao->rollback();
     }
+
     return $dados;
   }
-
 }

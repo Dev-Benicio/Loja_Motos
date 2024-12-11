@@ -32,28 +32,31 @@ class cliente extends model implements crud
 		parent::init_conexao();
 		try {
 			parent::$conexao->begin_transaction();
-			$colunas = array_keys($cliente);
-			// Obtém as colunas da tabela através das chaves do array associativo.
-			$interrogacoes = str_repeat('?, ', count($colunas) - 1) . '?';
 
-			$sql = "
-				INSERT INTO cliente
-					(" . implode(',', $colunas) . ")
-				VALUES ({$interrogacoes})
-			";
-			$types_bind = gerente_conexao::gerar_types_bind_params(array_values($cliente));
-			$stmt = parent::$conexao->prepare($sql);
-			$stmt->bind_param(
-				$types_bind,
-				...array_values($cliente)
-			);
-			if (higiene_dados::is_null(...array_values($cliente))) {
-				return false;
+			// Remove valores nulos
+			$cliente = array_filter($cliente, fn($valor) => $valor !== null);
+			$colunas = array_keys($cliente);
+			$valores = array_values($cliente);
+			$interrogacoes = str_repeat('?, ', count($colunas) - 1) . '?';
+			$sql = "INSERT INTO cliente (" . implode(',', $colunas) . ") 
+                VALUES ({$interrogacoes})";
+
+			// Gera tipos corretos baseado nos valores
+			$types = '';
+			foreach ($valores as $valor) {
+				if (is_int($valor)) $types .= 'i';
+				elseif (is_float($valor)) $types .= 'd';
+				else $types .= 's';
 			}
+
+			$stmt = parent::$conexao->prepare($sql);
+			$stmt->bind_param($types, ...$valores);
+
 			if ($stmt->execute()) {
 				parent::$conexao->commit();
 				return true;
 			}
+
 			parent::$conexao->rollback();
 			return false;
 		} catch (Exception $e) {
@@ -103,28 +106,33 @@ class cliente extends model implements crud
 		parent::init_conexao();
 		try {
 			parent::$conexao->begin_transaction();
+
+			// Remove valores nulos
+			$cliente = array_filter($cliente, fn($valor) => $valor !== null);
 			$colunas = array_keys($cliente);
 			$set = implode(',', array_map(fn($col) => "{$col} = ?", $colunas));
-
 			$sql = "UPDATE cliente SET {$set} WHERE id_cliente = ?";
-			$types_bind = gerente_conexao::gerar_types_bind_params(
-				array_values($cliente),
-				$id
-			);
+
+			// Preparamos os valores na ordem correta
+			$valores = array_values($cliente);
+			$valores[] = $id;  // Adiciona o ID por último
+
+			// Geramos os tipos baseados nos valores
+			$types = '';
+			foreach ($valores as $valor) {
+				if (is_int($valor)) $types .= 'i';
+				elseif (is_float($valor)) $types .= 'd';
+				else $types .= 's';
+			}
 
 			$stmt = parent::$conexao->prepare($sql);
-			$stmt->bind_param(
-				$types_bind,
-				array_values($cliente),
-				$id
-			);
-			if (higiene_dados::is_null(...array_values($cliente))) {
-				return false;
-			}
+			$stmt->bind_param($types, ...$valores);
+
 			if ($stmt->execute()) {
 				parent::$conexao->commit();
 				return true;
 			}
+
 			parent::$conexao->rollback();
 			return false;
 		} catch (Exception $e) {
