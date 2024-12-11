@@ -8,14 +8,13 @@ use Exception;
 
 class endereco extends model
 {
-
-  private const CAMPOS_ENDERECO = array(
-    'unidade_federativa',
-    'cidade',
-    'numero',
-    'rua',
+  const CAMPOS_ENDERECO = [
     'cep',
-  );
+    'cidade',
+    'unidade_federativa',
+    'rua',
+    'numero'
+  ];
 
   public static function validarSalvarEndereco(array $dados): array
   {
