@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Database\gerente_conexao;
+use App\Helpers\higiene_dados;
 use Exception;
 
 class endereco extends model
@@ -69,7 +70,7 @@ class endereco extends model
         VALUES ({$interrogacoes})
       ";
 
-      $types_bind = gerente_conexao::gerar_types_bind_params(array_values($endereco));
+      $types_bind = gerente_conexao::gerar_types_bind_params(...$endereco);
       $stmt = parent::$conexao->prepare($sql);
       $stmt->bind_param(
         $types_bind,
@@ -130,6 +131,27 @@ class endereco extends model
       parent::$conexao->rollback();
     }
     return $dados;
+  }
+
+  /**
+   * Pega o endereço por CEP
+   * @param string $cep O CEP a ser pesquisado
+   * @return array Retorna o endereço em formato de array
+   */
+  public static function get_endereco_por_cep(string $cep): array
+  {
+    $cep = preg_replace('/[^0-9]/', '', $cep);
+    if (!higiene_dados::check_cep($cep)) {
+      return [];
+    }
+
+    try {
+      $url = "https://brasilapi.com.br/api/cep/v1/{$cep}";
+      $response = file_get_contents($url);
+      return json_decode($response, true);
+    } catch (Exception $e) {
+      return false;
+    }
   }
 
 }

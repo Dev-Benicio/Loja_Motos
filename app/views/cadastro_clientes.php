@@ -59,11 +59,11 @@
           </div>
           <div class="col-md-4">
             <label for="cep" class="form-label">CEP</label>
-            <input type="text" required class="form-control bg-body-tertiary" id="cep">
+            <input type="text" name="cep" required class="form-control bg-body-tertiary" id="cep">
           </div>
           <div class="col-md-4">
-            <label for="numero" class="form-label">Número</label>
-            <input type="number" required class="form-control bg-body-tertiary" id=numero>
+            <label for="numero"  class="form-label">Número</label>
+            <input type="number" name="numero" required class="form-control bg-body-tertiary" id=numero>
           </div>
         </div>
       </div>

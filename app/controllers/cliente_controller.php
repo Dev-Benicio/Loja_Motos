@@ -85,10 +85,22 @@ class cliente_controller extends controller
    */
   public function cadastrar(): void
   { 
-    $cliente = endereco::validarSalvarEndereco($_POST);
+    $endereco = endereco::get_endereco_por_cep($_POST['cep']);
+    $endereco = [
+      'cep' => $_POST['cep'],
+      'cidade' => $endereco['city'],
+      'unidade_federativa' => $endereco['state'],
+      'rua' => $endereco['street'],
+      'numero' => $_POST['numero'],
+    ];
+    $cliente = endereco::validarSalvarEndereco($endereco);
     if (!empty($cliente)) {
-      cliente::create($cliente);
+      $resultado = cliente::create($cliente);
     }
+    
+    var_dump($resultado);
+    /* header('Location: /loja_motos/clientes');
+    exit; */
   }
 
   /**
