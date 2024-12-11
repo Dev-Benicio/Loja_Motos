@@ -80,12 +80,8 @@ class funcionario_controller extends controller
     if (count($funcionario) === 0) {
       $this->call_view('error_404');
     }
-
-    if ($funcionario['data_demissao']) {
-      $funcionario['data_demissao'] = higiene_dados::formatar_data($funcionario['data_demissao']);
-    }
-    $funcionario['data_admissao'] = higiene_dados::formatar_data($funcionario['data_admissao']);
-
+    $funcionario['telefone'] = higiene_dados::formatar_telefone($funcionario['telefone']);
+    $funcionario['cpf'] = higiene_dados::formatar_cpf($funcionario['cpf']);
     $this->call_view('edicao_funcionarios', ['funcionario' => $funcionario]);
   }
 

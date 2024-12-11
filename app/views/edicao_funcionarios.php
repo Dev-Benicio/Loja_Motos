@@ -1,3 +1,5 @@
+<script src="/loja_motos/assets/javascript/previewImage.js"></script>
+
 <div class="d-flex flex-column vh-100">
   <!-- HEADER -->
   <?php
@@ -13,6 +15,8 @@
           <img
             class="rounded-circle object-fit-cover h-100 w-100 shadow-sm"
             src="<?= $funcionario['foto_perfil'] ?>"
+            id="foto_perfil"
+            title="Preview da foto de perfil"
             onerror="this.src='/loja_motos/images/funcionarios/default_user.png'"
             alt="foto de funcionário">
         </div>
@@ -28,6 +32,12 @@
       <div class="d-grid gap-4">
         <!-- Primeira linha do formulário -->
         <div class="row">
+          <div>
+            <input
+              value="<?= $cliente['id_endereco'] ?>"
+              type="hidden"
+              id="id_endereco">
+          </div>
           <div class="col-md-8">
             <label for="nome" class="form-label">Nome completo</label>
             <input required type="text" class="form-control bg-body-tertiary" id="nome" value="<?= $funcionario['nome'] ?>">
@@ -58,13 +68,13 @@
             <label for="numero" class="form-label">Número</label>
             <input type="number" required class="form-control bg-body-tertiary" id=numero value="<?= $funcionario['numero'] ?>">
           </div>
-        </div>
-        <!-- Quarta linha do formulário -->
-        <div class="row">
           <div class="col-md-4">
             <label for="cargo" class="form-label">Cargo</label>
             <input type="text" required class="form-control bg-body-tertiary" id="cargo" value="<?= $funcionario['cargo'] ?>">
           </div>
+        </div>
+        <!-- Quarta linha do formulário -->
+        <div class="row">
           <div class="col-md-4">
             <label for="salario" class="form-label">Salário</label>
             <input type="number" required class="form-control bg-body-tertiary" id=salario min="1200" value="<?= $funcionario['salario'] ?>">
@@ -72,22 +82,32 @@
           <div class="col-md-4">
             <label for="status" class="form-label">Status</label>
             <select required class="form-select bg-body-tertiary" id="status" name="status_funcionario">
-              <option value="ativo">Ativo</option>
-              <option value="inativo">Inativo</option>
-              <option value="demitido">Demitido</option>
-              <option value="ferias">Férias</option>
-              <option value="licenca">Licença</option>
+              <option <?= $funcionario['status_funcionario'] == 'ativo' ? 'selected' : '' ?> value="ativo">Ativo</option>
+              <option <?= $funcionario['status_funcionario'] == 'inativo' ? 'selected' : '' ?> value="inativo">Inativo</option>
+              <option <?= $funcionario['status_funcionario'] == 'demitido' ? 'selected' : '' ?> value="demitido">Demitido</option>
+              <option <?= $funcionario['status_funcionario'] == 'ferias' ? 'selected' : '' ?> value="ferias">Férias</option>
+              <option <?= $funcionario['status_funcionario'] == 'licenca' ? 'selected' : '' ?> value="licenca">Licença</option>
             </select>
+          </div>
+          <div class="col-md-4">
+            <label for="data_demissao" class="form-label">Data de demissão</label>
+            <input type="date" required class="form-control bg-body-tertiary" id="data_demissao" value="<?= $funcionario['data_demissao'] ?>">
           </div>
         </div>
         <div class="row">
           <div class="col-md-4">
-            <label for="data_demissao" class="form-label">Data de admissão</label>
-            <input type="date" required class="form-control bg-body-tertiary" id="data_demissao" value="<?= $funcionario['data_demissao'] ?>">
+            <label for="data_admissao" class="form-label">Data de admissão</label>
+            <input type="date" required class="form-control bg-body-tertiary" id="data_admissao" value="<?= $funcionario['data_admissao'] ?>">
           </div>
           <div class="col-md-8">
             <label for="foto_perfil" class="form-label">Foto de Perfil</label>
-            <input type="file" required class="form-control bg-body-tertiary" id="foto_perfil" class="form-label">
+            <input
+              type="file"
+              required
+              class="form-control bg-body-tertiary"
+              id="foto_perfil"
+              class="form-label"
+              onchange="previewImage(this)">
           </div>
         </div>
       </div>

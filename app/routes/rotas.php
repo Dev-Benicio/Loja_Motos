@@ -25,6 +25,7 @@ interface rotas
       '/vendas' => 'venda@index',
       '/vendas/cadastro' => 'venda@call_view_cadastro',
       '/vendas/carrinho' => 'venda@call_carrinho_view',
+      '/vendas/edicao/{id}' => 'venda@call_view_edicao',
       '/vendas/adicionar/{id}' => 'venda@adicionar_moto_ao_carrinho',
       '/vendas/remover/{id}' => 'venda@remover_moto_do_carrinho',
 

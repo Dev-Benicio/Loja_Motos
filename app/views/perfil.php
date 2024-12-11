@@ -1,3 +1,5 @@
+<script src="/loja_motos/assets/javascript/previewImage.js"></script>
+
 <div class="d-flex flex-column vh-100">
   <?php
   use App\Components\navbar;
@@ -96,6 +98,8 @@
           <img
             class="rounded-circle object-fit-cover h-100 w-100 shadow border border-1 border-dark"
             src="<?= $funcionario['foto_perfil'] ?>"
+            id="foto_perfil"
+            title="Preview da foto de perfil"
             onerror="this.src='/loja_motos/images/funcionarios/default_user.png'"
             alt="foto de perfil">
         </div>
@@ -107,6 +111,7 @@
               name="foto_funcionario" 
               id="foto_funcionario" 
               class="form-control"
+              onchange="previewImage(this)"
               accept="image/*">
           </div>
           <!-- Botão de salvar -->
