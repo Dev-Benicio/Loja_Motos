@@ -88,7 +88,7 @@ class cliente_controller extends controller
     $cliente = endereco::validarSalvarEndereco($_POST);
     if (!empty($cliente)) {
       cliente::create($cliente);
-      header("Location: loja9_motos/clientes");
+      header("Location: loja_motos/clientes");
       exit;
     }
     
