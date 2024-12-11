@@ -91,6 +91,10 @@ class cliente_controller extends controller
       header("Location: loja9_motos/clientes");
       exit;
     }
+    
+    var_dump($resultado);
+    /* header('Location: /loja_motos/clientes');
+    exit; */
   }
 
   /**
@@ -110,5 +114,7 @@ class cliente_controller extends controller
   public function exluir($id): void
   {
     cliente::delete($id);
+    header('Location: /loja_motos/clientes');
+    exit;
   }
 }

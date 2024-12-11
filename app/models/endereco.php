@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Database\gerente_conexao;
+use App\Helpers\higiene_dados;
 use Exception;
 use App\Helpers\higiene_dados;
 
@@ -75,7 +76,7 @@ class endereco extends model
         VALUES ({$interrogacoes})
       ";
 
-      $types_bind = gerente_conexao::gerar_types_bind_params(array_values($endereco));
+      $types_bind = gerente_conexao::gerar_types_bind_params(...$endereco);
       $stmt = parent::$conexao->prepare($sql);
       $stmt->bind_param(
         $types_bind,

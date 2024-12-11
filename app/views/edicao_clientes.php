@@ -28,6 +28,12 @@
       <div class="d-grid gap-4">
         <!-- Primeira linha do formulário -->
         <div class="row">
+          <div>
+            <input
+              value="<?= $cliente['id_endereco'] ?>"
+              type="hidden"
+              id="id_endereco">
+          </div>
           <div class="col-md-4">
             <label for="nome" class="form-label">Nome</label>
             <input
@@ -91,7 +97,7 @@
           <div class="col-md-4">
             <label for="cep" class="form-label">CEP</label>
             <input
-              value="<?= 123535 ?>"
+              value="<?= $cliente['cep'] ?? "" ?>"
               required
               type="text"
               class="form-control bg-body-tertiary"

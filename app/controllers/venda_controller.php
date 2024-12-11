@@ -31,11 +31,6 @@ class venda_controller extends controller
 
       $venda['editar_remover'] = <<<HTML
         <a
-          href="./funcionarios/edicao/{$venda['id_venda']}"
-          class="btn fs-5 p-1 link-primary">
-          <i class="bi bi-pencil-square" title="Editar"></i>
-        </a>
-        <a
           href="./vendas/remocao/{$venda['id_venda']}"
           class="btn fs-5 p-1 link-danger">
           <i class="bi bi-x-square" title="Deletar"></i>
