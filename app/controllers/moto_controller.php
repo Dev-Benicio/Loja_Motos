@@ -73,6 +73,8 @@ class moto_controller extends controller
   public function exluir($id)
   {
     moto::delete($id);
+    header('Location: /loja_motos/motos');
+    exit;
   }
 
 }

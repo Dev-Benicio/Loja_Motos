@@ -108,6 +108,8 @@ class cliente_controller extends controller
   public function exluir($id): void
   {
     cliente::delete($id);
+    header('Location: /loja_motos/clientes');
+    exit;
   }
 
 }

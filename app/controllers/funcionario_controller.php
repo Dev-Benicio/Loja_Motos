@@ -127,5 +127,7 @@ class funcionario_controller extends controller
   public function delete($id)
   {
     funcionario::delete($id);
+    header('Location: /loja_motos/funcionarios');
+    exit;
   }
 }
