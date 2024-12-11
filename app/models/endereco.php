@@ -5,10 +5,17 @@ namespace App\Models;
 use App\Database\gerente_conexao;
 use App\Helpers\higiene_dados;
 use Exception;
-use App\Helpers\higiene_dados;
 
 class endereco extends model
 {
+  const CAMPOS_ENDERECO = [
+    'cep',
+    'cidade',
+    'unidade_federativa',
+    'rua',
+    'numero'
+  ];
+
   public static function validarSalvarEndereco(array $dados): array
   {
     parent::init_conexao();
