@@ -4,26 +4,33 @@ namespace App\Models;
 
 use App\Database\gerente_conexao;
 use Exception;
+use App\Helpers\higiene_dados;
 
 class endereco extends model
 {
-  private const CAMPOS_ENDERECO = [
-    'unidade_federativa',
-    'cidade',
-    'numero',
-    'rua',
-    'cep'
-  ];
-
   public static function validarSalvarEndereco(array $dados): array
   {
     parent::init_conexao();
+
     try {
       parent::$conexao->begin_transaction();
-      // Filtra e remove os campos que não são de endereço
+
+      // Busca dados do CEP na API
+      $dadosAPI = self::get_endereco_por_cep($dados['cep']);
+
+      // Monta array com dados do endereço
+      $endereco = [
+        'unidade_federativa' => $dadosAPI['state'],
+        'cidade' => $dadosAPI['city'],
+        'numero' => $dados['numero'], // Número vem do formulário
+        'rua' => $dadosAPI['street'],
+        'cep' => $dadosAPI['cep']
+      ];
+
+      // Filtra campos válidos
       $endereco = array_filter(
         array_intersect_key(
-          $dados,
+          $endereco,
           array_flip(self::CAMPOS_ENDERECO)
         ),
         fn($valor) => $valor !== null
@@ -33,15 +40,12 @@ class endereco extends model
         return [];
       }
 
-      // adiciona endereço de funcionario
       $id_endereco = endereco::create($endereco);
 
       if ($id_endereco > 0) {
-        // Remove os campos de endereço
         foreach (self::CAMPOS_ENDERECO as $campo) {
           unset($dados[$campo]);
         }
-        // Adiciona o id_endereco aos dados
         $dados['id_endereco'] = $id_endereco;
         parent::$conexao->commit();
         return $dados;
@@ -49,6 +53,7 @@ class endereco extends model
     } catch (Exception $e) {
       parent::$conexao->rollback();
     }
+
     return [];
   }
 
@@ -143,5 +148,41 @@ class endereco extends model
     }
 
     return $dados;
+  }
+
+  /**
+   * Pega o endereço por CEP
+   * @param string $cep O CEP a ser pesquisado
+   * @return array Retorna o endereço em formato de array
+   */
+  public static function get_endereco_por_cep(string $cep): array
+  {
+    // Limpa o CEP mantendo apenas números
+    $cep = preg_replace('/[^0-9]/', '', $cep);
+
+    // Valida o CEP
+    if (higiene_dados::check_cep($cep)) {
+      return [];
+    }
+
+    try {
+      $url = "https://brasilapi.com.br/api/cep/v1/{$cep}";
+      $contexto = stream_context_create([
+        'http' => [
+          'timeout' => 5,
+          'method' => 'GET'
+        ]
+      ]);
+      $response = file_get_contents($url, false, $contexto);
+
+      if ($response === false) {
+        return [];
+      }
+
+      $dados = json_decode($response, true);
+      return $dados ?: [];
+    } catch (Exception $e) {
+      return [];
+    }
   }
 }

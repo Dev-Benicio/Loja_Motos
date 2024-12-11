@@ -84,10 +84,12 @@ class cliente_controller extends controller
    * Cadastra clientes
    */
   public function cadastrar(): void
-  { 
+  {
     $cliente = endereco::validarSalvarEndereco($_POST);
     if (!empty($cliente)) {
       cliente::create($cliente);
+      header("Location: loja9_motos/clientes");
+      exit;
     }
   }
 
@@ -109,5 +111,4 @@ class cliente_controller extends controller
   {
     cliente::delete($id);
   }
-
 }
