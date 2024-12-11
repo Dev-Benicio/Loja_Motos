@@ -92,9 +92,8 @@ class cliente_controller extends controller
       exit;
     }
     
-    var_dump($resultado);
-    /* header('Location: /loja_motos/clientes');
-    exit; */
+    header('Location: /loja_motos/clientes');
+    exit;
   }
 
   /**
